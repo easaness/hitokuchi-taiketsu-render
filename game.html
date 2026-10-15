@@ -478,13 +478,21 @@ P.gate=function(x,z,side,inner=false){
  if(!inner){
    const tex=this.textTexture('exit-printed',['EXIT'],{bg:'#e7f0f3',fg:'#334d59',font:110,w:512,h:256});
    this.slidePart(group,1,x+.43,1.85,z+.14,.67,.32,.01,'#fffFFF',{texture:tex,id,emission:.45});
-   const person=side;
-   const t=this.textTexture('exit-condition-'+side,[ '\u3053\u306e\u6249\u306f\u53c2\u52a0\u8005'+person+'\u304c\u5bfe\u6c7a\u306b\u52dd\u5229\u3059\u308b\u3053\u3068\u3067\u958b\u304b\u308c\u308b', '\u53c2\u52a0\u8005'+person+'\u3057\u304b\u901a\u308b\u3053\u3068\u306f\u3067\u304d\u306a\u3044'],{font:38,w:1024,h:256,bg:'#12242d',fg:'#e3f9ff'});
-   this.add(x,3.03,z+.04,3.3,.56,.065,'#415e68',{id:'outerSign'+side});
-   this.panel(x,3.03,z+.08,3.23,.49,t,'outerSign'+side);
-   this.add(x,2.77,z+.08,1.75,.02,.05,this.s.exitOpen[side]?'#adf5e5':'#a8bac1',{emission:.8});
+   // The EXIT and its plaque belong to the B-only left route / A-only right route.
+   // The FIRST gate opens on the OPPOSITE participant's victory.
+   const winner=side==='A'?'B':'A';
+   const t=this.textTexture('exit-condition-crossed-v15-'+side,[
+     '\u3053\u306e\u6249\u306f\u53c2\u52a0\u8005'+winner+'\u304c',
+     '\u5bfe\u6c7a\u306b\u52dd\u5229\u3059\u308b\u3053\u3068\u3067\u958b\u304b\u308c\u308b\u3002',
+     '\u53c2\u52a0\u8005'+side+'\u3057\u304b\u901a\u308b\u3053\u3068\u306f\u3067\u304d\u306a\u3044\u3002'
+   ],{font:93,w:2048,h:512,bg:'#102631',fg:'#eefaff'});
+   // At y=3.59, z+0.45 the entire sign is visible ABOVE and IN FRONT of
+   // the 2.9m passage canopy even as the double doors slide open.
+   this.add(x,3.59,z+.38,3.34,.91,.07,'#577582',{id:'outerSign'+side});
+   this.panel(x,3.59,z+.45,3.22,.82,t,'outerSign'+side);
+   this.add(x,3.095,z+.42,1.70,.035,.045,this.s.exitOpen[side]?'#adf5e5':'#8faab5',{emission:.85});
  }else{
-   const named=this.s.lastDoorTextMode==='opponent'?(side==='A'?'B':'A'):side;
+   const named=side;
    // Split the plaque across the actual moving leaves, so nothing floats after opening.
    for(const sign of [-1,1]){
      const text=this.texture('lastplaque-'+named+'-'+sign,(c,w,h)=>{
@@ -641,11 +649,16 @@ const INFO={cuffs:['手錠','◯◯'],ankles:['足枷','∪∪'],rod:['細長い
 const NAMES={body:'自分の体',offeredRod:'差し出された棒',startDoor:'目の前の扉',cooperationRule:'扉の上の説明書き',exitDoor:'奥の扉',returnDoor:'始まりの部屋への扉',exitRule:'扉の上の説明書き',circles:'3つの丸',hatch:'小さな扉と番号錠',buttons:'離れた2つのボタン',buttonRule:'ボタンの間の文章',box:'部屋の中央の箱',tank:'部屋の隅の水槽',monitor:'壁のモニター',slots:'扉の2つのくぼみ',floor:'床',rug:'じゅうたん',diamond:'じゅうたんの下の模様',cuffs:'手の拘束',ankles:'足の拘束'};
 const RULE='この部屋のみ一切のメタ発言を禁止する。\nメタ発言があった場合、相手は即座に対決に勝利する。\n十分に注意せよ。';
 function japanDate(){return new Intl.DateTimeFormat('sv-SE',{timeZone:'Asia/Tokyo',year:'numeric',month:'2-digit',day:'2-digit'}).format(new Date());}
-function initial(){return {version:1,rev:1,room:'start',started:false,identityKnown:false,rodOfferedAt:0,sessionDate:japanDate(),handsFree:false,feetFree:false,rugLifted:false,hatchOpen:false,bColors:[0,1,2],rodLocation:'B',aHolding:false,bHolding:false,tankLocation:'floor',waterPoured:false,keyLocation:'tube',chestOpen:false,aPieces:[],bPieces:['heart0'],aSlots:[null,null],bSlots:['heart0',null],aSubmitted:false,bSubmitted:false,gateFailed:false,cooperationOpen:false,scopeCompleted:false,duelActive:false,duelActivatedAt:0,duelWinner:null,duelResolvedAt:0,exitOpen:{A:false,B:false},lastOpen:{A:false,B:false},lastDoorTextMode:'requested',ended:false,endedAt:0,endingActor:null,aSolution:['cross','diamond'],bSolution:['heart','circle'],items:[],wins:[],seen:[],message:{text:'白い部屋で目が覚めた。目の前に、扉がある。',speaker:'OBSERVATION'},log:[]};}
+function initial(){return {version:1,rev:1,room:'start',started:false,identityKnown:false,rodOfferedAt:0,sessionDate:japanDate(),handsFree:false,feetFree:false,rugLifted:false,hatchOpen:false,bColors:[0,1,2],rodLocation:'B',aHolding:false,bHolding:false,tankLocation:'floor',waterPoured:false,keyLocation:'tube',chestOpen:false,aPieces:[],bPieces:['heart0'],aSlots:[null,null],bSlots:['heart0',null],aSubmitted:false,bSubmitted:false,gateFailed:false,cooperationOpen:false,scopeCompleted:false,duelActive:false,duelActivatedAt:0,duelWinner:null,duelResolvedAt:0,exitOpen:{A:false,B:false},lastOpen:{A:false,B:false},lastDoorTextMode:'requested',gateSchema:2,ended:false,endedAt:0,endingActor:null,aSolution:['cross','diamond'],bSolution:['heart','circle'],items:[],wins:[],seen:[],message:{text:'白い部屋で目が覚めた。目の前に、扉がある。',speaker:'OBSERVATION'},log:[]};}
 function valid(s){if(!s||s.version!==1||!['start','cooperate','duel','finalA'].includes(s.room))throw Error('この探索版のセーブデータではありません。');let d=initial();const bools=['identityKnown','started','handsFree','feetFree','rugLifted','hatchOpen','aHolding','bHolding','waterPoured','chestOpen','aSubmitted','bSubmitted','gateFailed','cooperationOpen','scopeCompleted','duelActive','ended'];bools.forEach(k=>d[k]=!!s[k]);['sessionDate','rodLocation','tankLocation','keyLocation'].forEach(k=>{if(typeof s[k]==='string')d[k]=s[k];});if(!/^\d{4}-\d{2}-\d{2}$/.test(d.sessionDate))d.sessionDate=japanDate();d.identityKnown=d.identityKnown||(Array.isArray(s.seen)&&s.seen.some(x=>typeof x==='string'&&x.endsWith(':body')));d.rodOfferedAt=Number.isFinite(s.rodOfferedAt)?s.rodOfferedAt:0;if(!['B','hatch','A'].includes(d.rodLocation))d.rodLocation='B';d.rev=Number.isFinite(s.rev)?s.rev:1;d.room=s.room;for(const k of ['aPieces','bPieces'])d[k]=Array.isArray(s[k])?s[k].filter(x=>Object.hasOwn(GLYPH,x)).slice(0,8):d[k];for(const k of ['aSlots','bSlots','aSolution','bSolution'])d[k]=[0,1].map(i=>Object.hasOwn(GLYPH,s[k]?.[i])?s[k][i]:null);if(d.aSolution.some(x=>!x))d.aSolution=['cross','diamond'];if(d.bSolution.some(x=>!x))d.bSolution=['heart','circle'];d.bColors=[0,1,2].map((_,i)=>[0,1,2].includes(s.bColors?.[i])?s.bColors[i]:i);d.items=Array.isArray(s.items)?[...new Set(s.items.filter(x=>Object.hasOwn(INFO,x)))]:[];d.seen=Array.isArray(s.seen)?s.seen.filter(x=>typeof x==='string').slice(0,200):[];d.log=Array.isArray(s.log)?s.log.filter(x=>typeof x?.text==='string').slice(-200).map(x=>({text:x.text.slice(0,3000),speaker:String(x.speaker||'OBSERVATION').slice(0,50),at:Number(x.at)||0})):[];d.wins=Array.isArray(s.wins)?s.wins.filter(x=>x?.winner==='A'||x?.winner==='B').slice(-100):[];if(typeof s.message?.text==='string')d.message={text:s.message.text.slice(0,3000),speaker:String(s.message.speaker||'OBSERVATION').slice(0,50)};for(const k of ['duelActivatedAt','duelResolvedAt','endedAt'])d[k]=Number.isFinite(s[k])?s[k]:0;
 for(const k of ['duelWinner','endingActor'])d[k]=['A','B'].includes(s[k])?s[k]:null;
 for(const k of ['exitOpen','lastOpen'])d[k]={A:!!s[k]?.A,B:!!s[k]?.B};
-d.lastDoorTextMode=s.lastDoorTextMode==='opponent'?'opponent':'requested';
+// v1.4.0 used the same-role outer gate for a winner; migrate previous saves to crossed conditions.
+if(s.gateSchema!==2){
+ for(const k of ['exitOpen','lastOpen'])d[k]={A:!!s[k]?.B,B:!!s[k]?.A};
+ if(d.room==='finalA'&&!d.exitOpen.A&&!d.ended)d.room='duel';
+}
+d.lastDoorTextMode='requested';d.gateSchema=2;
 // v1.3 ended at the threshold. Importing it now resumes in the expanded game.
 d.scopeCompleted=false;
 return d;}
@@ -684,15 +697,15 @@ function act(s,type,p={}){
    if(s.room==='duel'&&!s.ended&&!s.duelActive){
      if(typeof p.password==='string'&&p.password.trim().toLowerCase()==='confrontation'){
        s.duelActive=true;s.duelActivatedAt=Date.now();
-       for(const win of s.wins)if(['A','B'].includes(win.winner))s.exitOpen[win.winner]=true;
+       for(const win of s.wins)if(['A','B'].includes(win.winner))s.exitOpen[win.winner==='A'?'B':'A']=true;
        log(s,'\u7aef\u672b\u304c\u9759\u304b\u306b\u8d77\u52d5\u3057\u305f\u3002\n\u4e2d\u592e\u306b\u5149\u306e\u6587\u5b57\u304c\u6d6e\u304b\u3073\u3001\u5bfe\u6c7a\u306e\u30eb\u30fc\u30eb\u304c\u8868\u793a\u3055\u308c\u305f\u3002','SOMETHING CHANGED');
      }else log(s,'\u8d77\u52d5\u30d1\u30b9\u30ef\u30fc\u30c9\u304c\u9055\u3046\u3002\n\u7aef\u672b\u306f\u3001\u9759\u304b\u306a\u307e\u307e\u3060\u3002');
    }break;
  case 'duelVerdict':
    if(s.duelActive&&!s.duelWinner&&!s.ended&&['A','B'].includes(p.winner)){
-     s.duelWinner=p.winner;s.duelResolvedAt=Date.now();s.exitOpen[p.winner]=true;
+     s.duelWinner=p.winner;s.duelResolvedAt=Date.now();s.exitOpen[p.winner==='A'?'B':'A']=true;
      s.wins.push({winner:p.winner,reason:'\u5bfe\u6c7a\u306e\u9593\u3067\u306e\u5bfe\u6c7a',at:Date.now()});
-     log(s,'\u53c2\u52a0\u8005'+p.winner+'\u306e\u52dd\u5229\u304c\u78ba\u5b9a\u3057\u305f\u3002\n'+(p.winner==='A'?'\u53f3':'\u5de6')+'\u306eEXIT\u304c\u3001\u3086\u3063\u304f\u308a\u3068\u958b\u3044\u3066\u3044\u304f\u3002','KP\u306e\u88c1\u5b9a');
+     log(s,'\u53c2\u52a0\u8005'+p.winner+'\u306e\u52dd\u5229\u304c\u78ba\u5b9a\u3057\u305f\u3002\n'+(p.winner==='A'?'\u5de6':'\u53f3')+'\u306eEXIT\u304c\u3001\u3086\u3063\u304f\u308a\u3068\u958b\u3044\u3066\u3044\u304f\u3002','KP\u306e\u88c1\u5b9a');
    }break;
  case 'doorVerdict':
    if(['exitOpen','lastOpen'].includes(p.group)&&['A','B'].includes(p.side)&&!s.ended){
@@ -700,7 +713,7 @@ function act(s,type,p={}){
      log(s,'\u9060\u304f\u3067\u3001\u6249\u306e\u4f5c\u52d5\u3059\u308b\u97f3\u304c\u3057\u305f\u3002','SOMETHING CHANGED');
    }break;
  case 'duelConfig':
-   if(['requested','opponent'].includes(p.mode))s.lastDoorTextMode=p.mode;break;
+   s.lastDoorTextMode='requested';break;
  case 'resetDuel':
    s.duelWinner=null;s.duelResolvedAt=0;s.exitOpen={A:false,B:false};s.lastOpen={A:false,B:false};s.ended=false;s.endedAt=0;s.endingActor=null;
    s.wins=[];if(s.room==='finalA')s.room='duel';
@@ -730,15 +743,17 @@ function act(s,type,p={}){
  case 'returnPiece':if(s.hatchOpen&&!s.bSubmitted&&p.piece!=='heart0'&&s.bPieces.includes(p.piece)){s.bPieces=s.bPieces.filter(x=>x!==p.piece);s.bSlots=s.bSlots.map(x=>x===p.piece?null:x);s.aPieces.push(p.piece);log(s,PNAME[p.piece]+'のピースを、小さな扉から受け取った。','Bから受け取った');}break;
  case 'kpMessage':if(typeof p.text==='string'&&p.text.trim())log(s,p.text.trim().slice(0,3000),p.asB?'Bの声':'KPからの描写');break;
  case 'meta':
-   if(!s.ended&&['A','B'].includes(p.actor)&&p.confirmed===true){
-     // KP verifies B's location; A's location is known to the authoritative server.
+   if(!s.ended&&s.duelActive&&s.duelWinner===p.actor&&['A','B'].includes(p.actor)&&p.confirmed===true){
+     // In the cooperation room, a meta statement grants victory to the OTHER
+     // participant. KP validates B's location; the server validates A's.
      if(p.actor==='A'&&s.room!=='cooperate')break;
      const winner=p.actor==='A'?'B':'A';
+     if(s.lastOpen[winner])break; // prevent adjudicating the same statement twice
      s.wins.push({winner,actor:p.actor,reason:'\u5354\u529b\u306e\u9593\u3067'+p.actor+'\u304c\u30e1\u30bf\u767a\u8a00',at:Date.now()});
-     if(s.duelActive)s.exitOpen[winner]=true;
-     // Opening the inner door is a SEPARATE KP ruling, never an automatic
-     // consequence of the first duel win. This preserves the requested gimmick.
-     if(s.duelWinner===p.actor)s.lastOpen[p.actor]=true;
+     // First EXIT: LEFT requires A's victory; RIGHT requires B's victory.
+     // Final door: LEFT requires B's victory; RIGHT requires A's victory.
+     s.exitOpen[winner==='A'?'B':'A']=true;
+     s.lastOpen[winner]=true;
      log(s,'\u53c2\u52a0\u8005'+winner+'\u304c\u3001\u5bfe\u6c7a\u306b\u52dd\u5229\u3057\u305f\u3002\n\u6249\u306e\u9320\u304c\u5916\u308c\u308b\u97f3\u304c\u97ff\u3044\u305f\u3002','KP\u306e\u88c1\u5b9a');
    }break;
  case 'scopeEnd':if(s.cooperationOpen&&s.room==='cooperate'){s.room='duel';s.scopeCompleted=false;s.aHolding=false;}break;
@@ -766,8 +781,8 @@ function hatchArt(){const hole='<div class="hatch-aperture"></div>';if(S.rodLoca
 const ROOM_NAMES={start:'\u59cb\u307e\u308a\u306e\u90e8\u5c4b',cooperate:'\u5354\u529b\u306e\u9593',duel:'\u5bfe\u6c7a\u306e\u9593',finalA:'\u6700\u5f8c\u306e\u6249\u306e\u524d'};
 const DUEL_RULE='\u3069\u3061\u3089\u304b\u4e00\u65b9\u304c\u52dd\u8005\u3068\u306a\u308b\u3088\u3046\u306a\u4efb\u610f\u306e\u5bfe\u6c7a\u3092\u884c\u3046\u3002\n\u304a\u4e92\u3044\u306e\u5408\u610f\u304c\u3042\u308c\u3070\u3069\u3093\u306a\u5185\u5bb9\u3067\u3082\u69cb\u308f\u306a\u3044\u3002\n\u5c1a\u3001\u3053\u306e\u90e8\u5c4b\u3067\u884c\u3048\u308b\u5bfe\u6c7a\u306f\u4e00\u5ea6\u306e\u307f\u3060\u3002';
 Object.assign(NAMES,{terminal:'\u4e2d\u592e\u306e\u7aef\u672b',duelTitle:'\u5149\u306e\u6587\u5b57',duelRule:'\u5bfe\u6c7a\u306e\u30eb\u30fc\u30eb',outerA:'\u53f3\u306eEXIT',outerB:'\u5de6\u306eEXIT',outerSignA:'\u53f3\u306e\u6249\u306e\u4e0a\u306e\u8aac\u660e',outerSignB:'\u5de6\u306e\u6249\u306e\u4e0a\u306e\u8aac\u660e',lastA:'\u53f3\u306e\u51fa\u53e3\u306e\u5148\u306e\u6249',lastB:'\u5de6\u306e\u51fa\u53e3\u306e\u5148\u306e\u6249',duelBack:'\u5165\u3063\u3066\u304d\u305f\u6249',vestibuleBack:'\u5bfe\u6c7a\u306e\u9593\u3078\u623b\u308b\u6249',duelFloor:'\u767d\u3044\u5e8a',titleCard:'\u30bf\u30a4\u30c8\u30eb'});
-function outerText(side){return '\u3053\u306e\u6249\u306f\u53c2\u52a0\u8005'+side+'\u304c\u5bfe\u6c7a\u306b\u52dd\u5229\u3059\u308b\u3053\u3068\u3067\u958b\u304b\u308c\u308b\u3001\u53c2\u52a0\u8005'+side+'\u3057\u304b\u901a\u308b\u3053\u3068\u306f\u3067\u304d\u306a\u3044\u3002';}
-function lastText(side){const n=S.lastDoorTextMode==='opponent'?(side==='A'?'B':'A'):side;return '\u3053\u308c\u304c\u6b63\u771f\u6b63\u9298\u300c\u6700\u5f8c\u306e\u6249\u300d\u3060\u3002\n\u3053\u306e\u6249\u306f\u53c2\u52a0\u8005'+n+'\u304c\u5bfe\u6c7a\u306b\u52dd\u5229\u3059\u308b\u3053\u3068\u3067\u958b\u304b\u308c\u308b\u3002';}
+function outerText(side){const winner=side==='A'?'B':'A';return '\u3053\u306e\u6249\u306f\u53c2\u52a0\u8005'+winner+'\u304c\u5bfe\u6c7a\u306b\u52dd\u5229\u3059\u308b\u3053\u3068\u3067\u958b\u304b\u308c\u308b\u3001\u53c2\u52a0\u8005'+side+'\u3057\u304b\u901a\u308b\u3053\u3068\u306f\u3067\u304d\u306a\u3044\u3002';}
+function lastText(side){const n=side;return '\u3053\u308c\u304c\u6b63\u771f\u6b63\u9298\u300c\u6700\u5f8c\u306e\u6249\u300d\u3060\u3002\n\u3053\u306e\u6249\u306f\u53c2\u52a0\u8005'+n+'\u304c\u5bfe\u6c7a\u306b\u52dd\u5229\u3059\u308b\u3053\u3068\u3067\u958b\u304b\u308c\u308b\u3002';}
 function duelDescription(id){
  if(/^outer(Sign)?[AB]$/.test(id))return outerText(id.slice(-1));
  if(/^last[AB]$/.test(id))return '\u6700\u5f8c\u306e\u6249\n'+lastText(id.slice(-1));
@@ -799,7 +814,7 @@ function duelInspector(id){
  else if(id==='duelTitle')html='<div class="holo-art"><img class="source-title" src="duel-title.png" alt="\u5bfe\u6c7a CONFRONTATION"></div><p>\u5149\u306e\u6587\u5b57\u304c\u7a7a\u4e2d\u306b\u6d6e\u304b\u3093\u3067\u3044\u308b\u3002</p>';
  else if(/^outer(Sign)?[AB]$/.test(id)){
    const side=id.slice(-1),open=S.exitOpen[side];
-   html=panel('EXIT',outerText(side));
+   html=panel((side==='B'?'\u5de6':'\u53f3')+'\u306eEXIT',outerText(side));
    if(!id.startsWith('outerSign')){
      html+='<div class="gate-status '+(open?'open':'')+'">'+(open?'OPEN':'LOCKED')+'</div>';
      if(open&&side==='A')html+='<p>\u6249\u306e\u5148\u306b\u77ed\u3044\u901a\u8def\u304c\u898b\u3048\u308b\u3002</p>'+actions(actionButton('\u6249\u306e\u5148\u3078\u9032\u3080','room',{room:'finalA'},false,'emphasis'));
@@ -835,12 +850,12 @@ function renderEnding(){
 }
 function duelKPCard(){
  const badge=(open)=>'<span class="door-chip '+(open?'is-open':'')+'">'+(open?'OPEN':'LOCKED')+'</span>';
- const controls=['B','A'].map(side=>`<div class="duel-gate-control"><h3>${side==='B'?'\u5de6':'\u53f3'} / \u53c2\u52a0\u8005${side}</h3><p>EXIT ${badge(S.exitOpen[side])}\u3000\u6700\u5f8c\u306e\u6249 ${badge(S.lastOpen[side])}</p>${actionButton('EXIT\u3092'+(S.exitOpen[side]?'\u9589\u3081\u308b':'\u958b\u304f'),'doorVerdict',{group:'exitOpen',side,open:!S.exitOpen[side]},S.ended)}${actionButton('\u6700\u5f8c\u306e\u6249\u3092'+(S.lastOpen[side]?'\u9589\u3081\u308b':'\u958b\u304f'),'doorVerdict',{group:'lastOpen',side,open:!S.lastOpen[side]},S.ended)}</div>`).join('');
+ const controls=['B','A'].map(side=>`<div class="duel-gate-control"><h3>${side==='B'?'\u5de6':'\u53f3'} / \u53c2\u52a0\u8005${side}\u5c02\u7528</h3><p class="tiny">1\u679a\u76ee: ${side==='B'?'A':'B'}\u52dd\u5229\u3067\u958b\u304f / 2\u679a\u76ee: ${side}\u52dd\u5229\u3067\u958b\u304f</p><p>EXIT ${badge(S.exitOpen[side])}\u3000\u6700\u5f8c\u306e\u6249 ${badge(S.lastOpen[side])}</p>${actionButton('EXIT\u3092'+(S.exitOpen[side]?'\u9589\u3081\u308b':'\u958b\u304f'),'doorVerdict',{group:'exitOpen',side,open:!S.exitOpen[side]},S.ended)}${actionButton('\u6700\u5f8c\u306e\u6249\u3092'+(S.lastOpen[side]?'\u9589\u3081\u308b':'\u958b\u304f'),'doorVerdict',{group:'lastOpen',side,open:!S.lastOpen[side]},S.ended)}</div>`).join('');
  const win=S.duelWinner?'<span class="winner-badge">'+S.duelWinner+'</span>':'<span class="tiny">\u672a\u78ba\u5b9a</span>';
  return `<section class="kp-card kp-wide duel-kp-card"><div class="duel-kp-heading"><div><div class="eyebrow">CONFRONTATION / KEEPER CONTROL</div><h2>\u5bfe\u6c7a\u3068\u3001\u6700\u5f8c\u306e\u6249</h2></div><div class="phase-pill">${S.ended?'\u7d42\u4e86':S.duelActive?'\u30e2\u30b8\u30e5\u30fc\u30eb\u8d77\u52d5\u6e08\u307f':'\u30e2\u30b8\u30e5\u30fc\u30eb\u672a\u8d77\u52d5'}</div></div>
- <div class="duel-kp-grid"><div><h3>01\u3000\u5bfe\u6c7a\u306e\u52dd\u8005 ${win}</h3><p>\u4e21\u8005\u304c\u5408\u610f\u3057\u305f\u5bfe\u6c7a\u306e\u7d50\u679c\u3092\u78ba\u5b9a\u3057\u307e\u3059\u3002\u81ea\u52d5\u5224\u5b9a\u306f\u3057\u307e\u305b\u3093\u3002</p><div class="kp-row">${actionButton('A\u306e\u52dd\u5229','duelVerdict',{winner:'A'},!S.duelActive||!!S.duelWinner||S.ended,'emphasis')}${actionButton('B\u306e\u52dd\u5229','duelVerdict',{winner:'B'},!S.duelActive||!!S.duelWinner||S.ended,'emphasis')}</div><p class="tiny">\u3053\u306e\u90e8\u5c4b\u3067\u306e\u5bfe\u6c7a\u306f\u4e00\u5ea6\u3060\u3051\u3002\u78ba\u5b9a\u5f8c\u306f\u518d\u78ba\u5b9a\u3067\u304d\u307e\u305b\u3093\u3002\u6700\u521d\u306e\u52dd\u5229\u3067\u306fEXIT\u3060\u3051\u304c\u958b\u304d\u307e\u3059\u3002</p></div>
- <div><h3>02\u3000\u5354\u529b\u306e\u9593\u3067\u306e\u30e1\u30bf\u767a\u8a00</h3><p>A\u306e\u73fe\u5728\u5730\uff1a${ROOM_NAMES[S.room]}\u3002B\u306e\u5834\u6240\u306fKP\u304c\u78ba\u8a8d\u3057\u3066\u304f\u3060\u3055\u3044\u3002</p><div class="kp-row">${actionButton('A\u304c\u30e1\u30bf\u767a\u8a00 \u2192 B\u52dd\u5229','meta',{actor:'A',confirmed:true},S.room!=='cooperate'||S.ended,'warning')}${actionButton('B\u304c\u30e1\u30bf\u767a\u8a00 \u2192 A\u52dd\u5229','meta',{actor:'B',confirmed:true},S.ended,'warning')}</div><p class="tiny">\u300c\u5bfe\u6c7a\u306e\u9593\u306e\u52dd\u8005\u300d\u304c\u30e1\u30bf\u767a\u8a00\u3057\u305f\u3068KP\u304c\u88c1\u5b9a\u3059\u308b\u3068\u3001\u305d\u306e\u52dd\u8005\u5074\u306e\u6700\u5f8c\u306e\u6249\u304c\u958b\u304d\u307e\u3059\u3002\u958b\u3044\u305f\u6249\u306f\u4fdd\u6301\u3055\u308c\u307e\u3059\u3002</p></div></div>
- <details class="duel-manual"><summary>\u6249\u3092\u500b\u5225\u306b\u64cd\u4f5c\u3059\u308b\uff0f\u5fa9\u65e7\u30fb\u8868\u793a\u8a2d\u5b9a</summary><div class="duel-kp-grid">${controls}</div><label class="field"><span>\u6700\u5f8c\u306e\u6249\u306e\u6587\u8a00\uff08\u958b\u9589\u306fKP\u88c1\u5b9a\u3068\u306f\u5225\u306b\u5909\u66f4\u3055\u308c\u307e\u305b\u3093\uff09</span><select id="duelTextMode" data-duel-mode><option value="requested" ${S.lastDoorTextMode==='requested'?'selected':''}>\u4eca\u56de\u306e\u6307\u5b9a\u3069\u304a\u308a\uff1a\u5de6\u306fB\u52dd\u5229\uff0f\u53f3\u306fA\u52dd\u5229</option><option value="opponent" ${S.lastDoorTextMode==='opponent'?'selected':''}>\u76f8\u624b\u5074\u306e\u52dd\u5229\u3092\u8868\u8a18\uff1a\u5de6\u306fA\u52dd\u5229\uff0f\u53f3\u306fB\u52dd\u5229</option></select></label><p class="tiny">\u30e1\u30bf\u767a\u8a00\u306b\u3088\u308b\u300c\u76f8\u624b\u306e\u52dd\u5229\u300d\u3092\u6249\u306e\u6587\u7ae0\u306e\u6761\u4ef6\u3068\u3057\u3066\u8aad\u307e\u305b\u308b\u5834\u5408\u306f\u3001\u4e0b\u306e\u9078\u629e\u80a2\u3092\u4f7f\u3063\u3066\u304f\u3060\u3055\u3044\u3002\u521d\u671f\u5024\u306f\u4eca\u56de\u306e\u6307\u5b9a\u6587\u3067\u3059\u3002</p><div class="kp-row">${actionButton('B\u304c\u6700\u5f8c\u306e\u6249\u306e\u5148\u3078\u9032\u3080','finishB',{},!S.exitOpen.B||!S.lastOpen.B||S.ended,'emphasis')}${actionButton('\u5bfe\u6c7a\u306e\u5224\u5b9a\u3060\u3051\u3084\u308a\u76f4\u3059','resetDuel',{},false,'warning')}</div></details></section>`;
+ <div class="duel-kp-grid"><div><h3>01\u3000\u5bfe\u6c7a\u306e\u52dd\u8005 ${win}</h3><p>\u4e21\u8005\u304c\u5408\u610f\u3057\u305f\u5bfe\u6c7a\u306e\u7d50\u679c\u3092\u78ba\u5b9a\u3057\u307e\u3059\u3002\u81ea\u52d5\u5224\u5b9a\u306f\u3057\u307e\u305b\u3093\u3002</p><div class="kp-row">${actionButton('A\u306e\u52dd\u5229 \u2192 \u5de6EXIT','duelVerdict',{winner:'A'},!S.duelActive||!!S.duelWinner||S.ended,'emphasis')}${actionButton('B\u306e\u52dd\u5229 \u2192 \u53f3EXIT','duelVerdict',{winner:'B'},!S.duelActive||!!S.duelWinner||S.ended,'emphasis')}</div><p class="tiny">\u3053\u306e\u90e8\u5c4b\u3067\u306e\u5bfe\u6c7a\u306f\u4e00\u5ea6\u3060\u3051\u3002\u78ba\u5b9a\u5f8c\u306f\u518d\u78ba\u5b9a\u3067\u304d\u307e\u305b\u3093\u3002\u6700\u521d\u306e\u52dd\u5229\u3067\u306fEXIT\u3060\u3051\u304c\u958b\u304d\u307e\u3059\u3002</p></div>
+ <div><h3>02\u3000\u5354\u529b\u306e\u9593\u3067\u306e\u30e1\u30bf\u767a\u8a00</h3><p>A\u306e\u73fe\u5728\u5730\uff1a${ROOM_NAMES[S.room]}\u3002B\u306e\u5834\u6240\u306fKP\u304c\u78ba\u8a8d\u3057\u3066\u304f\u3060\u3055\u3044\u3002</p><div class="kp-row">${actionButton('A\u304c\u30e1\u30bf\u767a\u8a00 \u2192 B\u52dd\u5229','meta',{actor:'A',confirmed:true},S.room!=='cooperate'||S.duelWinner!=='A'||S.ended,'warning')}${actionButton('B\u304c\u30e1\u30bf\u767a\u8a00 \u2192 A\u52dd\u5229','meta',{actor:'B',confirmed:true},S.duelWinner!=='B'||S.ended,'warning')}</div><p class="tiny">\u300c\u5bfe\u6c7a\u306e\u9593\u306e\u52dd\u8005\u300d\u304c\u30e1\u30bf\u767a\u8a00\u3057\u305f\u3068KP\u304c\u88c1\u5b9a\u3059\u308b\u3068\u3001\u76f8\u624b\u306e\u52dd\u5229\u3068\u306a\u308a\u3001\u76f8\u624b\u5074\u306e\u6700\u5f8c\u306e\u6249\u304c\u958b\u304d\u307e\u3059\u3002\u958b\u3044\u305f\u6249\u306f\u4fdd\u6301\u3055\u308c\u307e\u3059\u3002</p></div></div>
+ <details class="duel-manual"><summary>\u6249\u3092\u500b\u5225\u306b\u64cd\u4f5c\u3059\u308b\uff0f\u5fa9\u65e7\u30fb\u8868\u793a\u8a2d\u5b9a</summary><div class="duel-kp-grid">${controls}</div><p class="tiny">\u5de6: 1\u679a\u76eeA\u52dd\u5229 / 2\u679a\u76eeB\u52dd\u5229\u3002\u53f3: 1\u679a\u76eeB\u52dd\u5229 / 2\u679a\u76eeA\u52dd\u5229\u3002</p><div class="kp-row">${actionButton('B\u304c\u6700\u5f8c\u306e\u6249\u306e\u5148\u3078\u9032\u3080','finishB',{},!S.exitOpen.B||!S.lastOpen.B||S.ended,'emphasis')}${actionButton('\u5bfe\u6c7a\u306e\u5224\u5b9a\u3060\u3051\u3084\u308a\u76f4\u3059','resetDuel',{},false,'warning')}</div></details></section>`;
 }
 async function activateFromForm(){
  if(S.duelActive)return;U.duelPassword=$('duelPassword')?.value||'';U.duelError='';

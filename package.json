@@ -1,6 +1,6 @@
 {
   "name": "hitokuchi-taiketsu",
-  "version": "1.4.0",
+  "version": "1.5.0",
   "private": true,
   "description": "Hitokuchi Taiketsu - single-process Render Web Service",
   "engines": {

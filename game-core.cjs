@@ -3,11 +3,16 @@ const GLYPH={heart:'♥',heart0:'♥',diamond:'◆',cross:'×',star:'★',spade:
 const ROD_EMERGE_MS=3000;
 const INFO={cuffs:['手錠','◯◯'],ankles:['足枷','∪∪'],rod:['細長い棒','╱'],tank:['水槽','▱'],key:['木の鍵','⚿']};
 function japanDate(){return new Intl.DateTimeFormat('sv-SE',{timeZone:'Asia/Tokyo',year:'numeric',month:'2-digit',day:'2-digit'}).format(new Date());}
-function initial(){return {version:1,rev:1,room:'start',started:false,identityKnown:false,rodOfferedAt:0,sessionDate:japanDate(),handsFree:false,feetFree:false,rugLifted:false,hatchOpen:false,bColors:[0,1,2],rodLocation:'B',aHolding:false,bHolding:false,tankLocation:'floor',waterPoured:false,keyLocation:'tube',chestOpen:false,aPieces:[],bPieces:['heart0'],aSlots:[null,null],bSlots:['heart0',null],aSubmitted:false,bSubmitted:false,gateFailed:false,cooperationOpen:false,scopeCompleted:false,duelActive:false,duelActivatedAt:0,duelWinner:null,duelResolvedAt:0,exitOpen:{A:false,B:false},lastOpen:{A:false,B:false},lastDoorTextMode:'requested',ended:false,endedAt:0,endingActor:null,aSolution:['cross','diamond'],bSolution:['heart','circle'],items:[],wins:[],seen:[],message:{text:'白い部屋で目が覚めた。目の前に、扉がある。',speaker:'OBSERVATION'},log:[]};}
+function initial(){return {version:1,rev:1,room:'start',started:false,identityKnown:false,rodOfferedAt:0,sessionDate:japanDate(),handsFree:false,feetFree:false,rugLifted:false,hatchOpen:false,bColors:[0,1,2],rodLocation:'B',aHolding:false,bHolding:false,tankLocation:'floor',waterPoured:false,keyLocation:'tube',chestOpen:false,aPieces:[],bPieces:['heart0'],aSlots:[null,null],bSlots:['heart0',null],aSubmitted:false,bSubmitted:false,gateFailed:false,cooperationOpen:false,scopeCompleted:false,duelActive:false,duelActivatedAt:0,duelWinner:null,duelResolvedAt:0,exitOpen:{A:false,B:false},lastOpen:{A:false,B:false},lastDoorTextMode:'requested',gateSchema:2,ended:false,endedAt:0,endingActor:null,aSolution:['cross','diamond'],bSolution:['heart','circle'],items:[],wins:[],seen:[],message:{text:'白い部屋で目が覚めた。目の前に、扉がある。',speaker:'OBSERVATION'},log:[]};}
 function valid(s){if(!s||s.version!==1||!['start','cooperate','duel','finalA'].includes(s.room))throw Error('この探索版のセーブデータではありません。');let d=initial();const bools=['identityKnown','started','handsFree','feetFree','rugLifted','hatchOpen','aHolding','bHolding','waterPoured','chestOpen','aSubmitted','bSubmitted','gateFailed','cooperationOpen','scopeCompleted','duelActive','ended'];bools.forEach(k=>d[k]=!!s[k]);['sessionDate','rodLocation','tankLocation','keyLocation'].forEach(k=>{if(typeof s[k]==='string')d[k]=s[k];});if(!/^\d{4}-\d{2}-\d{2}$/.test(d.sessionDate))d.sessionDate=japanDate();d.identityKnown=d.identityKnown||(Array.isArray(s.seen)&&s.seen.some(x=>typeof x==='string'&&x.endsWith(':body')));d.rodOfferedAt=Number.isFinite(s.rodOfferedAt)?s.rodOfferedAt:0;if(!['B','hatch','A'].includes(d.rodLocation))d.rodLocation='B';d.rev=Number.isFinite(s.rev)?s.rev:1;d.room=s.room;for(const k of ['aPieces','bPieces'])d[k]=Array.isArray(s[k])?s[k].filter(x=>Object.hasOwn(GLYPH,x)).slice(0,8):d[k];for(const k of ['aSlots','bSlots','aSolution','bSolution'])d[k]=[0,1].map(i=>Object.hasOwn(GLYPH,s[k]?.[i])?s[k][i]:null);if(d.aSolution.some(x=>!x))d.aSolution=['cross','diamond'];if(d.bSolution.some(x=>!x))d.bSolution=['heart','circle'];d.bColors=[0,1,2].map((_,i)=>[0,1,2].includes(s.bColors?.[i])?s.bColors[i]:i);d.items=Array.isArray(s.items)?[...new Set(s.items.filter(x=>Object.hasOwn(INFO,x)))]:[];d.seen=Array.isArray(s.seen)?s.seen.filter(x=>typeof x==='string').slice(0,200):[];d.log=Array.isArray(s.log)?s.log.filter(x=>typeof x?.text==='string').slice(-200).map(x=>({text:x.text.slice(0,3000),speaker:String(x.speaker||'OBSERVATION').slice(0,50),at:Number(x.at)||0})):[];d.wins=Array.isArray(s.wins)?s.wins.filter(x=>x?.winner==='A'||x?.winner==='B').slice(-100):[];if(typeof s.message?.text==='string')d.message={text:s.message.text.slice(0,3000),speaker:String(s.message.speaker||'OBSERVATION').slice(0,50)};for(const k of ['duelActivatedAt','duelResolvedAt','endedAt'])d[k]=Number.isFinite(s[k])?s[k]:0;
 for(const k of ['duelWinner','endingActor'])d[k]=['A','B'].includes(s[k])?s[k]:null;
 for(const k of ['exitOpen','lastOpen'])d[k]={A:!!s[k]?.A,B:!!s[k]?.B};
-d.lastDoorTextMode=s.lastDoorTextMode==='opponent'?'opponent':'requested';
+// v1.4.0 used the same-role outer gate for a winner; migrate previous saves to crossed conditions.
+if(s.gateSchema!==2){
+ for(const k of ['exitOpen','lastOpen'])d[k]={A:!!s[k]?.B,B:!!s[k]?.A};
+ if(d.room==='finalA'&&!d.exitOpen.A&&!d.ended)d.room='duel';
+}
+d.lastDoorTextMode='requested';d.gateSchema=2;
 // v1.3 ended at the threshold. Importing it now resumes in the expanded game.
 d.scopeCompleted=false;
 return d;}
@@ -38,15 +43,15 @@ function act(s,type,p={}){
    if(s.room==='duel'&&!s.ended&&!s.duelActive){
      if(typeof p.password==='string'&&p.password.trim().toLowerCase()==='confrontation'){
        s.duelActive=true;s.duelActivatedAt=Date.now();
-       for(const win of s.wins)if(['A','B'].includes(win.winner))s.exitOpen[win.winner]=true;
+       for(const win of s.wins)if(['A','B'].includes(win.winner))s.exitOpen[win.winner==='A'?'B':'A']=true;
        log(s,'\u7aef\u672b\u304c\u9759\u304b\u306b\u8d77\u52d5\u3057\u305f\u3002\n\u4e2d\u592e\u306b\u5149\u306e\u6587\u5b57\u304c\u6d6e\u304b\u3073\u3001\u5bfe\u6c7a\u306e\u30eb\u30fc\u30eb\u304c\u8868\u793a\u3055\u308c\u305f\u3002','SOMETHING CHANGED');
      }else log(s,'\u8d77\u52d5\u30d1\u30b9\u30ef\u30fc\u30c9\u304c\u9055\u3046\u3002\n\u7aef\u672b\u306f\u3001\u9759\u304b\u306a\u307e\u307e\u3060\u3002');
    }break;
  case 'duelVerdict':
    if(s.duelActive&&!s.duelWinner&&!s.ended&&['A','B'].includes(p.winner)){
-     s.duelWinner=p.winner;s.duelResolvedAt=Date.now();s.exitOpen[p.winner]=true;
+     s.duelWinner=p.winner;s.duelResolvedAt=Date.now();s.exitOpen[p.winner==='A'?'B':'A']=true;
      s.wins.push({winner:p.winner,reason:'\u5bfe\u6c7a\u306e\u9593\u3067\u306e\u5bfe\u6c7a',at:Date.now()});
-     log(s,'\u53c2\u52a0\u8005'+p.winner+'\u306e\u52dd\u5229\u304c\u78ba\u5b9a\u3057\u305f\u3002\n'+(p.winner==='A'?'\u53f3':'\u5de6')+'\u306eEXIT\u304c\u3001\u3086\u3063\u304f\u308a\u3068\u958b\u3044\u3066\u3044\u304f\u3002','KP\u306e\u88c1\u5b9a');
+     log(s,'\u53c2\u52a0\u8005'+p.winner+'\u306e\u52dd\u5229\u304c\u78ba\u5b9a\u3057\u305f\u3002\n'+(p.winner==='A'?'\u5de6':'\u53f3')+'\u306eEXIT\u304c\u3001\u3086\u3063\u304f\u308a\u3068\u958b\u3044\u3066\u3044\u304f\u3002','KP\u306e\u88c1\u5b9a');
    }break;
  case 'doorVerdict':
    if(['exitOpen','lastOpen'].includes(p.group)&&['A','B'].includes(p.side)&&!s.ended){
@@ -54,7 +59,7 @@ function act(s,type,p={}){
      log(s,'\u9060\u304f\u3067\u3001\u6249\u306e\u4f5c\u52d5\u3059\u308b\u97f3\u304c\u3057\u305f\u3002','SOMETHING CHANGED');
    }break;
  case 'duelConfig':
-   if(['requested','opponent'].includes(p.mode))s.lastDoorTextMode=p.mode;break;
+   s.lastDoorTextMode='requested';break;
  case 'resetDuel':
    s.duelWinner=null;s.duelResolvedAt=0;s.exitOpen={A:false,B:false};s.lastOpen={A:false,B:false};s.ended=false;s.endedAt=0;s.endingActor=null;
    s.wins=[];if(s.room==='finalA')s.room='duel';
@@ -84,15 +89,17 @@ function act(s,type,p={}){
  case 'returnPiece':if(s.hatchOpen&&!s.bSubmitted&&p.piece!=='heart0'&&s.bPieces.includes(p.piece)){s.bPieces=s.bPieces.filter(x=>x!==p.piece);s.bSlots=s.bSlots.map(x=>x===p.piece?null:x);s.aPieces.push(p.piece);log(s,PNAME[p.piece]+'のピースを、小さな扉から受け取った。','Bから受け取った');}break;
  case 'kpMessage':if(typeof p.text==='string'&&p.text.trim())log(s,p.text.trim().slice(0,3000),p.asB?'Bの声':'KPからの描写');break;
  case 'meta':
-   if(!s.ended&&['A','B'].includes(p.actor)&&p.confirmed===true){
-     // KP verifies B's location; A's location is known to the authoritative server.
+   if(!s.ended&&s.duelActive&&s.duelWinner===p.actor&&['A','B'].includes(p.actor)&&p.confirmed===true){
+     // In the cooperation room, a meta statement grants victory to the OTHER
+     // participant. KP validates B's location; the server validates A's.
      if(p.actor==='A'&&s.room!=='cooperate')break;
      const winner=p.actor==='A'?'B':'A';
+     if(s.lastOpen[winner])break; // prevent adjudicating the same statement twice
      s.wins.push({winner,actor:p.actor,reason:'\u5354\u529b\u306e\u9593\u3067'+p.actor+'\u304c\u30e1\u30bf\u767a\u8a00',at:Date.now()});
-     if(s.duelActive)s.exitOpen[winner]=true;
-     // Opening the inner door is a SEPARATE KP ruling, never an automatic
-     // consequence of the first duel win. This preserves the requested gimmick.
-     if(s.duelWinner===p.actor)s.lastOpen[p.actor]=true;
+     // First EXIT: LEFT requires A's victory; RIGHT requires B's victory.
+     // Final door: LEFT requires B's victory; RIGHT requires A's victory.
+     s.exitOpen[winner==='A'?'B':'A']=true;
+     s.lastOpen[winner]=true;
      log(s,'\u53c2\u52a0\u8005'+winner+'\u304c\u3001\u5bfe\u6c7a\u306b\u52dd\u5229\u3057\u305f\u3002\n\u6249\u306e\u9320\u304c\u5916\u308c\u308b\u97f3\u304c\u97ff\u3044\u305f\u3002','KP\u306e\u88c1\u5b9a');
    }break;
  case 'scopeEnd':if(s.cooperationOpen&&s.room==='cooperate'){s.room='duel';s.scopeCompleted=false;s.aHolding=false;}break;
