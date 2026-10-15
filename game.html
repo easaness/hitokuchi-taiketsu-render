@@ -44,9 +44,9 @@ body[data-room="duel"] .participant,body[data-room="finalA"] .participant{backgr
 .gate-status{font:10px ui-monospace,monospace;letter-spacing:.22em;color:#9e795b;border:1px solid #cbbfae;padding:12px 14px;margin:18px 0}
 .gate-status.open{color:#387967;border-color:#81b7a6}
 .final-plaque{padding:22px 18px;background:linear-gradient(125deg,#c7d5dc,#e9eef0,#c1cfd6);box-shadow:inset 0 0 15px #677e8730;border:1px solid #a8bbc5;margin-bottom:25px;text-align:center;color:#1c333e;font-family:"Yu Mincho","Hiragino Mincho ProN",serif}
-.final-plaque h3{display:inline-block;font-weight:400;font-size:26px;letter-spacing:.1em;margin:0 0 22px;border-bottom:1px solid #536c7a;padding-bottom:6px}
+.final-plaque h3{display:inline-block;font-weight:400;font-size:26px;letter-spacing:.1em;margin:0 0 22px;border-bottom:1px solid #536c7a;padding-bottom:6px;color:#be2129}
 .final-plaque p{font-size:18px;line-height:2;margin:0}
-.final-plaque em{font-style:normal;color:#b03230}
+.final-plaque em{font-style:normal;color:#be2129}
 .duel-kp-card{border-color:#487786;background:linear-gradient(130deg,#1d353f,#1b2b32)}
 .duel-kp-heading{display:flex;justify-content:space-between;align-items:center;gap:20px;border-bottom:1px solid #55738460;padding-bottom:20px;margin-bottom:20px}
 .duel-kp-heading .eyebrow{color:#8aaebb;font-size:9px;letter-spacing:.17em;margin-bottom:12px}
@@ -65,9 +65,9 @@ body[data-room="duel"] .participant,body[data-room="finalA"] .participant{backgr
 .duel-gate-control .action{font-size:11px}
 .door-chip{display:inline-block;font:9px ui-monospace,monospace;padding:4px 6px;background:#263d42;color:#9cacab;border:1px solid #56727755}
 .door-chip.is-open{background:#325d5c;color:#c3faf0}
-.white-ending{z-index:60;background:#fff;opacity:0;padding:20px;transition:opacity 1.65s ease-in-out;pointer-events:all}
+.white-ending{z-index:60;background:#fff;opacity:0;padding:20px;transition:opacity 1.35s ease-in-out;pointer-events:all}
 .white-ending.visible,.white-ending.settled{opacity:1}
-.ending-title{display:block;width:min(590px,78vw);max-height:70vh;object-fit:contain;opacity:0;transform:translateY(8px);transition:opacity 1.6s ease 1.65s,transform 2.1s ease 1.65s}
+.ending-title{display:block;width:min(590px,78vw);max-height:70vh;object-fit:contain;opacity:0;transform:translateY(9px);transition:opacity 1.85s ease 1.45s,transform 2.05s ease 1.45s}
 .white-ending.visible .ending-title,.white-ending.settled .ending-title{opacity:1;transform:translateY(0)}
 .white-ending.settled,.white-ending.settled .ending-title{transition:none}
 .room-ended #target{display:none}
@@ -498,18 +498,24 @@ P.gate=function(x,z,side,inner=false){
      const text=this.texture('lastplaque-'+named+'-'+sign,(c,w,h)=>{
        const full=document.createElement('canvas');full.width=w*2;full.height=h;const g=full.getContext('2d');
        const grad=g.createLinearGradient(0,0,full.width,h);grad.addColorStop(0,'#d5dfe3');grad.addColorStop(.5,'#edf2f2');grad.addColorStop(1,'#b9c8cf');g.fillStyle=grad;g.fillRect(0,0,full.width,h);
-       g.textAlign='center';g.textBaseline='middle';g.fillStyle='#152b34';g.font='52px "Yu Mincho", "Noto Serif CJK JP", serif';
+       g.textAlign='center';g.textBaseline='middle';g.fillStyle='#be2129';g.font='52px "Yu Mincho", "Noto Serif CJK JP", serif';
        g.fillText(jp.last,full.width/2,66);g.fillRect(full.width*.30,103,full.width*.4,1);
        g.font='36px "Yu Mincho", "Noto Serif CJK JP", serif';
-       g.fillText('\u3053\u308c\u304c\u6b63\u771f\u6b63\u9298\u300c\u6700\u5f8c\u306e\u6249\u300d\u3060\u3002',full.width/2,170,full.width*.94);
+       // Red only for the literal words "last door" on the printed plaque.
+       const segments=['\u3053\u308c\u304c\u6b63\u771f\u6b63\u9298','\u300c\u6700\u5f8c\u306e\u6249\u300d','\u3060\u3002'];
+       const segmentWidth=segments.reduce((n,q)=>n+g.measureText(q).width,0);
+       let startX=(full.width-segmentWidth)/2;
+       g.textAlign='left';
+       segments.forEach((q,i)=>{g.fillStyle=i===1?'#be2129':'#152b34';g.fillText(q,startX,170);startX+=g.measureText(q).width;});
+       g.textAlign='center';g.fillStyle='#152b34';
        g.fillText('\u3053\u306e\u6249\u306f\u53c2\u52a0\u8005'+named+'\u304c\u5bfe\u6c7a\u306b\u52dd\u5229\u3059\u308b',full.width/2,244,full.width*.94);
        g.fillText('\u3053\u3068\u3067\u958b\u304b\u308c\u308b\u3002',full.width/2,316);
        c.drawImage(full,sign<0?0:w,0,w,h,0,0,w,h);
      },512,512);
      this.slidePart(group,sign,x+sign*.395,1.59,z+.143,.78,.92,.012,'#ffffff',{id,texture:text,emission:.25,plaque:true});
    }
-   const heading=this.textTexture('lastheading',[jp.last],{font:75,w:512,h:256,bg:'#d5e3e8',fg:'#254653'});
-   this.panel(x,2.92,z+.03,1.9,.42,heading,id);
+   const heading=this.textTexture('lastheading-black-v17',[jp.last],{font:135,w:1024,h:256,bg:'#d5e3e8',fg:'#141414'});
+   this.panel(x,2.92,z+.03,1.9,.45,heading,id);
  }
 };
 P.buildDuel=function(s){
@@ -524,8 +530,7 @@ P.buildDuel=function(s){
   else if(oldTargets[group]!==to)this.extMotions[group]={from:this.extAngles[group]||0,to,at:performance.now()};
  }
  this.extTargets=newTargets;this.visKey=key;this.room=s.room;this.objects=[];this.extParts=[];this.doorParts=[];this.rodMesh=null;this.rodTip=null;this.holoObjects=[];
- if(changed){this.camera={x:0,y:1.65,z:s.room==='duel'?4.95:1.18,yaw:0,pitch:s.room==='duel'?.02:-.015};this.aim=null;this.sceneEnteredAt=performance.now();this.navCooldown=performance.now()+1400;}
- if(s.room==='finalA'){this.buildVestibule(s);this.updateDuel(performance.now());return;}
+ if(changed){this.camera={x:0,y:1.65,z:4.95,yaw:0,pitch:.02};this.aim=null;this.travel=null;this.sceneEnteredAt=performance.now();this.navCooldown=performance.now()+1400;}
  const R=5.80,H=4.65,segments=96;
  const wall=this.texture('duel-wall',(c,w,h)=>{
    let g=c.createLinearGradient(0,0,0,h);g.addColorStop(0,'#eaf4f9');g.addColorStop(.16,'#fafdff');g.addColorStop(.44,'#edf6fa');g.addColorStop(.82,'#e3f0f5');g.addColorStop(1,'#cedee5');c.fillStyle=g;c.fillRect(0,0,w,h);
@@ -579,23 +584,43 @@ P.buildDuel=function(s){
  }
  this.updateDuel(performance.now());
 };
-P.buildVestibule=function(s){
- const t=this.texture('vestibule',(c,w,h)=>{const g=c.createLinearGradient(0,0,w,h);g.addColorStop(0,'#f6fcff');g.addColorStop(1,'#dbeaf1');c.fillStyle=g;c.fillRect(0,0,w,h);c.fillStyle='#a7c2ce';c.fillRect(0,h*.15,w,2);},512,512);
- for(const side of [-1,1]){this.add(side*1.2,1.65,-.45,.15,3.3,4.3,'#ffffff',{texture:t,emission:.4});this.add(side*1.11,.08,-.45,.023,.025,4.2,'#dcfcff',{emission:1});}
- this.add(0,-.03,-.45,2.4,.07,4.3,'#e5f6fb',{emission:.4,id:'duelFloor'});this.add(0,3.3,-.45,2.4,.10,4.3,'#f3ffff',{emission:.5});
- this.add(0,1.60,-2.7,2.3,3.2,.10,'#ffffff',{emission:1,passthrough:true});
- this.gate(0,-2.35,'B',true);
- this.add(0,1.4,1.63,2.4,2.8,.12,'#2f5769',{id:'vestibuleBack'});
- const back=this.textTexture('return-duel',['\u5bfe\u6c7a\u306e\u9593'],{font:66,w:512,h:256,bg:'#bcd2df',fg:'#254955'});
- this.panel(0,2.71,1.54,1.6,.36,back,'vestibuleBack',Math.PI);
-};
 P.build=function(s){
- if(['duel','finalA'].includes(s.room))return this.buildDuel(s);
- this.extParts=[];this.holoObjects=[];this.extTargets={};return oldBuild.call(this,s);
+ if(s.room==='duel')return this.buildDuel(s);
+ const previousRoom=this.room;
+ this.extParts=[];this.holoObjects=[];this.extTargets={};this.travel=null;
+ const result=oldBuild.call(this,s);
+ if(previousRoom!==s.room){
+   // Materialize immediately inside the door we used, facing into the room.
+   // The doorway is directly behind the participant, never straight ahead.
+   if(s.room==='cooperate'&&previousRoom==='duel')this.setArrival(0,-3.20,Math.PI);
+   else if(s.room==='cooperate'&&previousRoom==='start')this.setArrival(0,3.20,0);
+   else if(s.room==='start'&&previousRoom==='cooperate')this.setArrival(0,-2.00,Math.PI);
+ }
+ return result;
+};
+P.setArrival=function(x,z,yaw){
+ this.camera.x=x;this.camera.y=1.55;this.camera.z=z;this.camera.yaw=yaw;this.camera.pitch=0;this.aim=null;this.keys={};this.navCooldown=performance.now()+700;this.lastDrawSignature='';
+};
+// Both EXIT doors and their second doors are in the same 3D room.
+// Clicking through a doorway eases the camera through that doorway without changing scenes.
+P.crossGate=function(direction){
+ if(this.room!=='duel'||!this.s?.exitOpen.B)return false;
+ const z=this.camera.z;
+ if(direction==='in'&&z< -4.6)return false;
+ if(direction==='out'&&z> -4.6)return false;
+ this.travel={from:{x:this.camera.x,z,yaw:this.camera.yaw},to:{x:-2.30,z:direction==='in'?-5.43:-3.83,yaw:direction==='in'?0:Math.PI},at:performance.now(),duration:850};
+ this.keys={};this.aim=null;this.navCooldown=performance.now()+1200;
+ return true;
 };
 P.updateDuel=function(now){
- if(!['duel','finalA'].includes(this.room))return '';
+ if(this.room!=='duel')return '';
  const stamps=[];
+ if(this.travel){
+  const t=Math.min(1,Math.max(0,(now-this.travel.at)/this.travel.duration)),e=t*t*(3-2*t),c=this.camera,from=this.travel.from,to=this.travel.to;
+  c.x=from.x+(to.x-from.x)*e;c.z=from.z+(to.z-from.z)*e;
+  const d=Math.atan2(Math.sin(to.yaw-from.yaw),Math.cos(to.yaw-from.yaw));c.yaw=from.yaw+d*e;
+  stamps.push('travel'+t.toFixed(3));if(t>=1)this.travel=null;
+ }
  for(const group of Object.keys(this.extMotions||{})){
    const m=this.extMotions[group],p=Math.max(0,Math.min(1,(now-m.at)/1650)),e=p*p*(3-2*p),v=m.from+(m.to-m.from)*e;this.extAngles[group]=v;stamps.push(v.toFixed(4));
  }
@@ -607,33 +632,39 @@ P.updateDuel=function(now){
  if(this.s?.duelActive&&this.room==='duel')stamps.push(Math.floor(now/(this.soft?150:40)));
  stamps.push(this.assetRevision||0);
  // Keyboard walking reaches real room transitions, with a cooldown to prevent loops.
- if(this.enabled&&now>(this.navCooldown||0)&&!this.s?.ended){
-   const c=this.camera;let target=null;
-   if(this.room==='duel'&&c.z<-4.73&&Math.abs(c.x+2.3)<.67&&this.s.exitOpen.B)target='enterExitA';
-   if(this.room==='finalA'&&c.z<-2.05&&this.s.lastOpen.B)target='advanceFinal';
-   if(target){this.navCooldown=now+2500;setTimeout(()=>this.onInspect(target),0);}
+ if(this.enabled&&now>(this.navCooldown||0)&&!this.travel&&!this.s?.ended){
+   const c=this.camera;
+   // Crossing the inner (left) gate finishes the game, but entering its short
+   // corridor does not create another scene or change the room identifier.
+   if(c.z<-6.21&&Math.abs(c.x+2.3)<.73&&this.s.exitOpen.B&&this.s.lastOpen.B){
+     this.navCooldown=now+4000;setTimeout(()=>this.onInspect('advanceFinal'),0);
+   }
  }
  return stamps.join(',');
 };
 P.updateDoor=function(now){return oldDoor.call(this,now)+'/'+this.updateDuel(now);};
 P.limitDuel=function(nx,nz){
- if(this.room==='duel'){
-   const canEnter=this.s?.exitOpen.B&&Math.abs(nx+2.3)<.67&&nz<-4.1&&nz>-5.02;
-   if(canEnter)return [nx,nz];
-   const r=Math.hypot(nx,nz),limit=5.42;if(r>limit){nx*=limit/r;nz*=limit/r;}
-   // B-only right EXIT always blocks A. A may use the left only after A wins.
-   if(nz<-4.45&&Math.abs(nx-2.3)<1.0)nz=-4.45;
-   if(nz<-4.45&&Math.abs(nx+2.3)<1.0&&!this.s?.exitOpen.B)nz=-4.45;
+ if(this.room!=='duel')return [nx,nz];
+ // No scene break: a single continuous corridor extends behind the LEFT exit.
+ // The right-hand door remains B-only, so participant A cannot enter it.
+ const inLeftLane=nx>-3.03&&nx<-1.57;
+ if(nz< -4.45&&inLeftLane&&this.s?.exitOpen.B){
+   nx=Math.min(-1.58,Math.max(-3.02,nx));
+   nz=Math.max(this.s.lastOpen.B?-6.61:-5.86,nz);
    return [nx,nz];
  }
- if(this.room==='finalA')return [Math.max(-.88,Math.min(.88,nx)),Math.max(this.s?.lastOpen.A?-2.28:-1.96,Math.min(1.28,nz))];
+ if(nz< -4.45)nz=-4.45;
+ const r=Math.hypot(nx,nz),limit=5.42;
+ if(r>limit){nx*=limit/r;nz*=limit/r;}
  return [nx,nz];
 };
 P.view=function(which){
- if(!['duel','finalA'].includes(this.room))return oldView.call(this,which);
- const c=this.camera;c.x=0;c.z=this.room==='duel'?4.95:.9;
+ if(this.room!=='duel')return oldView.call(this,which);
+ // Looking around must not teleport the participant out of the corridor.
+ const c=this.camera;
  const yaw={front:0,left:-Math.PI/2,right:Math.PI/2,back:Math.PI,floor:0}[which]??0;
- const delta=Math.atan2(Math.sin(yaw-c.yaw),Math.cos(yaw-c.yaw));this.aim={yaw:c.yaw+delta,pitch:which==='floor'?-.84:.035};
+ const delta=Math.atan2(Math.sin(yaw-c.yaw),Math.cos(yaw-c.yaw));
+ this.aim={yaw:c.yaw+delta,pitch:which==='floor'?-.84:.035};
 };
 })();
 </script><script>/* A's exploration room and a human-KP console. All game state stays local unless
@@ -650,18 +681,29 @@ const INFO={cuffs:['手錠','◯◯'],ankles:['足枷','∪∪'],rod:['細長い
 const NAMES={body:'自分の体',offeredRod:'差し出された棒',startDoor:'目の前の扉',cooperationRule:'扉の上の説明書き',exitDoor:'奥の扉',returnDoor:'始まりの部屋への扉',exitRule:'扉の上の説明書き',circles:'3つの丸',hatch:'小さな扉と番号錠',buttons:'離れた2つのボタン',buttonRule:'ボタンの間の文章',box:'部屋の中央の箱',tank:'部屋の隅の水槽',monitor:'壁のモニター',slots:'扉の2つのくぼみ',floor:'床',rug:'じゅうたん',diamond:'じゅうたんの下の模様',cuffs:'手の拘束',ankles:'足の拘束'};
 const RULE='この部屋のみ一切のメタ発言を禁止する。\nメタ発言があった場合、相手は即座に対決に勝利する。\n十分に注意せよ。';
 function japanDate(){return new Intl.DateTimeFormat('sv-SE',{timeZone:'Asia/Tokyo',year:'numeric',month:'2-digit',day:'2-digit'}).format(new Date());}
-function initial(){return {version:1,rev:1,room:'start',started:false,identityKnown:false,rodOfferedAt:0,sessionDate:japanDate(),handsFree:false,feetFree:false,rugLifted:false,hatchOpen:false,bColors:[0,1,2],rodLocation:'B',aHolding:false,bHolding:false,tankLocation:'floor',waterPoured:false,keyLocation:'tube',chestOpen:false,aPieces:[],bPieces:['heart0'],aSlots:[null,null],bSlots:['heart0',null],aSubmitted:false,bSubmitted:false,gateFailed:false,cooperationOpen:false,scopeCompleted:false,duelActive:false,duelActivatedAt:0,duelWinner:null,duelResolvedAt:0,exitOpen:{A:false,B:false},lastOpen:{A:false,B:false},lastDoorTextMode:'requested',gateSchema:3,ended:false,endedAt:0,endingActor:null,aSolution:['cross','diamond'],bSolution:['heart','circle'],items:[],wins:[],seen:[],message:{text:'白い部屋で目が覚めた。目の前に、扉がある。',speaker:'OBSERVATION'},log:[]};}
+function initial(){return {version:1,rev:1,room:'start',started:false,identityKnown:false,rodOfferedAt:0,sessionDate:japanDate(),handsFree:false,feetFree:false,rugLifted:false,hatchOpen:false,bColors:[0,1,2],rodLocation:'B',aHolding:false,bHolding:false,tankLocation:'floor',waterPoured:false,keyLocation:'tube',chestOpen:false,aPieces:[],bPieces:['heart0'],aSlots:[null,null],bSlots:['heart0',null],aSubmitted:false,bSubmitted:false,gateFailed:false,cooperationOpen:false,scopeCompleted:false,duelActive:false,duelActivatedAt:0,duelWinner:null,duelResolvedAt:0,exitOpen:{A:false,B:false},lastOpen:{A:false,B:false},lastDoorTextMode:'requested',gateSchema:4,ended:false,endedAt:0,endingActor:null,aSolution:['cross','diamond'],bSolution:['heart','circle'],items:[],wins:[],seen:[],message:{text:'白い部屋で目が覚めた。目の前に、扉がある。',speaker:'OBSERVATION'},log:[]};}
 function valid(s){if(!s||s.version!==1||!['start','cooperate','duel','finalA'].includes(s.room))throw Error('この探索版のセーブデータではありません。');let d=initial();const bools=['identityKnown','started','handsFree','feetFree','rugLifted','hatchOpen','aHolding','bHolding','waterPoured','chestOpen','aSubmitted','bSubmitted','gateFailed','cooperationOpen','scopeCompleted','duelActive','ended'];bools.forEach(k=>d[k]=!!s[k]);['sessionDate','rodLocation','tankLocation','keyLocation'].forEach(k=>{if(typeof s[k]==='string')d[k]=s[k];});if(!/^\d{4}-\d{2}-\d{2}$/.test(d.sessionDate))d.sessionDate=japanDate();d.identityKnown=d.identityKnown||(Array.isArray(s.seen)&&s.seen.some(x=>typeof x==='string'&&x.endsWith(':body')));d.rodOfferedAt=Number.isFinite(s.rodOfferedAt)?s.rodOfferedAt:0;if(!['B','hatch','A'].includes(d.rodLocation))d.rodLocation='B';d.rev=Number.isFinite(s.rev)?s.rev:1;d.room=s.room;for(const k of ['aPieces','bPieces'])d[k]=Array.isArray(s[k])?s[k].filter(x=>Object.hasOwn(GLYPH,x)).slice(0,8):d[k];for(const k of ['aSlots','bSlots','aSolution','bSolution'])d[k]=[0,1].map(i=>Object.hasOwn(GLYPH,s[k]?.[i])?s[k][i]:null);if(d.aSolution.some(x=>!x))d.aSolution=['cross','diamond'];if(d.bSolution.some(x=>!x))d.bSolution=['heart','circle'];d.bColors=[0,1,2].map((_,i)=>[0,1,2].includes(s.bColors?.[i])?s.bColors[i]:i);d.items=Array.isArray(s.items)?[...new Set(s.items.filter(x=>Object.hasOwn(INFO,x)))]:[];d.seen=Array.isArray(s.seen)?s.seen.filter(x=>typeof x==='string').slice(0,200):[];d.log=Array.isArray(s.log)?s.log.filter(x=>typeof x?.text==='string').slice(-200).map(x=>({text:x.text.slice(0,3000),speaker:String(x.speaker||'OBSERVATION').slice(0,50),at:Number(x.at)||0})):[];d.wins=Array.isArray(s.wins)?s.wins.filter(x=>x?.winner==='A'||x?.winner==='B').slice(-100):[];if(typeof s.message?.text==='string')d.message={text:s.message.text.slice(0,3000),speaker:String(s.message.speaker||'OBSERVATION').slice(0,50)};for(const k of ['duelActivatedAt','duelResolvedAt','endedAt'])d[k]=Number.isFinite(s[k])?s[k]:0;
 for(const k of ['duelWinner','endingActor'])d[k]=['A','B'].includes(s[k])?s[k]:null;
 for(const k of ['exitOpen','lastOpen'])d[k]={A:!!s[k]?.A,B:!!s[k]?.B};
 // The older v1.4 save used reversed gate indices. v1.5 had correct open conditions,
 // but allowed A through the wrong side. In both cases, move A back to the round room
 // when importing an unfinished save from the previous vestibule location.
-if(s.gateSchema!==2&&s.gateSchema!==3){
+if(![2,3,4].includes(s.gateSchema)){
  for(const k of ['exitOpen','lastOpen'])d[k]={A:!!s[k]?.B,B:!!s[k]?.A};
 }
-if(d.room==='finalA'&&!d.ended&&(s.gateSchema!==3||!d.exitOpen.B))d.room='duel';
-d.lastDoorTextMode='requested';d.gateSchema=3;
+// One continuous confrontation room, including the short passages behind EXIT.
+// Older saves did not always open the diagonal last door on a victory.
+if(s.gateSchema!==4){
+ const previousWinners=[...d.wins.map(x=>x.winner),d.duelWinner];
+ for(const winner of previousWinners){
+  if(winner==='A'||winner==='B'){
+   d.exitOpen[winner==='A'?'B':'A']=true;
+   d.lastOpen[winner]=true;
+  }
+ }
+}
+if(d.room==='finalA')d.room='duel';
+d.lastDoorTextMode='requested';d.gateSchema=4;
 // v1.3 ended at the threshold. Importing it now resumes in the expanded game.
 d.scopeCompleted=false;
 return d;}
@@ -688,10 +730,9 @@ function act(s,type,p={}){
  case 'inspect':if(typeof p.id==='string'&&p.id.endsWith(':body'))s.identityKnown=true;if(!s.seen.includes(p.id))s.seen.push(p.id);if(p.text&&!s.log.some(x=>x.text===p.text))log(s,p.text);else if(p.text)s.message={text:p.text,speaker:'OBSERVATION'};break;
  case 'room': {
    if(s.ended)break;
-   const adjacency={start:['cooperate'],cooperate:['start','duel'],duel:['cooperate','finalA'],finalA:['duel']};
+   const adjacency={start:['cooperate'],cooperate:['start','duel'],duel:['cooperate']};
    if(!adjacency[s.room]?.includes(p.room))break;
    if(p.room==='duel'&&!s.cooperationOpen)break;
-   if(p.room==='finalA'&&!s.exitOpen.B)break;
    s.room=p.room;s.aHolding=false;s.scopeCompleted=false;
    const texts={start:'\u59cb\u307e\u308a\u306e\u90e8\u5c4b\u306b\u623b\u3063\u305f\u3002',cooperate:'\u6249\u3092\u304f\u3050\u308b\u3068\u3001\u767d\u3044\u90e8\u5c4b\u3060\u3063\u305f\u3002\n\u5965\u306b\u6249\u304c\u3042\u308a\u3001\u305d\u306e\u53f3\u306b\u30e2\u30cb\u30bf\u30fc\u304c\u3042\u308b\u3002',duel:'\u6249\u306e\u5148\u306f\u3001\u767d\u3044\u5186\u5f62\u306e\u90e8\u5c4b\u3060\u3063\u305f\u3002\n\u4e2d\u592e\u306b\u7aef\u672b\u3002\u5965\u306b\u306f\u300cEXIT\u300d\u3068\u66f8\u304b\u308c\u305f\u4e8c\u3064\u306e\u6249\u304c\u3042\u308b\u3002',finalA:'\u5de6\u306eEXIT\u3092\u304f\u3050\u3063\u305f\u3002\n\u77ed\u3044\u901a\u8def\u306e\u5148\u306b\u3001\u3082\u3046\u4e00\u679a\u306e\u6249\u304c\u3042\u308b\u3002'};
    log(s,texts[p.room]);break;
@@ -700,15 +741,15 @@ function act(s,type,p={}){
    if(s.room==='duel'&&!s.ended&&!s.duelActive){
      if(typeof p.password==='string'&&p.password.trim().toLowerCase()==='confrontation'){
        s.duelActive=true;s.duelActivatedAt=Date.now();
-       for(const win of s.wins)if(['A','B'].includes(win.winner))s.exitOpen[win.winner==='A'?'B':'A']=true;
+       for(const win of s.wins)if(['A','B'].includes(win.winner)){s.exitOpen[win.winner==='A'?'B':'A']=true;s.lastOpen[win.winner]=true;}
        log(s,'\u7aef\u672b\u304c\u9759\u304b\u306b\u8d77\u52d5\u3057\u305f\u3002\n\u4e2d\u592e\u306b\u5149\u306e\u6587\u5b57\u304c\u6d6e\u304b\u3073\u3001\u5bfe\u6c7a\u306e\u30eb\u30fc\u30eb\u304c\u8868\u793a\u3055\u308c\u305f\u3002','SOMETHING CHANGED');
      }else log(s,'\u8d77\u52d5\u30d1\u30b9\u30ef\u30fc\u30c9\u304c\u9055\u3046\u3002\n\u7aef\u672b\u306f\u3001\u9759\u304b\u306a\u307e\u307e\u3060\u3002');
    }break;
  case 'duelVerdict':
    if(s.duelActive&&!s.duelWinner&&!s.ended&&['A','B'].includes(p.winner)){
-     s.duelWinner=p.winner;s.duelResolvedAt=Date.now();s.exitOpen[p.winner==='A'?'B':'A']=true;
+     s.duelWinner=p.winner;s.duelResolvedAt=Date.now();s.exitOpen[p.winner==='A'?'B':'A']=true;s.lastOpen[p.winner]=true;
      s.wins.push({winner:p.winner,reason:'\u5bfe\u6c7a\u306e\u9593\u3067\u306e\u5bfe\u6c7a',at:Date.now()});
-     log(s,'\u53c2\u52a0\u8005'+p.winner+'\u306e\u52dd\u5229\u304c\u78ba\u5b9a\u3057\u305f\u3002\n'+(p.winner==='A'?'\u5de6':'\u53f3')+'\u306eEXIT\u304c\u3001\u3086\u3063\u304f\u308a\u3068\u958b\u3044\u3066\u3044\u304f\u3002','KP\u306e\u88c1\u5b9a');
+     log(s,'\u53c2\u52a0\u8005'+p.winner+'\u306e\u52dd\u5229\u304c\u78ba\u5b9a\u3057\u305f\u3002\n'+(p.winner==='A'?'\u5de6EXIT\u3068\u53f3\u306e\u6700\u5f8c\u306e\u6249':'\u53f3EXIT\u3068\u5de6\u306e\u6700\u5f8c\u306e\u6249')+'\u304c\u3001\u540c\u6642\u306b\u958b\u3044\u3066\u3044\u304f\u3002','KP\u306e\u88c1\u5b9a');
    }break;
  case 'doorVerdict':
    if(['exitOpen','lastOpen'].includes(p.group)&&['A','B'].includes(p.side)&&!s.ended){
@@ -719,10 +760,10 @@ function act(s,type,p={}){
    s.lastDoorTextMode='requested';break;
  case 'resetDuel':
    s.duelWinner=null;s.duelResolvedAt=0;s.exitOpen={A:false,B:false};s.lastOpen={A:false,B:false};s.ended=false;s.endedAt=0;s.endingActor=null;
-   s.wins=[];if(s.room==='finalA')s.room='duel';
+   s.wins=[];
    log(s,'\u5bfe\u6c7a\u306e\u52dd\u6557\u3068\u51fa\u53e3\u306e\u72b6\u614b\u3092\u30ea\u30bb\u30c3\u30c8\u3057\u305f\u3002','KP\u306e\u88c1\u5b9a');break;
  case 'finish':
-   if(!s.ended&&s.room==='finalA'&&s.exitOpen.B&&s.lastOpen.B){s.ended=true;s.endedAt=Date.now();s.endingActor='A';s.aHolding=false;log(s,'\u6249\u306e\u5411\u3053\u3046\u3078\u3001\u4e00\u6b69\u8e0f\u307f\u51fa\u3057\u305f\u3002');}break;
+   if(!s.ended&&s.room==='duel'&&s.exitOpen.B&&s.lastOpen.B){s.ended=true;s.endedAt=Date.now();s.endingActor='A';s.aHolding=false;log(s,'\u6249\u306e\u5411\u3053\u3046\u3078\u3001\u4e00\u6b69\u8e0f\u307f\u51fa\u3057\u305f\u3002');}break;
  case 'finishB':
    if(!s.ended&&s.exitOpen.A&&s.lastOpen.A){s.ended=true;s.endedAt=Date.now();s.endingActor='B';s.aHolding=false;log(s,'\u53c2\u52a0\u8005B\u304c\u3001\u6700\u5f8c\u306e\u6249\u306e\u5148\u3078\u9032\u3093\u3060\u3002','KP\u306e\u88c1\u5b9a');}break;
  case 'rug':if(s.room==='start'&&requireHands()){s.rugLifted=true;log(s,'じゅうたんをめくった。\n床に、大きなダイヤの模様が描かれている。');}break;
@@ -797,16 +838,17 @@ function allowedDuelInspection(id){
  if(['terminal','duelRule','duelTitle','outerA','outerB','outerSignA','outerSignB','duelBack'].includes(id)&&S.room!=='duel')return false;
  if(['duelRule','duelTitle'].includes(id)&&!S.duelActive)return false;
  if(id==='lastA'&&!(S.room==='duel'&&S.exitOpen.A))return false;
- if(id==='lastB'&&S.room!=='finalA'&&!(S.room==='duel'&&S.exitOpen.B))return false;
- if(id==='vestibuleBack'&&S.room!=='finalA')return false;
+ if(id==='lastB'&&!(S.room==='duel'&&S.exitOpen.B))return false;
+ if(id==='vestibuleBack')return false;
  return true;
 }
 function duelInspector(id){
  let title=NAMES[id],html='',kind='OBSERVATION';
  if(id==='titleCard')return {title,html:'<img class="source-title" src="duel-title.png" alt="\u5bfe\u6c7a CONFRONTATION">',kind:'TITLE'};
- if(!['duel','finalA'].includes(S.room))return null;
+ if(S.room!=='duel')return null;
  if(id==='places'){
-  const ids=S.room==='duel'?['terminal',...(S.duelActive?['duelTitle','duelRule']:[]),'outerB','outerA',...(S.exitOpen.B?['lastB']:[]),...(S.exitOpen.A?['lastA']:[]),'duelFloor','duelBack']:['lastB','vestibuleBack'];
+  const corridor=renderer?.camera.z< -4.62&&Math.abs(renderer.camera.x+2.3)<.95;
+  const ids=corridor?['lastB','outerB']:['terminal',...(S.duelActive?['duelTitle','duelRule']:[]),'outerB','outerA',...(S.exitOpen.B?['lastB']:[]),...(S.exitOpen.A?['lastA']:[]),'duelFloor','duelBack'];
   return {title:'\u3069\u3053\u3092\u8abf\u3079\u308b\uff1f',kind:'LOOK AROUND',html:ids.map(i=>`<button class="list-button" data-inspect="${i}">${NAMES[i]}</button>`).join('')};
  }
  if(id==='terminal'){
@@ -820,14 +862,17 @@ function duelInspector(id){
    html=panel((side==='B'?'\u5de6':'\u53f3')+'\u306eEXIT',outerText(side));
    if(!id.startsWith('outerSign')){
      html+='<div class="gate-status '+(open?'open':'')+'">'+(open?'OPEN':'LOCKED')+'</div>';
-     if(open&&side==='B')html+='<p>\u6249\u306e\u5148\u306b\u77ed\u3044\u901a\u8def\u304c\u898b\u3048\u308b\u3002</p>'+actions(actionButton('\u6249\u306e\u5148\u3078\u9032\u3080','room',{room:'finalA'},false,'emphasis'));
+     if(open&&side==='B'){
+       const inside=renderer?.camera.z< -4.62;
+       html+='<p>\u6249\u306e\u5148\u306b\u77ed\u3044\u901a\u8def\u304c\u898b\u3048\u308b\u3002</p>'+actions(actionButton(inside?'\u5186\u5f62\u306e\u90e8\u5c4b\u3078\u623b\u308b':'\u6249\u306e\u5148\u3078\u9032\u3080','walkGate',{direction:inside?'out':'in'},false,'emphasis'));
+     }
      else if(open)html+='<p>\u6249\u306f\u958b\u3044\u3066\u3044\u308b\u3002\u3057\u304b\u3057\u3001\u3053\u3061\u3089\u304b\u3089\u5148\u3078\u306f\u9032\u3081\u306a\u3044\u3002</p>'+actions('<button class="action" data-inspect="lastA">\u5965\u306e\u6249\u306e\u6587\u5b57\u3092\u8aad\u3080</button>');
      else html+='<p>\u6249\u306f\u9589\u307e\u3063\u3066\u3044\u308b\u3002</p>';
    }
  }else if(/^last[AB]$/.test(id)){
    const side=id.slice(-1);title='\u6700\u5f8c\u306e\u6249';
    html='<div class="final-plaque"><h3>\u6700\u5f8c\u306e\u6249</h3><p>'+esc(lastText(side)).replace('\u300c\u6700\u5f8c\u306e\u6249\u300d','<em>\u300c\u6700\u5f8c\u306e\u6249\u300d</em>')+'</p></div>';
-   if(S.lastOpen[side]){html+='<p>\u6249\u306e\u5411\u3053\u3046\u304b\u3089\u3001\u767d\u3044\u5149\u304c\u5dee\u3057\u8fbc\u3093\u3067\u3044\u308b\u3002</p>';if(side==='B'&&S.room==='finalA')html+=actions(actionButton('\u5148\u3078\u9032\u3080','finish',{},false,'emphasis'));}
+   if(S.lastOpen[side]){html+='<p>\u6249\u306e\u5411\u3053\u3046\u304b\u3089\u3001\u767d\u3044\u5149\u304c\u5dee\u3057\u8fbc\u3093\u3067\u3044\u308b\u3002</p>';if(side==='B'&&S.room==='duel'&&renderer?.camera.z< -4.9)html+=actions(actionButton('\u5148\u3078\u9032\u3080','finish',{},false,'emphasis'));}
    else html+='<p>\u6249\u306f\u9589\u307e\u3063\u3066\u3044\u308b\u3002</p>';
  }else if(id==='duelBack')html='<p>'+esc(duelDescription(id))+'</p>'+actions(actionButton('\u5354\u529b\u306e\u9593\u3078\u623b\u308b','room',{room:'cooperate'},false,'emphasis'));
  else if(id==='vestibuleBack')html='<p>'+esc(duelDescription(id))+'</p>'+actions(actionButton('\u5bfe\u6c7a\u306e\u9593\u3078\u623b\u308b','room',{room:'duel'},false,'emphasis'));
@@ -856,8 +901,8 @@ function duelKPCard(){
  const controls=['B','A'].map(side=>`<div class="duel-gate-control"><h3>${side==='B'?'\u5de6':'\u53f3'} / \u53c2\u52a0\u8005${side==='B'?'A':'B'}\u306e\u307f\u901a\u884c\u53ef\u80fd</h3><p class="tiny">1\u679a\u76ee: ${side==='B'?'A':'B'}\u52dd\u5229\u3067\u958b\u304f\u30fb${side==='B'?'A':'B'}\u306e\u307f\u901a\u884c / 2\u679a\u76ee: ${side}\u52dd\u5229\u3067\u958b\u304f</p><p>EXIT ${badge(S.exitOpen[side])}\u3000\u6700\u5f8c\u306e\u6249 ${badge(S.lastOpen[side])}</p>${actionButton('EXIT\u3092'+(S.exitOpen[side]?'\u9589\u3081\u308b':'\u958b\u304f'),'doorVerdict',{group:'exitOpen',side,open:!S.exitOpen[side]},S.ended)}${actionButton('\u6700\u5f8c\u306e\u6249\u3092'+(S.lastOpen[side]?'\u9589\u3081\u308b':'\u958b\u304f'),'doorVerdict',{group:'lastOpen',side,open:!S.lastOpen[side]},S.ended)}</div>`).join('');
  const win=S.duelWinner?'<span class="winner-badge">'+S.duelWinner+'</span>':'<span class="tiny">\u672a\u78ba\u5b9a</span>';
  return `<section class="kp-card kp-wide duel-kp-card"><div class="duel-kp-heading"><div><div class="eyebrow">CONFRONTATION / KEEPER CONTROL</div><h2>\u5bfe\u6c7a\u3068\u3001\u6700\u5f8c\u306e\u6249</h2></div><div class="phase-pill">${S.ended?'\u7d42\u4e86':S.duelActive?'\u30e2\u30b8\u30e5\u30fc\u30eb\u8d77\u52d5\u6e08\u307f':'\u30e2\u30b8\u30e5\u30fc\u30eb\u672a\u8d77\u52d5'}</div></div>
- <div class="duel-kp-grid"><div><h3>01\u3000\u5bfe\u6c7a\u306e\u52dd\u8005 ${win}</h3><p>\u4e21\u8005\u304c\u5408\u610f\u3057\u305f\u5bfe\u6c7a\u306e\u7d50\u679c\u3092\u78ba\u5b9a\u3057\u307e\u3059\u3002\u81ea\u52d5\u5224\u5b9a\u306f\u3057\u307e\u305b\u3093\u3002</p><div class="kp-row">${actionButton('A\u306e\u52dd\u5229 \u2192 \u5de6EXIT','duelVerdict',{winner:'A'},!S.duelActive||!!S.duelWinner||S.ended,'emphasis')}${actionButton('B\u306e\u52dd\u5229 \u2192 \u53f3EXIT','duelVerdict',{winner:'B'},!S.duelActive||!!S.duelWinner||S.ended,'emphasis')}</div><p class="tiny">\u3053\u306e\u90e8\u5c4b\u3067\u306e\u5bfe\u6c7a\u306f\u4e00\u5ea6\u3060\u3051\u3002\u78ba\u5b9a\u5f8c\u306f\u518d\u78ba\u5b9a\u3067\u304d\u307e\u305b\u3093\u3002\u6700\u521d\u306e\u52dd\u5229\u3067\u306fEXIT\u3060\u3051\u304c\u958b\u304d\u307e\u3059\u3002</p></div>
- <div><h3>02\u3000\u5354\u529b\u306e\u9593\u3067\u306e\u30e1\u30bf\u767a\u8a00</h3><p>A\u306e\u73fe\u5728\u5730\uff1a${ROOM_NAMES[S.room]}\u3002B\u306e\u5834\u6240\u306fKP\u304c\u78ba\u8a8d\u3057\u3066\u304f\u3060\u3055\u3044\u3002</p><div class="kp-row">${actionButton('A\u304c\u30e1\u30bf\u767a\u8a00 \u2192 B\u52dd\u5229','meta',{actor:'A',confirmed:true},S.room!=='cooperate'||S.duelWinner!=='A'||S.ended,'warning')}${actionButton('B\u304c\u30e1\u30bf\u767a\u8a00 \u2192 A\u52dd\u5229','meta',{actor:'B',confirmed:true},S.duelWinner!=='B'||S.ended,'warning')}</div><p class="tiny">\u300c\u5bfe\u6c7a\u306e\u9593\u306e\u52dd\u8005\u300d\u304c\u30e1\u30bf\u767a\u8a00\u3057\u305f\u3068KP\u304c\u88c1\u5b9a\u3059\u308b\u3068\u3001\u76f8\u624b\u306e\u52dd\u5229\u3068\u306a\u308a\u3001\u5143\u306e\u52dd\u8005\u304c\u901a\u308c\u308b\u30eb\u30fc\u30c8\u306e2\u679a\u76ee\u304c\u958b\u304d\u307e\u3059\u3002\u958b\u3044\u305f\u6249\u306f\u4fdd\u6301\u3055\u308c\u307e\u3059\u3002</p></div></div>
+ <div class="duel-kp-grid"><div><h3>01\u3000\u5bfe\u6c7a\u306e\u52dd\u8005 ${win}</h3><p>\u4e21\u8005\u304c\u5408\u610f\u3057\u305f\u5bfe\u6c7a\u306e\u7d50\u679c\u3092\u78ba\u5b9a\u3057\u307e\u3059\u3002\u81ea\u52d5\u5224\u5b9a\u306f\u3057\u307e\u305b\u3093\u3002</p><div class="kp-row">${actionButton('A\u306e\u52dd\u5229 \u2192 \u5de6EXIT + \u53f3\u306e\u6700\u5f8c\u306e\u6249','duelVerdict',{winner:'A'},!S.duelActive||!!S.duelWinner||S.ended,'emphasis')}${actionButton('B\u306e\u52dd\u5229 \u2192 \u53f3EXIT + \u5de6\u306e\u6700\u5f8c\u306e\u6249','duelVerdict',{winner:'B'},!S.duelActive||!!S.duelWinner||S.ended,'emphasis')}</div><p class="tiny">\u3053\u306e\u90e8\u5c4b\u3067\u306e\u5bfe\u6c7a\u306f\u4e00\u5ea6\u3060\u3051\u3002\u78ba\u5b9a\u5f8c\u306f\u518d\u78ba\u5b9a\u3067\u304d\u307e\u305b\u3093\u3002A\u52dd\u5229\u3067\u306f\u5de6EXIT\u3068\u53f3\u306e\u6700\u5f8c\u306e\u6249\u304c\u3001B\u52dd\u5229\u3067\u306f\u53f3EXIT\u3068\u5de6\u306e\u6700\u5f8c\u306e\u6249\u304c\u540c\u6642\u306b\u958b\u304d\u307e\u3059\u3002</p></div>
+ <div><h3>02\u3000\u5354\u529b\u306e\u9593\u3067\u306e\u30e1\u30bf\u767a\u8a00</h3><p>A\u306e\u73fe\u5728\u5730\uff1a${ROOM_NAMES[S.room]}\u3002B\u306e\u5834\u6240\u306fKP\u304c\u78ba\u8a8d\u3057\u3066\u304f\u3060\u3055\u3044\u3002</p><div class="kp-row">${actionButton('A\u304c\u30e1\u30bf\u767a\u8a00 \u2192 B\u52dd\u5229','meta',{actor:'A',confirmed:true},S.room!=='cooperate'||S.duelWinner!=='A'||S.ended,'warning')}${actionButton('B\u304c\u30e1\u30bf\u767a\u8a00 \u2192 A\u52dd\u5229','meta',{actor:'B',confirmed:true},S.duelWinner!=='B'||S.ended,'warning')}</div><p class="tiny">\u300c\u5bfe\u6c7a\u306e\u9593\u306e\u52dd\u8005\u300d\u304c\u30e1\u30bf\u767a\u8a00\u3057\u305f\u3068KP\u304c\u88c1\u5b9a\u3059\u308b\u3068\u3001\u76f8\u624b\u306e\u52dd\u5229\u304c\u6210\u7acb\u3057\u3001\u6b8b\u308a\u306e\u5bfe\u89d2\u306e2\u679a\u3082\u540c\u6642\u306b\u958b\u304d\u307e\u3059\u3002\u958b\u3044\u305f\u6249\u306f\u4fdd\u6301\u3055\u308c\u307e\u3059\u3002</p></div></div>
  <details class="duel-manual"><summary>\u6249\u3092\u500b\u5225\u306b\u64cd\u4f5c\u3059\u308b\uff0f\u5fa9\u65e7\u30fb\u8868\u793a\u8a2d\u5b9a</summary><div class="duel-kp-grid">${controls}</div><p class="tiny">\u5de6: 1\u679a\u76eeA\u52dd\u5229\u30fbA\u306e\u307f\u901a\u884c / 2\u679a\u76eeB\u52dd\u5229\u3002\u53f3: 1\u679a\u76eeB\u52dd\u5229\u30fbB\u306e\u307f\u901a\u884c / 2\u679a\u76eeA\u52dd\u5229\u3002</p><div class="kp-row">${actionButton('B\u304c\u6700\u5f8c\u306e\u6249\u306e\u5148\u3078\u9032\u3080','finishB',{},!S.exitOpen.A||!S.lastOpen.A||S.ended,'emphasis')}${actionButton('\u5bfe\u6c7a\u306e\u5224\u5b9a\u3060\u3051\u3084\u308a\u76f4\u3059','resetDuel',{},false,'warning')}</div></details></section>`;
 }
 async function activateFromForm(){
@@ -881,8 +926,7 @@ function art(content,cls=''){return `<div class="inspection-art ${cls}">${conten
 const actions=html=>`<div class="action-list">${html}</div>`;
 function describe(id){const additional=duelDescription(id);if(additional!==null)return additional;const d={body:'服を着ている。\n腕をよく見ると、「A」という刻印がある。\n'+(S.handsFree?'両手の拘束は外れている。':'両手は拘束されている。')+'\n'+(S.feetFree?'足の拘束も外れている。':'足にも拘束具がついている。'),startDoor:'目の前に扉がある。手足は拘束されているが、なんとか開くことはできそうだ。',cooperationRule:'協力の間\n'+RULE,exitRule:'全てのミッションを達成した時、対決の間への扉は開かれる。',circles:'壁には、色のついた3つの丸が描かれている。左から、赤、黄、青。',hatch:S.hatchOpen?'小さな扉は開いている。向こう側にも、空間がある。':'壁に拳ほどの大きさの小さな扉があり、4桁の番号錠がかかっている。',buttons:'3メートルほど離れた位置に、四角いボタンが1つずつある。腕を伸ばしても、同時には届きそうにない。',buttonRule:'3つのボタンが同時に押されるとき、足の拘束は解除される。',box:S.chestOpen?'箱は開いている。中にあったピースは、持ちものに入れた。':'部屋の中央に、鍵穴のある箱が置かれている。鍵は閉まっている。',tank:S.waterPoured?'水槽には、もう水が入っていない。':'部屋の隅に、水だけが入った小さな水槽がある。',monitor:'壁のモニターに、ミッションが表示されている。',slots:'奥の扉には、上下に2つのくぼみがある。',floor:S.room==='cooperate'?'床の対角線に、太くて黒い線が描かれている。':S.rugLifted?'じゅうたんの下には、大きなダイヤの模様が描かれている。':'足触りのよいじゅうたんが敷かれている。',rug:S.rugLifted?'じゅうたんはめくれている。その下に、大きなダイヤの模様がある。':'じゅうたんは、やわらかく、足触りがいい。',diamond:'床に、大きなダイヤの模様が描かれている。',cuffs:S.handsFree?'外れた手錠の内側に、「暗証番号は今日の日付」と刻まれている。':'両手は手錠で拘束されている。',ankles:S.feetFree?'外れた足枷には、「か　は　つ　な　」と書かれている。':'足は拘束されている。歩幅は狭いが、少しずつ移動はできそうだ。',exitDoor:S.cooperationOpen?'奥の扉は開いている。その先には、少し広い部屋が見える。':'奥の扉は閉まっていて、動かない。',returnDoor:'最初に目覚めた部屋へ戻る扉だ。'};return d[id]||'';}
 function inspect(id){if(!S.started||IS_KP||S.ended)return;
- if(id==='enterExitA'){if(S.room==='duel'&&S.exitOpen.B){closeDrawer();dispatch('room',{room:'finalA'});}return;}
- if(id==='advanceFinal'){if(S.room==='finalA'&&S.lastOpen.B){closeDrawer();dispatch('finish');}return;}
+ if(id==='advanceFinal'){if(S.room==='duel'&&S.exitOpen.B&&S.lastOpen.B&&renderer?.camera.z< -6.16){closeDrawer();dispatch('finish');}return;}
  if(!allowedDuelInspection(id))return;
 if(id==='floor'&&S.room==='start')id='rug';if(id==='exitDoor'&&S.chestOpen&&!S.cooperationOpen)id='slots';if(S.aHolding&&id!=='buttons')dispatch('aHold',{value:false});
  if(id==='offeredRod'){if(S.rodLocation!=='hatch'||S.room!=='cooperate')return;if(Date.now()-S.rodOfferedAt<ROD_EMERGE_MS){toast('棒は、まだゆっくりと差し出されている。');return;}if(!S.handsFree){toast('両手が拘束されていて、受け取れない。');return;}closeDrawer();dispatch('takeRod');return;}
@@ -1036,7 +1080,8 @@ document.addEventListener('click',e=>{
  if(type==='resetDuel'&&!confirm('\u5bfe\u6c7a\u306e\u52dd\u6557\u3068\u51fa\u53e3\u3092\u30ea\u30bb\u30c3\u30c8\u3057\u307e\u3059\u304b\uff1f\n\u5354\u529b\u306e\u9593\u306e\u9032\u884c\u306f\u4fdd\u6301\u3057\u307e\u3059\u3002'))return;
  if(type==='finishB'&&!confirm('B\u304c\u6700\u5f8c\u306e\u6249\u306e\u5148\u3078\u9032\u307f\u3001\u7d42\u4e86\u6f14\u51fa\u306b\u79fb\u308a\u307e\u3059\u304b\uff1f'))return;
 
- if(type==='room'){closeDrawer();$('fade').classList.add('active');setTimeout(()=>{dispatch(type,p);setTimeout(()=>$('fade').classList.remove('active'),90);},190);}else{dispatch(type,p);if(['scopeEnd','putTank','finish'].includes(type))closeDrawer();}return;}
+ if(type==='walkGate'){closeDrawer();renderer?.crossGate(p.direction);}
+ else if(type==='room'){closeDrawer();$('fade').classList.add('active');setTimeout(()=>{dispatch(type,p);setTimeout(()=>$('fade').classList.remove('active'),90);},190);}else{dispatch(type,p);if(['scopeEnd','putTank','finish'].includes(type))closeDrawer();}return;}
  if(b.dataset.inspect){inspect(b.dataset.inspect);return;}if(b.dataset.local){localAction(b.dataset.local);return;}if(b.dataset.pin){pressPin(b.dataset.pin);return;}if(b.dataset.view){renderer?.view(b.dataset.view);return;}if(b.dataset.item){const it=b.dataset.item;if(it==='cuffs'||it==='ankles'){U.selected=null;inspect(it);update();}else if(it.startsWith('piece:')){U.selected=null;openDrawer('item:'+it);update();}else{const next=U.selected===it?null:it;closeDrawer();U.selected=next;update();}return;}if(b.dataset.slotFocus!==undefined){U.activeSlot=Number(b.dataset.slotFocus);renderInspector();return;}
  if(b.dataset.kpSend){const text=$('kpMessageText').value;if(!text.trim())return;$('kpMessageText').value='';dispatch('kpMessage',{text,asB:b.dataset.kpSend==='B'});return;}
  if(b.hasAttribute('data-kp-config')){dispatch('config',{date:$('cfgDate').value,aSolution:[$('cfga0').value,$('cfga1').value],bSolution:[$('cfgb0').value,$('cfgb1').value]});toast('設定を保存しました。');}

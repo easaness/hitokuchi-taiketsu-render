@@ -30,7 +30,7 @@ async function main(){
  const probe=net.createServer();probe.listen(0,'127.0.0.1');await once(probe,'listening');port=probe.address().port;await new Promise(r=>probe.close(r));base='http://127.0.0.1:'+port;
  await launch();
  check('starts with no mandatory environment secrets',(await call('/api/config')).passwordRequired===false);
- check('health endpoint responds',(await call('/health')).version==='1.6.1');
+ check('health endpoint responds',(await call('/health')).version==='1.7');
  for(const route of ['/','/game']){const r=await fetch(base+route);check('page '+route+' responds',r.status===200&&(await r.text()).includes('<!doctype html>'));}
  for(const route of ['/server.cjs','/game-core.cjs','/package.json','/.env','/.room-data/file.json'])check('private file not served '+route,(await fetch(base+route)).status===404);
  await call('/api/rooms',{},403,{Origin:'https://untrusted.example'});check('cross-origin creation rejected',true);
@@ -81,6 +81,6 @@ async function main(){
  check('optional password exposed as flag only',(await call('/api/config')).passwordRequired);
  await call('/api/rooms',{},403);await call('/api/rooms',{password:'test-password-not-for-production'});check('optional creation password enforced',true);
  console.log('\n'+checks.length+' checks passed. No public deployment was performed.');
- if(process.env.TEST_REPORT)fs.writeFileSync(process.env.TEST_REPORT,JSON.stringify({version:'1.6.1',checks,count:checks.length,environment:process.version,publicDeployment:false},null,2));
+ if(process.env.TEST_REPORT)fs.writeFileSync(process.env.TEST_REPORT,JSON.stringify({version:'1.7',checks,count:checks.length,environment:process.version,publicDeployment:false},null,2));
 }
 main().catch(e=>{console.error(e.stack);console.error(logs);process.exitCode=1;}).finally(async()=>{await stop();fs.rmSync(save,{recursive:true,force:true});});
