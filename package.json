@@ -1,0 +1,13 @@
+{
+  "name": "hitokuchi-taiketsu",
+  "version": "1.3.0",
+  "private": true,
+  "description": "Hitokuchi Taiketsu - single-process Render Web Service",
+  "engines": { "node": "22.x" },
+  "scripts": {
+    "start": "node server.cjs",
+    "test": "node test.cjs",
+    "check": "node --check server.cjs && node --check game-core.cjs"
+  },
+  "license": "UNLICENSED"
+}
