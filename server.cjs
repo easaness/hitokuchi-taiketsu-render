@@ -1,6 +1,6 @@
 'use strict';
 /**
- * Hitokuchi Taiketsu 1.4 - one Node process, no third-party dependencies.
+ * Hitokuchi Taiketsu 1.8 - one Node process, no third-party dependencies.
  * HTTP polling + authenticated commands. The same origin serves both pages.
  * Start: npm start. Render supplies PORT automatically; no required secrets.
  * For private table creation, optionally set ROOM_CREATE_PASSWORD.
@@ -11,7 +11,7 @@ const fs = require('node:fs');
 const path = require('node:path');
 const crypto = require('node:crypto');
 const { initial, valid, act } = require('./game-core.cjs');
-const VERSION = '1.7';
+const VERSION = '1.8';
 const ROOT = __dirname;
 const SAVE = path.resolve(process.env.SAVE_DIR || path.join(ROOT, '.room-data'));
 const PORT = Number(process.env.PORT || 10000);

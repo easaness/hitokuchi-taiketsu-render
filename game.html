@@ -65,10 +65,12 @@ body[data-room="duel"] .participant,body[data-room="finalA"] .participant{backgr
 .duel-gate-control .action{font-size:11px}
 .door-chip{display:inline-block;font:9px ui-monospace,monospace;padding:4px 6px;background:#263d42;color:#9cacab;border:1px solid #56727755}
 .door-chip.is-open{background:#325d5c;color:#c3faf0}
-.white-ending{z-index:60;background:#fff;opacity:0;padding:20px;transition:opacity 1.35s ease-in-out;pointer-events:all}
-.white-ending.visible,.white-ending.settled{opacity:1}
-.ending-title{display:block;width:min(590px,78vw);max-height:70vh;object-fit:contain;opacity:0;transform:translateY(9px);transition:opacity 1.85s ease 1.45s,transform 2.05s ease 1.45s}
-.white-ending.visible .ending-title,.white-ending.settled .ending-title{opacity:1;transform:translateY(0)}
+/* Ending timeline: 0-.65s whiteout, then three full seconds of pure white;
+   only afterwards does the title begin to fade in (3.65-5.65s). */
+.white-ending{z-index:60;background:#fff;opacity:0;padding:20px;transition:opacity .65s ease-in;pointer-events:all}
+.white-ending.white-visible,.white-ending.settled{opacity:1}
+.ending-title{display:block;width:min(590px,78vw);max-height:70vh;object-fit:contain;opacity:0;transform:translateY(8px);transition:opacity 2s ease,transform 2s ease}
+.white-ending.title-visible .ending-title,.white-ending.settled .ending-title{opacity:1;transform:translateY(0)}
 .white-ending.settled,.white-ending.settled .ending-title{transition:none}
 .room-ended #target{display:none}
 @media(max-width:850px){.duel-kp-grid{grid-template-columns:1fr;gap:24px}.duel-kp-heading{display:block}.phase-pill{display:inline-block;margin-top:16px}.intro-title{width:285px}.intro .copy{font-size:12px}.final-plaque p{font-size:17px}}
@@ -495,18 +497,19 @@ P.gate=function(x,z,side,inner=false){
    const named=side;
    // Split the plaque across the actual moving leaves, so nothing floats after opening.
    for(const sign of [-1,1]){
-     const text=this.texture('lastplaque-'+named+'-'+sign,(c,w,h)=>{
+     const text=this.texture('lastplaque-v18-'+named+'-'+sign,(c,w,h)=>{
        const full=document.createElement('canvas');full.width=w*2;full.height=h;const g=full.getContext('2d');
        const grad=g.createLinearGradient(0,0,full.width,h);grad.addColorStop(0,'#d5dfe3');grad.addColorStop(.5,'#edf2f2');grad.addColorStop(1,'#b9c8cf');g.fillStyle=grad;g.fillRect(0,0,full.width,h);
-       g.textAlign='center';g.textBaseline='middle';g.fillStyle='#be2129';g.font='52px "Yu Mincho", "Noto Serif CJK JP", serif';
+       // The heading on the door itself is dark. There is no sign above this gate.
+       g.textAlign='center';g.textBaseline='middle';g.fillStyle='#152b34';g.font='52px "Yu Mincho", "Noto Serif CJK JP", serif';
        g.fillText(jp.last,full.width/2,66);g.fillRect(full.width*.30,103,full.width*.4,1);
        g.font='36px "Yu Mincho", "Noto Serif CJK JP", serif';
-       // Red only for the literal words "last door" on the printed plaque.
-       const segments=['\u3053\u308c\u304c\u6b63\u771f\u6b63\u9298','\u300c\u6700\u5f8c\u306e\u6249\u300d','\u3060\u3002'];
+       // Only the four characters inside the quotation marks are red. Both brackets stay dark.
+       const segments=['\u3053\u308c\u304c\u6b63\u771f\u6b63\u9298','\u300c','\u6700\u5f8c\u306e\u6249','\u300d','\u3060\u3002'];
        const segmentWidth=segments.reduce((n,q)=>n+g.measureText(q).width,0);
        let startX=(full.width-segmentWidth)/2;
        g.textAlign='left';
-       segments.forEach((q,i)=>{g.fillStyle=i===1?'#be2129':'#152b34';g.fillText(q,startX,170);startX+=g.measureText(q).width;});
+       segments.forEach((q,i)=>{g.fillStyle=i===2?'#be2129':'#152b34';g.fillText(q,startX,170);startX+=g.measureText(q).width;});
        g.textAlign='center';g.fillStyle='#152b34';
        g.fillText('\u3053\u306e\u6249\u306f\u53c2\u52a0\u8005'+named+'\u304c\u5bfe\u6c7a\u306b\u52dd\u5229\u3059\u308b',full.width/2,244,full.width*.94);
        g.fillText('\u3053\u3068\u3067\u958b\u304b\u308c\u308b\u3002',full.width/2,316);
@@ -514,8 +517,7 @@ P.gate=function(x,z,side,inner=false){
      },512,512);
      this.slidePart(group,sign,x+sign*.395,1.59,z+.143,.78,.92,.012,'#ffffff',{id,texture:text,emission:.25,plaque:true});
    }
-   const heading=this.textTexture('lastheading-black-v17',[jp.last],{font:135,w:1024,h:256,bg:'#d5e3e8',fg:'#141414'});
-   this.panel(x,2.92,z+.03,1.9,.45,heading,id);
+   // Intentionally no overhead "last door" sign: the information is printed on the leaves.
  }
 };
 P.buildDuel=function(s){
@@ -885,16 +887,29 @@ function paintDuelInspector(d){
  $('inspectTitle').textContent=d.title||'';$('inspectKind').textContent=d.kind||'OBSERVATION';$('inspectBody').innerHTML=d.html;
  if(id&&$(id)&&$('drawer').contains($(id))){$(id).focus({preventScroll:true});if(caret&&caret[0]!==null)try{$(id).setSelectionRange(...caret);}catch{}}
 }
-let previousRoom=null,endingShownAt=null;
+let previousRoom=null,endingShownAt=null,endingRevealTimer=null;
+const ENDING_WHITEOUT_MS=650,ENDING_WHITE_HOLD_MS=3000;
 function renderEnding(){
  const end=$('ending');
- if(!S.ended){end.hidden=true;end.className='end-card';end.innerHTML='';endingShownAt=null;return;}
+ if(!S.ended){
+   clearTimeout(endingRevealTimer);endingRevealTimer=null;
+   end.hidden=true;end.className='end-card';end.innerHTML='';endingShownAt=null;return;
+ }
  if(endingShownAt===S.endedAt)return;
+ clearTimeout(endingRevealTimer);endingRevealTimer=null;
  endingShownAt=S.endedAt;U.drawer=null;$('drawer').hidden=true;$('shade').hidden=true;
  end.innerHTML='<img src="duel-title.png" class="ending-title" alt="\u5bfe\u6c7a CONFRONTATION">';end.className='end-card white-ending';end.hidden=false;
- const animate=Date.now()-S.endedAt<10000;
- if(!animate)end.classList.add('settled');
- requestAnimationFrame(()=>requestAnimationFrame(()=>end.classList.add('visible')));
+ const at=S.endedAt;
+ // Long-finished saved sessions show their settled title instead of replaying the ending.
+ if(Date.now()-at>=10000){end.classList.add('settled');return;}
+ // Force the initial transparent paint so the transition cannot be skipped.
+ void end.offsetWidth;
+ requestAnimationFrame(()=>{if(S.ended&&S.endedAt===at)end.classList.add('white-visible');});
+ // 650ms whitening + 3000ms of uninterrupted blank white + 2000ms title fade.
+ endingRevealTimer=setTimeout(()=>{
+   if(S.ended&&S.endedAt===at)end.classList.add('title-visible');
+   endingRevealTimer=null;
+ },ENDING_WHITEOUT_MS+ENDING_WHITE_HOLD_MS);
 }
 function duelKPCard(){
  const badge=(open)=>'<span class="door-chip '+(open?'is-open':'')+'">'+(open?'OPEN':'LOCKED')+'</span>';
@@ -986,7 +1001,7 @@ function renderKP(){
 
  <section class="kp-card"><h2>シナリオ設定</h2><label class="field"><span>セッションの日付（番号錠は月日4桁）</span><input id="cfgDate" data-draft type="date" value="${esc(S.sessionDate)}"></label><p class="tiny">日付は開始時の日本時間で固定されます。午前0時を過ぎても暗証番号は変わりません。ここで変更できます。</p><p class="tiny">ピースの正解は本文からの仮設定です。A＝上バツ・下ダイヤ、B＝上ハート・下丸。原作の意図に合わせて変更してください。</p>${['a','b'].map(a=>`<div class="kp-row">${[0,1].map(i=>`<label class="field"><span>${a.toUpperCase()}の正解 / ${i?'下':'上'}</span><select id="cfg${a}${i}" data-draft>${kpOptions(['heart','diamond','cross','star','spade','circle'],S[a+'Solution'][i],false)}</select></label>`).join('')}</div>`).join('')}<button class="action" data-kp-config>設定を保存する</button></section>
  <section class="kp-card"><h2>進行の補助・復旧</h2><p class="tiny">原作の自由な行動をKPが認めた場合や、動作確認に使います。通常の謎解きでは操作不要です。</p>${actions(['handsFree','feetFree','hatchOpen','cooperationOpen'].map((k,i)=>actionButton(['手の拘束を解除','足の拘束を解除','小さな扉を開く','協力の間の扉を開く'][i],'override',{key:k,value:true},S[k])).join('')+actionButton('最終ミッションだけ、やり直せる状態に戻す','retryGate',{},false,'warning'))}<hr class="divider"><div class="kp-row"><button class="secondary" data-local="export">セーブを書き出す</button><button class="secondary" data-local="import">セーブを読み込む</button></div><div style="margin-top:12px"><button class="action warning" data-local="reset">すべてを初期状態へ戻す</button></div></section>
- <section class="kp-card kp-wide"><h2>Aの探索ログ</h2><div class="kp-log">${S.log.slice(-25).reverse().map(x=>`<div class="log-item"><small>${esc(x.speaker)}</small>${esc(x.text)}</div>`).join('')||'<p>探索開始前です。</p>'}</div></section></div><p class="tiny" style="margin-top:25px">一口異世界「対決」 / 探索室 v1.4 — 始まりの部屋・協力の間。対決の間・最後の扉まで対応。共有する場合は、Aのウィンドウだけを共有してください。</p></main>`;
+ <section class="kp-card kp-wide"><h2>Aの探索ログ</h2><div class="kp-log">${S.log.slice(-25).reverse().map(x=>`<div class="log-item"><small>${esc(x.speaker)}</small>${esc(x.text)}</div>`).join('')||'<p>探索開始前です。</p>'}</div></section></div><p class="tiny" style="margin-top:25px">一口異世界「対決」 / 探索室 v1.8 — 始まりの部屋・協力の間。対決の間・最後の扉まで対応。共有する場合は、Aのウィンドウだけを共有してください。</p></main>`;
  document.querySelectorAll('.duel-manual').forEach((x,i)=>x.open=!!openDetails[i]);Object.entries(drafts).forEach(([id,v])=>{if($(id))$(id).value=v;});if(focusId&&$(focusId)){const el=$(focusId);el.focus({preventScroll:true});try{if(caret&&caret[0]!==null)el.setSelectionRange(...caret);}catch(e){}}
 }
 async function setupNetwork(){
@@ -1061,7 +1076,20 @@ function setupRemoteRoom(){
       const source=$('world');if(!source.width||!source.height)return;
       capture.width=640;capture.height=Math.round(source.height/source.width*640);
       const c=capture.getContext('2d');c.drawImage(source,0,0,capture.width,capture.height);
-      if(S.ended){c.fillStyle='#fff';c.fillRect(0,0,capture.width,capture.height);const im=$('ending').querySelector('img');if(im?.complete&&im.naturalWidth){const w=Math.min(capture.width*.68,450),h=w*im.naturalHeight/im.naturalWidth;c.drawImage(im,(capture.width-w)/2,(capture.height-h)/2,w,h);}}
+      if(S.ended){
+        const overlay=$('ending');
+        const overlayOpacity=Math.min(1,Math.max(0,parseFloat(getComputedStyle(overlay).opacity)||0));
+        if(overlayOpacity>0){
+          c.fillStyle='rgba(255,255,255,'+overlayOpacity+')';c.fillRect(0,0,capture.width,capture.height);
+          const im=overlay.querySelector('img');
+          const titleOpacity=im?Math.min(1,Math.max(0,parseFloat(getComputedStyle(im).opacity)||0)):0;
+          if(im?.complete&&im.naturalWidth&&titleOpacity>0){
+            const w=Math.min(capture.width*.68,450),h=w*im.naturalHeight/im.naturalWidth;
+            c.save();c.globalAlpha=overlayOpacity*titleOpacity;
+            c.drawImage(im,(capture.width-w)/2,(capture.height-h)/2,w,h);c.restore();
+          }
+        }
+      }
       const image=capture.toDataURL('image/jpeg',.48);
       const title=S.ended?'CONFRONTATION':U.drawer?$('inspectTitle').textContent:ROOM_NAMES[S.room];
       const text=U.drawer?$('inspectBody').innerText:$('narration').textContent;

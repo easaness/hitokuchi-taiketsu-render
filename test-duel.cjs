@@ -81,11 +81,14 @@ async function main(){
  const returnLabel=html.match(/const back=this\.textTexture\('cooperation-return',\[[^\n]+?,\{font:(\d+),[^\n]*?w:(\d+),h:(\d+)\}\);this\.panel\(0,2\.77,5\.42,([\d.]+),([\d.]+),back,'duelBack',Math\.PI\);/);
  check('duel return sign has normal character aspect ratio',!!returnLabel&&Math.abs((+returnLabel[2]/+returnLabel[3])/(+returnLabel[4]/+returnLabel[5])-1)<.08);
  check('all three doors physically belong to a single duel scene',!html.includes('P.buildVestibule=function')&&html.includes('P.crossGate=function')&&html.includes('inLeftLane')&&html.includes('P.setArrival=function'));
- const heading=html.match(/const heading=this\.textTexture\('lastheading-black-v17',\[jp\.last\],\{font:(\d+),w:(\d+),h:(\d+),bg:'[^']+',fg:'([^']+)'\}\);\s*this\.panel\(x,2\.92,z\+\.03,([\d.]+),([\d.]+),heading,id\);/);
- check('last door ABOVE-panel text stays dark and at natural aspect ratio',!!heading&&heading[4]==='#141414'&&Math.abs((+heading[2]/+heading[3])/(+heading[5]/+heading[6])-1)<.1);
- check('plaque last door text is highlighted red',html.includes("g.fillStyle=i===1?'#be2129':'#152b34'")&&html.includes("g.fillStyle='#be2129';g.font='52px"));
+ check('no second-door title sign above the doors',!html.includes('lastheading-black-v17')&&!html.includes('this.panel(x,2.92,z+.03,1.9,.45,heading,id)'));
+ check('door plaque header uses dark text',html.includes("g.textBaseline='middle';g.fillStyle='#152b34';g.font='52px"));
+ check('door body uses red only inside the quotation brackets',html.includes(String.raw`'\u300c','\u6700\u5f8c\u306e\u6249','\u300d'`)&&html.includes("g.fillStyle=i===2?'#be2129':'#152b34'"));
+ check('ending whiteout lasts three seconds before title starts',html.includes('ENDING_WHITE_HOLD_MS=3000')&&html.includes('ENDING_WHITEOUT_MS=650')&&html.includes('ENDING_WHITEOUT_MS+ENDING_WHITE_HOLD_MS'));
+ check('ending title fades in after the white-screen hold',html.includes('transition:opacity 2s ease,transform 2s ease')&&html.includes('.white-ending.title-visible .ending-title'));
+ check('ending preview respects white and title opacity',html.includes('overlayOpacity*titleOpacity'));
  check('KP verdict copy explains diagonal double-opening',html.includes(String.raw`\u53f3EXIT + \u5de6\u306e\u6700\u5f8c\u306e\u6249`)&&html.includes(String.raw`\u5de6EXIT + \u53f3\u306e\u6700\u5f8c\u306e\u6249`));
- check('ending title gradually fades after whiteout',html.includes('transition:opacity 1.85s ease 1.45s'));
+ check('ending title waits for full whiteout',html.includes("setTimeout(()=>{")&&html.includes("end.classList.add('title-visible')"));
  // Run the actual shipped transport in two isolated JS contexts, against HTTP server.
  const inv2=await call('/api/rooms',{});
  function transport(url){
@@ -101,6 +104,6 @@ async function main(){
  await A.t.preview({image:'data:image/jpeg;base64,AAAA',title:'Confrontation',text:'rule inspection'});await waitFor(()=>K.seen.preview?.title==='Confrontation','preview sync');check('game preview still reaches remote keeper',true);
  clearTimeout(A.t.pollTimer);A.t.ready=false;await A.t.connect();check('real transport reconnect retains progress',A.t.ready&&A.seen.state.duelWinner==='A');
  console.log('\n'+checks.length+' additional checks passed. No public deployment was performed.');
- if(process.env.DUEL_TEST_REPORT)fs.writeFileSync(process.env.DUEL_TEST_REPORT,JSON.stringify({version:'1.7',count:checks.length,checks,publicDeployment:false},null,2));
+ if(process.env.DUEL_TEST_REPORT)fs.writeFileSync(process.env.DUEL_TEST_REPORT,JSON.stringify({version:'1.8',count:checks.length,checks,publicDeployment:false},null,2));
 }
 main().catch(e=>{console.error(e.stack);console.error(logs);process.exitCode=1;}).finally(async()=>{for(const t of clients){t.stopped=true;clearTimeout(t.pollTimer);clearTimeout(t.timer);}if(child&&child.exitCode===null){const done=once(child,'exit');child.kill('SIGTERM');await done;}fs.rmSync(save,{recursive:true,force:true});});
