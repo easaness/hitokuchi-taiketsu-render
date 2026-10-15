@@ -1,6 +1,6 @@
 'use strict';
 /**
- * Hitokuchi Taiketsu 1.3 - one Node process, no third-party dependencies.
+ * Hitokuchi Taiketsu 1.4 - one Node process, no third-party dependencies.
  * HTTP polling + authenticated commands. The same origin serves both pages.
  * Start: npm start. Render supplies PORT automatically; no required secrets.
  * For private table creation, optionally set ROOM_CREATE_PASSWORD.
@@ -11,7 +11,7 @@ const fs = require('node:fs');
 const path = require('node:path');
 const crypto = require('node:crypto');
 const { initial, valid, act } = require('./game-core.cjs');
-const VERSION = '1.3.0';
+const VERSION = '1.4.0';
 const ROOT = __dirname;
 const SAVE = path.resolve(process.env.SAVE_DIR || path.join(ROOT, '.room-data'));
 const PORT = Number(process.env.PORT || 10000);
@@ -20,8 +20,8 @@ const PASSWORD = process.env.ROOM_CREATE_PASSWORD || '';
 const TTL = 7 * 86400_000;
 const PRESENCE_MS = 15_000;
 const MAX_BODY = 850_000;
-const ALLOW_PLAY = new Set('start inspect room rug unlock aHold takeTank putTank pour openBox sendPiece aSlot aSubmit takeRod scopeEnd resume'.split(' '));
-const ALLOW_KP = new Set('bColor giveRod bHold takeKey giveKey bSlot bSubmit returnPiece kpMessage meta config retryGate override reset import'.split(' '));
+const ALLOW_PLAY = new Set('start inspect room rug unlock aHold takeTank putTank pour openBox sendPiece aSlot aSubmit takeRod scopeEnd resume activateDuel finish'.split(' '));
+const ALLOW_KP = new Set('bColor giveRod bHold takeKey giveKey bSlot bSubmit returnPiece kpMessage meta config retryGate override reset import duelVerdict doorVerdict duelConfig resetDuel finishB'.split(' '));
 const ROOM_ID = /^[a-f0-9]{24}$/;
 const TOKEN = /^[A-Za-z0-9_-]{43}$/;
 const CLIENT_ID = /^[A-Za-z0-9_-]{8,100}$/;
@@ -40,6 +40,8 @@ const headers = {
   'Content-Security-Policy': "default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob:; media-src 'self' blob:; connect-src 'self'; object-src 'none'; base-uri 'none'; frame-ancestors 'none'"
 };
 const pages = new Map();
+const assets = new Map();
+const ASSET_NAMES=['duel-title.png','activation-module.png','duel-rules.png','last-door-b.png'];
 function fail(code,status=400) { return Object.assign(new Error(code),{status,publicCode:code}); }
 function reply(res,status,data) {
   if (res.destroyed || res.writableEnded) return;
@@ -198,6 +200,7 @@ function preview(q) {
   return {ok:true};
 }
 function load() {
+  for(const name of ASSET_NAMES) assets.set('/'+name,fs.readFileSync(path.join(ROOT,name)));
   for(const name of ['index.html','game.html']) {
     if(!fs.existsSync(path.join(ROOT,name))) throw new Error('Missing '+name+'. Upload every file from the ZIP at the repository root.');
     pages.set(name,fs.readFileSync(path.join(ROOT,name)));
@@ -222,6 +225,7 @@ const server=http.createServer(async(req,res)=>{
       if(url.pathname==='/api/config') return reply(res,200,{version:VERSION,passwordRequired:!!PASSWORD,transport:'http-poll',pollMs:1000});
       if(url.pathname==='/robots.txt') {res.writeHead(200,{...headers,'Content-Type':'text/plain'});return res.end('User-agent: *\nDisallow: /\n');}
       if(url.pathname==='/favicon.ico') {res.writeHead(204,headers);return res.end();}
+      if(assets.has(url.pathname)){const data=assets.get(url.pathname);res.writeHead(200,{...headers,'Content-Type':'image/png','Content-Length':data.length});return res.end(req.method==='HEAD'?undefined:data);}
       const file=url.pathname==='/'||url.pathname==='/index.html'?'index.html':url.pathname==='/game'||url.pathname==='/game.html'?'game.html':null;
       if(!file) return reply(res,404,{error:'not_found'});
       const data=pages.get(file);res.writeHead(200,{...headers,'Content-Type':'text/html; charset=utf-8','Content-Length':data.length});return res.end(req.method==='HEAD'?undefined:data);

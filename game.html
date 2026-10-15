@@ -21,6 +21,60 @@
 @keyframes rod-arrives{from{transform:scaleX(.015)}to{transform:scaleX(1)}}
 @media(max-width:520px){.inventory-meta{gap:8px}.item-inspect{font-size:9px}.body-status{font-size:10px}.participant{padding:8px 11px}}
 .remote-signal{position:fixed;right:34px;top:79px;z-index:6;padding:6px 12px;border:1px solid #bac9b7;background:#f2f6edee;color:#496447;border-radius:20px;font-size:10px;letter-spacing:.03em}.remote-signal[data-status="reconnecting"],.remote-signal[data-status="invalid"]{background:#fff1da;color:#98692c}.online-guard{position:fixed;inset:0;z-index:40;background:#edf0e7f5;display:flex;align-items:center;justify-content:center;color:#38513c;font-size:14px}.remote-kp{max-width:1124px;margin:35px auto 0;display:grid;grid-template-columns:1fr 1fr;gap:25px;padding:26px;background:#1b2820;border:1px solid #405039;border-radius:5px}.remote-kp h2{font-family:var(--serif);font-weight:400;font-size:23px}.remote-kp p{font-size:12px;line-height:1.9;color:#bacbb0}.remote-kp input{display:block;width:100%;padding:10px;background:#111d13;border:1px solid #516946;color:#c8d8b8;margin:14px 0;font-size:11px}.remote-kp .secondary{color:#c7d8ba;border-color:#6c805d}.live-preview{min-width:0;border:1px solid #41543a;background:#101b13;border-radius:4px;overflow:hidden}.preview-caption{padding:10px 14px;font-size:11px;color:#c4d2b3;display:flex;justify-content:space-between}#liveView{width:100%;display:block;min-height:120px;background:#26352a}#liveView:not([src]){visibility:hidden}#liveTitle{font-size:12px;padding:12px 14px 4px;color:#dfdfc8}#liveText{white-space:pre-wrap;font-family:inherit;font-size:11px;line-height:1.8;margin:0;padding:0 14px 15px;max-height:135px;overflow:auto;color:#b2c2a4}.kp-body .remote-signal{position:fixed;top:10px;right:15px;z-index:5}@media(max-width:850px){.remote-kp{margin:30px 15px 0;grid-template-columns:1fr;padding:18px}.remote-signal{right:20px;top:68px;font-size:9px}}
+/* Circular chamber and terminal palette. */
+body:not(.kp-body)[data-room="duel"],body:not(.kp-body)[data-room="finalA"]{background:#e9f3f8}
+body[data-room="duel"] .topbar,body[data-room="finalA"] .topbar{background:linear-gradient(#eff7f9f5,#e9f4f56a 58%,transparent)}
+body[data-room="duel"] .narration,body[data-room="finalA"] .narration{background:#152c38ed;border-left-color:#80d7e5}
+body[data-room="duel"] .inventory-wrap,body[data-room="finalA"] .inventory-wrap{background:#152c38ed}
+body[data-room="duel"] .dir,body[data-room="finalA"] .dir{background:#203e4be6;border-color:#cdeaf497}
+body[data-room="duel"] .participant,body[data-room="finalA"] .participant{background:#f4fafccf;border-color:#fff}
+.intro-title{display:block;width:min(360px,84vw);height:auto;margin:10px 0 8px;mix-blend-mode:multiply}
+.intro .intro-card{padding-top:22px;padding-bottom:28px}
+.intro .subtitle{margin-bottom:16px}
+.intro .objective{margin:17px 0 25px}
+.source-panel{display:block;width:100%;height:auto;border-radius:4px;margin:0 0 24px}
+.source-title{display:block;width:100%;height:auto}
+.terminal-label{display:block;font-size:10px;letter-spacing:.18em;margin:15px 0 10px;color:#547787}
+.duel-password{display:block;width:100%;padding:17px 14px;background:#122d38;border:1px solid #629aaa;color:#a5f2fa;border-radius:3px;font:20px ui-monospace,monospace;letter-spacing:.12em}
+.password-meta{display:flex;justify-content:space-between;font:9px ui-monospace,monospace;color:#6c8c95;margin:9px 0 24px;letter-spacing:.1em}
+.terminal-online{background:#112b33;border:1px solid #658e90;padding:24px;text-align:center;color:#95eadd;font:14px ui-monospace,monospace;letter-spacing:.18em;margin-bottom:24px}
+.online-dot{display:inline-block;background:#a8eee0;border-radius:50%;width:6px;height:6px;margin-right:12px;box-shadow:0 0 15px #7bffe8}
+.holo-art{padding:10px;background:radial-gradient(#295866,#0e293a);margin-bottom:20px;border:1px solid #aed8e4}
+.holo-art img{filter:invert(1);mix-blend-mode:screen;opacity:.8}
+.gate-status{font:10px ui-monospace,monospace;letter-spacing:.22em;color:#9e795b;border:1px solid #cbbfae;padding:12px 14px;margin:18px 0}
+.gate-status.open{color:#387967;border-color:#81b7a6}
+.final-plaque{padding:22px 18px;background:linear-gradient(125deg,#c7d5dc,#e9eef0,#c1cfd6);box-shadow:inset 0 0 15px #677e8730;border:1px solid #a8bbc5;margin-bottom:25px;text-align:center;color:#1c333e;font-family:"Yu Mincho","Hiragino Mincho ProN",serif}
+.final-plaque h3{display:inline-block;font-weight:400;font-size:26px;letter-spacing:.1em;margin:0 0 22px;border-bottom:1px solid #536c7a;padding-bottom:6px}
+.final-plaque p{font-size:18px;line-height:2;margin:0}
+.final-plaque em{font-style:normal;color:#b03230}
+.duel-kp-card{border-color:#487786;background:linear-gradient(130deg,#1d353f,#1b2b32)}
+.duel-kp-heading{display:flex;justify-content:space-between;align-items:center;gap:20px;border-bottom:1px solid #55738460;padding-bottom:20px;margin-bottom:20px}
+.duel-kp-heading .eyebrow{color:#8aaebb;font-size:9px;letter-spacing:.17em;margin-bottom:12px}
+.duel-kp-heading h2{font-size:23px;font-family:"Yu Mincho",serif;margin:0}
+.phase-pill{border:1px solid #6f949a;border-radius:18px;padding:9px 15px;font-size:10px;color:#b2d9dc;white-space:nowrap}
+.duel-kp-grid{display:grid;grid-template-columns:1fr 1fr;gap:26px}
+.duel-kp-grid h3{font-size:14px;font-weight:500;color:#d6e4e8;margin:0 0 15px;line-height:1.7}
+.winner-badge{display:inline-block;background:#aacfd4;color:#203d49;border-radius:50%;text-align:center;line-height:25px;width:25px;margin-left:12px;font-family:serif;font-size:18px}
+.duel-kp-card .action{background:#243f4a;border-color:#506d79;color:#d3e3e7;margin-top:8px}
+.duel-kp-card .action.emphasis{background:#acd5d8;color:#1c3945;border-color:#acd5d8}
+.duel-kp-card .action.warning{color:#dec599;border-color:#887b60}
+.duel-manual{margin-top:25px;border-top:1px solid #58758755;padding-top:20px}
+.duel-manual summary{cursor:pointer;font-size:12px;color:#adcbd4;line-height:1.8}
+.duel-manual[open] summary{margin-bottom:20px}
+.duel-gate-control{padding:18px;border:1px solid #5e7b8455;background:#0d26315a;border-radius:3px}
+.duel-gate-control .action{font-size:11px}
+.door-chip{display:inline-block;font:9px ui-monospace,monospace;padding:4px 6px;background:#263d42;color:#9cacab;border:1px solid #56727755}
+.door-chip.is-open{background:#325d5c;color:#c3faf0}
+.white-ending{z-index:60;background:#fff;opacity:0;padding:20px;transition:opacity 1.65s ease-in-out;pointer-events:all}
+.white-ending.visible,.white-ending.settled{opacity:1}
+.ending-title{display:block;width:min(590px,78vw);max-height:70vh;object-fit:contain;opacity:0;transform:translateY(8px);transition:opacity 1.6s ease 1.65s,transform 2.1s ease 1.65s}
+.white-ending.visible .ending-title,.white-ending.settled .ending-title{opacity:1;transform:translateY(0)}
+.white-ending.settled,.white-ending.settled .ending-title{transition:none}
+.room-ended #target{display:none}
+@media(max-width:850px){.duel-kp-grid{grid-template-columns:1fr;gap:24px}.duel-kp-heading{display:block}.phase-pill{display:inline-block;margin-top:16px}.intro-title{width:285px}.intro .copy{font-size:12px}.final-plaque p{font-size:17px}}
+@media(max-height:690px){.intro-card{max-width:850px}.intro-title{width:230px}.intro .subtitle{font-size:15px}.intro .copy{font-size:12px;line-height:1.85}.intro .objective{margin:15px 0}}
+@media(prefers-reduced-motion:reduce){.white-ending,.ending-title{transition-duration:.01s;transition-delay:0s}}
+
 </style></head><body>
 <div id="playerApp">
 <canvas id="world" aria-label="白い部屋。ドラッグで見回し、物をクリックして調べます。" tabindex="0"></canvas><div class="grain"></div>
@@ -28,7 +82,7 @@
 <div class="participant"><div class="badge" id="participantBadge" hidden>A</div><div><small id="identityLabel">身体の状態</small><button class="body-status" id="bodyStatus">体を調べる</button><div class="restraints"><button class="status" id="handStatus">手 / 拘束</button><button class="status" id="footStatus">足 / 拘束</button></div></div></div>
 <div id="target"><span class="reticle"></span><span class="target-name" id="targetName"></span></div>
 <div class="bottom"><div class="narration" aria-live="polite"><div class="eyebrow" id="narrator">OBSERVATION</div><p id="narration">白い部屋で目が覚めた。目の前に、扉がある。</p></div><div class="bottom-row"><div class="inventory-wrap"><div class="inventory-title"><span>持ちもの / INVENTORY</span><div class="inventory-meta"><button id="itemInspectBtn" class="item-inspect" hidden>選択中の道具を調べる</button><span id="invCount">0 ITEMS</span></div></div><div id="inventory" class="inventory"></div></div><div class="view-tools"><div id="selectedItem" class="selected-item"></div><div class="direction-row"><button class="dir" data-view="left">左の壁</button><button class="dir" data-view="front">正面</button><button class="dir" data-view="right">右の壁</button><button class="dir" data-view="floor">床</button><button class="dir" data-view="back">後ろ</button></div><div class="help-line">ドラッグで見回す　/　W A S D で移動　/　物をクリック</div></div></div></div>
-<div class="intro" id="intro"><div class="intro-card"><div class="eyebrow">一口異世界 / EXPLORATION</div><h1>対決</h1><p class="subtitle">あなたは、白い部屋で目覚める。</p><p class="copy">これから陥る状況についての説明は、以上です。<br>知りたいことは調べ、できることを試してください。<br>それでは、良い異世界を。</p><div class="objective">あなたの目標 ── 最後の扉を開くこと。</div><button class="primary" id="startBtn">目を開ける　→</button><button class="quiet" id="introHelp" style="margin-left:17px;font-size:12px;color:#708167">操作方法</button></div></div>
+<div class="intro" id="intro"><div class="intro-card"><div class="eyebrow">一口異世界 / EXPLORATION</div><img class="intro-title" src="duel-title.png" alt="対決 CONFRONTATION"><p class="subtitle">あなたは、白い部屋で目覚める。</p><p class="copy">これから陥る状況についての説明は、以上です。<br>知りたいことは調べ、できることを試してください。<br>それでは、良い異世界を。</p><div class="objective">あなたの目標 ── 最後の扉を開くこと。</div><button class="primary" id="startBtn">目を開ける　→</button><button class="quiet" id="introHelp" style="margin-left:17px;font-size:12px;color:#708167">操作方法</button></div></div>
 <div id="fade"></div>
 </div>
 <div id="shade" class="modal-shade" hidden></div><section id="drawer" class="drawer" hidden role="dialog" aria-modal="true" aria-labelledby="inspectTitle"><div class="drawer-header"><div><div class="eyebrow" id="inspectKind">OBSERVATION</div><h2 id="inspectTitle"></h2></div><button class="close-btn" id="closeDrawer" aria-label="調べる画面を閉じる">×</button></div><div class="drawer-body" id="inspectBody"></div></section>
@@ -301,8 +355,8 @@ class RoomRenderer {
   basis(){const c=this.camera,cy=Math.cos(c.yaw),sy=Math.sin(c.yaw),cp=Math.cos(c.pitch),sp=Math.sin(c.pitch);return {r:[cy,0,sy],u:[-sy*sp,cp,cy*sp],f:[sy*cp,sp,-cy*cp]};}
   ray(x,y){const b=this.basis(),ty=Math.tan(62*Math.PI/360),nx=(x/innerWidth*2-1)*ty*this.aspect,ny=(1-y/innerHeight*2)*ty;let d=[0,1,2].map(i=>b.f[i]+b.r[i]*nx+b.u[i]*ny),n=Math.hypot(...d);return d.map(v=>v/n);}
   intersect(o,origin,direction){let p=[origin[0]-o.x,origin[1]-o.y,origin[2]-o.z],d=[...direction];if(o.ry){const c=Math.cos(o.ry),s=Math.sin(o.ry);p=[p[0]*c-p[2]*s,p[1],p[0]*s+p[2]*c];d=[d[0]*c-d[2]*s,d[1],d[0]*s+d[2]*c];}if(o.rx){const c=Math.cos(o.rx),s=Math.sin(o.rx);p=[p[0],p[1]*c+p[2]*s,-p[1]*s+p[2]*c];d=[d[0],d[1]*c+d[2]*s,-d[1]*s+d[2]*c];}let lo=0,hi=100;for(let i=0;i<3;i++){const h=[o.w,o.h,o.d][i]/2;if(Math.abs(d[i])<1e-7){if(p[i]<-h||p[i]>h)return null;}else{let a=(-h-p[i])/d[i],b=(h-p[i])/d[i];if(a>b)[a,b]=[b,a];lo=Math.max(lo,a);hi=Math.min(hi,b);if(lo>hi)return null;}}return lo;}
-  pick(x,y){if(x<0||y<0)return null;const c=this.camera,origin=[c.x,c.y,c.z],dir=this.ray(x,y);let nearest=100,obj=null;for(const o of this.objects){if(o.rgba[3]<.5&&!o.id)continue;const t=this.intersect(o,origin,dir);if(t!==null&&t<nearest){nearest=t;obj=o;}}return obj?.id?obj:null;}
-  frame(now){const dt=Math.min((now-this.time)/1000,.045);this.time=now;const c=this.camera;if(this.enabled){if(this.aim){const k=Math.min(1,dt*10);c.yaw+=(this.aim.yaw-c.yaw)*k;c.pitch+=(this.aim.pitch-c.pitch)*k;if(Math.abs(this.aim.yaw-c.yaw)+Math.abs(this.aim.pitch-c.pitch)<.002)this.aim=null;}const k=this.keys,speed=this.s?.feetFree?1.65:.85;let f=(k.w||k.arrowup?1:0)-(k.s||k.arrowdown?1:0),side=(k.d?1:0)-(k.a?1:0);if(k.arrowleft)c.yaw-=dt*1.2;if(k.arrowright)c.yaw+=dt*1.2;if(f||side){this.aim=null;const norm=Math.hypot(f,side),dx=(Math.sin(c.yaw)*f+Math.cos(c.yaw)*side)/norm*speed*dt,dz=(-Math.cos(c.yaw)*f+Math.sin(c.yaw)*side)/norm*speed*dt;let nx=c.x+dx,nz=c.z+dz,lim=this.room==='start'?[2.10,2.42]:[3.70,3.70];nx=Math.max(-lim[0],Math.min(lim[0],nx));nz=Math.max(-lim[1],Math.min(lim[1],nz));const collide=(x,z)=>this.objects.some(o=>o.collide&&Math.abs(x-o.x)<o.w/2+.23&&Math.abs(z-o.z)<o.d/2+.23);if(!collide(nx,c.z))c.x=nx;if(!collide(c.x,nz))c.z=nz;}const obj=!this.drag?.moved?this.pick(this.pointer.x,this.pointer.y):null;this.hover=obj?.id||null;this.onHover(this.hover,this.pointer);}else this.hover=null;
+  pick(x,y){if(x<0||y<0)return null;const c=this.camera,origin=[c.x,c.y,c.z],dir=this.ray(x,y);let nearest=100,obj=null;for(const o of this.objects){if(o.passthrough)continue;if(o.rgba[3]<.5&&!o.id)continue;const t=this.intersect(o,origin,dir);if(t!==null&&t<nearest){nearest=t;obj=o;}}return obj?.id?obj:null;}
+  frame(now){const dt=Math.min((now-this.time)/1000,.045);this.time=now;const c=this.camera;if(this.enabled){if(this.aim){const k=Math.min(1,dt*10);c.yaw+=(this.aim.yaw-c.yaw)*k;c.pitch+=(this.aim.pitch-c.pitch)*k;if(Math.abs(this.aim.yaw-c.yaw)+Math.abs(this.aim.pitch-c.pitch)<.002)this.aim=null;}const k=this.keys,speed=this.s?.feetFree?1.65:.85;let f=(k.w||k.arrowup?1:0)-(k.s||k.arrowdown?1:0),side=(k.d?1:0)-(k.a?1:0);if(k.arrowleft)c.yaw-=dt*1.2;if(k.arrowright)c.yaw+=dt*1.2;if(f||side){this.aim=null;const norm=Math.hypot(f,side),dx=(Math.sin(c.yaw)*f+Math.cos(c.yaw)*side)/norm*speed*dt,dz=(-Math.cos(c.yaw)*f+Math.sin(c.yaw)*side)/norm*speed*dt;let nx=c.x+dx,nz=c.z+dz,lim=this.room==='start'?[2.10,2.42]:[3.70,3.70];if(['duel','finalA'].includes(this.room)){[nx,nz]=this.limitDuel(nx,nz);}else{nx=Math.max(-lim[0],Math.min(lim[0],nx));nz=Math.max(-lim[1],Math.min(lim[1],nz));}const collide=(x,z)=>this.objects.some(o=>o.collide&&Math.abs(x-o.x)<o.w/2+.23&&Math.abs(z-o.z)<o.d/2+.23);if(!collide(nx,c.z))c.x=nx;if(!collide(c.x,nz))c.z=nz;}const obj=!this.drag?.moved?this.pick(this.pointer.x,this.pointer.y):null;this.hover=obj?.id||null;this.onHover(this.hover,this.pointer);}else this.hover=null;
     const transfer=this.updateRodTransfer();const door=this.updateDoor(now);const signature=[transfer,door,c.x.toFixed(4),c.y.toFixed(4),c.z.toFixed(4),c.yaw.toFixed(4),c.pitch.toFixed(4),this.visKey,this.hover,this.canvas.width,this.canvas.height].join('|');if(signature!==this.lastDrawSignature){this.lastDrawSignature=signature;this.draw();}requestAnimationFrame(this.frame);
   }
   draw(){if(this.soft){this.draw2D();return;}const gl=this.gl,c=this.camera,b=this.basis(),back=b.f.map(x=>-x);let view=new Float32Array([b.r[0],b.u[0],back[0],0,b.r[1],b.u[1],back[1],0,b.r[2],b.u[2],back[2],0,-(b.r[0]*c.x+b.r[1]*c.y+b.r[2]*c.z),-(b.u[0]*c.x+b.u[1]*c.y+b.u[2]*c.z),-(back[0]*c.x+back[1]*c.y+back[2]*c.z),1]);const f=1/Math.tan(62*Math.PI/360),n=.07,far=40;let projection=new Float32Array([f/this.aspect,0,0,0,0,f,0,0,0,0,(far+n)/(n-far),-1,0,0,2*far*n/(n-far),0]);gl.clear(gl.COLOR_BUFFER_BIT|gl.DEPTH_BUFFER_BIT);gl.useProgram(this.program);gl.uniformMatrix4fv(this.u.uVP,false,RoomRenderer.mul(projection,view));gl.uniform3f(this.u.uEye,c.x,c.y,c.z);gl.disable(gl.BLEND);gl.depthMask(true);const draw=o=>{gl.uniformMatrix4fv(this.u.uModel,false,o.matrix);gl.uniform4fv(this.u.uColor,o.rgba);gl.uniform1f(this.u.uEmission,o.emission||0);gl.uniform1f(this.u.uShine,o.shine||0);gl.uniform1f(this.u.uHighlight,this.hover&&this.hover===o.id?1:0);gl.bindTexture(gl.TEXTURE_2D,o.texture||this.textures.get('white'));gl.drawArrays(gl.TRIANGLES,0,36);};this.objects.filter(o=>o.rgba[3]>=1).forEach(draw);gl.enable(gl.BLEND);gl.blendFunc(gl.SRC_ALPHA,gl.ONE_MINUS_SRC_ALPHA);gl.depthMask(false);this.objects.filter(o=>o.rgba[3]<1).sort((a,b)=>Math.hypot(b.x-c.x,b.z-c.z)-Math.hypot(a.x-c.x,a.z-c.z)).forEach(draw);gl.depthMask(true);}
@@ -337,13 +391,13 @@ class RoomRenderer {
         for(let i=0;i<steps;i++)for(let j=0;j<steps;j++){
           const q=[get(i/steps,j/steps),get((i+1)/steps,j/steps),get((i+1)/steps,(j+1)/steps),get(i/steps,(j+1)/steps)],cl=clip(q);if(cl.length<3)continue;
           const pts=cl.map(project);if(pts.every(p=>p.x<0)||pts.every(p=>p.x>W)||pts.every(p=>p.y<0)||pts.every(p=>p.y>H))continue;
-          faces.push({pts,depth:cl.reduce((a,p)=>a+p.z,0)/cl.length,texture:o.texture,color,lam,alpha:o.rgba[3]});
+          faces.push({pts,depth:cl.reduce((a,p)=>a+p.z,0)/cl.length,texture:o.texture,color,lam,alpha:o.rgba[3],transparent:!!(o.hologram||o.transparentTex)});
         }
       }
     }
     faces.sort((a,b)=>b.depth-a.depth);
-    for(const f of faces){const p=f.pts;ctx.globalAlpha=f.alpha;ctx.fillStyle=f.color;ctx.beginPath();p.forEach((v,i)=>i?ctx.lineTo(v.x,v.y):ctx.moveTo(v.x,v.y));ctx.closePath();ctx.fill();
-      if(f.texture){for(let i=1;i<p.length-1;i++)this.affineTriangle(ctx,f.texture,p[0],p[i],p[i+1]);if(f.lam<.997){ctx.fillStyle='rgba(0,0,0,'+(1-f.lam)+')';ctx.beginPath();p.forEach((v,i)=>i?ctx.lineTo(v.x,v.y):ctx.moveTo(v.x,v.y));ctx.closePath();ctx.fill();}}
+    for(const f of faces){const p=f.pts;ctx.globalAlpha=f.alpha;ctx.fillStyle=f.color;ctx.beginPath();p.forEach((v,i)=>i?ctx.lineTo(v.x,v.y):ctx.moveTo(v.x,v.y));ctx.closePath();if(!f.transparent)ctx.fill();
+      if(f.texture){for(let i=1;i<p.length-1;i++)this.affineTriangle(ctx,f.texture,p[0],p[i],p[i+1]);if(f.lam<.997&&!f.transparent){ctx.fillStyle='rgba(0,0,0,'+(1-f.lam)+')';ctx.beginPath();p.forEach((v,i)=>i?ctx.lineTo(v.x,v.y):ctx.moveTo(v.x,v.y));ctx.closePath();ctx.fill();}}
     }
     ctx.globalAlpha=1;
   }
@@ -360,6 +414,219 @@ class RoomRenderer {
   }
 
 }
+
+/* v1.4: circular confrontation chamber, physical double gates, hologram.
+ * Uses the existing renderer and the supplied title image. No CDN dependencies.
+ */
+(() => {
+const P=RoomRenderer.prototype, oldBuild=P.build, oldDoor=P.updateDoor, oldView=P.view;
+const jp={duel:'\u5bfe\u6c7a',rule:'\u300c\u5bfe\u6c7a\u300d\u306e\u30eb\u30fc\u30eb',last:'\u6700\u5f8c\u306e\u6249'};
+P.assetTexture=function(key,src,{crop=null,hologram=false,w=1024,h=512}={}){
+ if(this.textures.has(key))return this.textures.get(key);
+ const tex=this.texture(key,(c,W,H)=>{c.clearRect(0,0,W,H);if(!hologram){c.fillStyle='#101d20';c.fillRect(0,0,W,H);}c.fillStyle='#a3edf1';c.textAlign='center';c.font='42px sans-serif';c.fillText(hologram?jp.duel:'...',W/2,H/2);},w,h);
+ const img=new Image();
+ img.onload=()=>{
+  const c=document.createElement('canvas');c.width=w;c.height=h;const g=c.getContext('2d',{willReadFrequently:hologram});
+  if(hologram){
+   // Preserve the uploaded glyphs and layout, using their black ink as opacity.
+   g.fillStyle='#fff';g.fillRect(0,0,w,h);const scale=Math.min(w/img.width,h/img.height);
+   g.drawImage(img,0,0,w,h);
+   const pixels=g.getImageData(0,0,w,h),d=pixels.data;
+   for(let i=0;i<d.length;i+=4){const ink=1-(d[i]*.2126+d[i+1]*.7152+d[i+2]*.0722)/255;d[i]=47;d[i+1]=180;d[i+2]=202;d[i+3]=Math.round(255*Math.pow(ink,.8));}
+   g.putImageData(pixels,0,0);
+  }else if(crop)g.drawImage(img,...crop,0,0,w,h);else g.drawImage(img,0,0,w,h);
+  if(this.soft){const dest=this.textures.get(key);dest.getContext('2d').clearRect(0,0,w,h);dest.getContext('2d').drawImage(c,0,0);}
+  else{const gl=this.gl;gl.bindTexture(gl.TEXTURE_2D,tex);gl.pixelStorei(gl.UNPACK_FLIP_Y_WEBGL,true);gl.texImage2D(gl.TEXTURE_2D,0,gl.RGBA,gl.RGBA,gl.UNSIGNED_BYTE,c);gl.generateMipmap(gl.TEXTURE_2D);}
+  this.assetRevision=(this.assetRevision||0)+1;this.lastDrawSignature='';
+ };
+ img.onerror=()=>console.warn('Room image could not load:',src);
+ img.src=src;return tex;
+};
+P.arcRing=function(x,z,r,y,width,height,color,{segments=80,id=null,emission=0,skip=null}={}){
+ for(let i=0;i<segments;i++){
+  const a=(i+.5)*Math.PI*2/segments,px=x+r*Math.sin(a),pz=z+r*Math.cos(a);
+  if(skip?.(px,pz,a))continue;
+  this.add(px,y,pz,2*r*Math.tan(Math.PI/segments)+.008,height,width,color,{ry:a,id,emission,ring:true});
+ }
+};
+P.roundTop=function(x,z,r,y,color,id=null){
+ const key='disc-'+color,tex=this.texture(key,(c,w,h)=>{c.clearRect(0,0,w,h);c.fillStyle=color;c.beginPath();c.arc(w/2,h/2,w/2-1,0,2*Math.PI);c.fill();},512,512);
+ return this.add(x,y,z,2*r,.013,2*r,'#ffffff',{texture:tex,alpha:.999,id,emission:.25,passthrough:!id,transparentTex:true});
+};
+P.slidePart=function(group,leaf,x,y,z,w,h,d,color,opts={}){
+ const o=this.add(x,y,z,w,h,d,color,{...opts,gateGroup:group,gateLeaf:leaf});
+ o.slideLocal={x,y,z};this.extParts.push(o);return o;
+};
+P.gate=function(x,z,side,inner=false){
+ const id=inner?'last'+side:'outer'+side,group=(inner?'last':'outer')+side;
+ const W=1.68,H=2.7;
+ for(const edge of [-1,1])this.add(x+edge*(W/2+.09),1.36,z-.09,.18,H+.18,.28,'#a8bac1',{id});this.add(x,H+.045,z-.09,W+.34,.13,.28,'#a8bac1',{id});this.add(x,.02,z-.09,W+.34,.04,.28,'#a8bac1',{id});
+ if(inner)this.add(x,1.35,z-.0,W,H,.10,'#f4ffff',{id,passthrough:true,emission:.7});
+ // There is a real passage behind the first gate, not a painted-on second door.
+ if(!inner){
+   this.add(x-1.0,1.45,z-.73,.16,2.95,1.70,'#e7f1f5',{emission:.25});
+   this.add(x+1.0,1.45,z-.73,.16,2.95,1.70,'#e7f1f5',{emission:.25});
+   this.add(x,.01,z-.73,2.0,.04,1.70,'#f5ffff',{emission:.3});
+   this.add(x,2.9,z-.73,2.0,.09,1.70,'#f3fbfd',{emission:.5});
+ }
+ for(const sign of [-1,1]){
+   const lx=x+sign*W/4;
+   this.slidePart(group,sign,lx,1.35,z+.075,W/2-.009,H-.04,.10,'#e7f0f3',{id,doorLeaf:true,emission:.28,shine:.22});
+   this.slidePart(group,sign,x+sign*.045,1.23,z+.146,.017,.50,.035,'#91aab3',{id});
+   this.slidePart(group,sign,x+sign*.39,.18,z+.133,.67,.03,.012,'#c4e8ed',{id,emission:.65});
+ }
+ if(!inner){
+   const tex=this.textTexture('exit-printed',['EXIT'],{bg:'#e7f0f3',fg:'#334d59',font:110,w:512,h:256});
+   this.slidePart(group,1,x+.43,1.85,z+.14,.67,.32,.01,'#fffFFF',{texture:tex,id,emission:.45});
+   const person=side;
+   const t=this.textTexture('exit-condition-'+side,[ '\u3053\u306e\u6249\u306f\u53c2\u52a0\u8005'+person+'\u304c\u5bfe\u6c7a\u306b\u52dd\u5229\u3059\u308b\u3053\u3068\u3067\u958b\u304b\u308c\u308b', '\u53c2\u52a0\u8005'+person+'\u3057\u304b\u901a\u308b\u3053\u3068\u306f\u3067\u304d\u306a\u3044'],{font:38,w:1024,h:256,bg:'#12242d',fg:'#e3f9ff'});
+   this.add(x,3.03,z+.04,3.3,.56,.065,'#415e68',{id:'outerSign'+side});
+   this.panel(x,3.03,z+.08,3.23,.49,t,'outerSign'+side);
+   this.add(x,2.77,z+.08,1.75,.02,.05,this.s.exitOpen[side]?'#adf5e5':'#a8bac1',{emission:.8});
+ }else{
+   const named=this.s.lastDoorTextMode==='opponent'?(side==='A'?'B':'A'):side;
+   // Split the plaque across the actual moving leaves, so nothing floats after opening.
+   for(const sign of [-1,1]){
+     const text=this.texture('lastplaque-'+named+'-'+sign,(c,w,h)=>{
+       const full=document.createElement('canvas');full.width=w*2;full.height=h;const g=full.getContext('2d');
+       const grad=g.createLinearGradient(0,0,full.width,h);grad.addColorStop(0,'#d5dfe3');grad.addColorStop(.5,'#edf2f2');grad.addColorStop(1,'#b9c8cf');g.fillStyle=grad;g.fillRect(0,0,full.width,h);
+       g.textAlign='center';g.textBaseline='middle';g.fillStyle='#152b34';g.font='52px "Yu Mincho", "Noto Serif CJK JP", serif';
+       g.fillText(jp.last,full.width/2,66);g.fillRect(full.width*.30,103,full.width*.4,1);
+       g.font='36px "Yu Mincho", "Noto Serif CJK JP", serif';
+       g.fillText('\u3053\u308c\u304c\u6b63\u771f\u6b63\u9298\u300c\u6700\u5f8c\u306e\u6249\u300d\u3060\u3002',full.width/2,170,full.width*.94);
+       g.fillText('\u3053\u306e\u6249\u306f\u53c2\u52a0\u8005'+named+'\u304c\u5bfe\u6c7a\u306b\u52dd\u5229\u3059\u308b',full.width/2,244,full.width*.94);
+       g.fillText('\u3053\u3068\u3067\u958b\u304b\u308c\u308b\u3002',full.width/2,316);
+       c.drawImage(full,sign<0?0:w,0,w,h,0,0,w,h);
+     },512,512);
+     this.slidePart(group,sign,x+sign*.395,1.59,z+.143,.78,.92,.012,'#ffffff',{id,texture:text,emission:.25,plaque:true});
+   }
+   const heading=this.textTexture('lastheading',[jp.last],{font:75,w:512,h:256,bg:'#d5e3e8',fg:'#254653'});
+   this.panel(x,2.92,z+.03,1.9,.42,heading,id);
+ }
+};
+P.buildDuel=function(s){
+ const changed=this.room!==s.room;
+ const key=JSON.stringify([s.room,s.duelActive,s.duelWinner,s.exitOpen,s.lastOpen,s.lastDoorTextMode,s.ended]);
+ this.s=s;if(key===this.visKey)return;
+ const oldTargets=this.extTargets||{},newTargets={outerA:s.exitOpen.A?1:0,outerB:s.exitOpen.B?1:0,lastA:s.lastOpen.A?1:0,lastB:s.lastOpen.B?1:0};
+ this.extAngles=this.extAngles||{};this.extMotions=this.extMotions||{};
+ for(const group of Object.keys(newTargets)){
+  const to=newTargets[group];
+  if(changed||oldTargets[group]===undefined){this.extAngles[group]=to;this.extMotions[group]={from:to,to,at:0};}
+  else if(oldTargets[group]!==to)this.extMotions[group]={from:this.extAngles[group]||0,to,at:performance.now()};
+ }
+ this.extTargets=newTargets;this.visKey=key;this.room=s.room;this.objects=[];this.extParts=[];this.doorParts=[];this.rodMesh=null;this.rodTip=null;this.holoObjects=[];
+ if(changed){this.camera={x:0,y:1.65,z:s.room==='duel'?4.95:1.18,yaw:0,pitch:s.room==='duel'?.02:-.015};this.aim=null;this.sceneEnteredAt=performance.now();this.navCooldown=performance.now()+1400;}
+ if(s.room==='finalA'){this.buildVestibule(s);this.updateDuel(performance.now());return;}
+ const R=5.80,H=4.65,segments=96;
+ const wall=this.texture('duel-wall',(c,w,h)=>{
+   let g=c.createLinearGradient(0,0,0,h);g.addColorStop(0,'#eaf4f9');g.addColorStop(.16,'#fafdff');g.addColorStop(.44,'#edf6fa');g.addColorStop(.82,'#e3f0f5');g.addColorStop(1,'#cedee5');c.fillStyle=g;c.fillRect(0,0,w,h);
+   for(const y of [.19,.78]){c.fillStyle='#6d8893';c.fillRect(0,h*y,w,1.5);c.fillStyle='#fff';c.fillRect(0,h*y+2,w,3);}
+ },512,1024);
+ const hole=(x,z)=>z<-4.1&&((Math.abs(x-2.3)<1.14)||(Math.abs(x+2.3)<1.14));
+ for(let i=0;i<segments;i++){
+  const a=(i+.5)*2*Math.PI/segments,x=R*Math.sin(a),z=-R*Math.cos(a),ry=-a;
+  if(hole(x,z)||(z>5.50&&Math.abs(x)<.82)){this.add(x,(H+3.32)/2,z,2*R*Math.tan(Math.PI/segments)+.007,H-3.32,.14,'#ffffff',{texture:wall,ry,emission:.36,circularWall:true});continue;}
+  this.add(x,H/2,z,2*R*Math.tan(Math.PI/segments)+.007,H,.14,'#ffffff',{texture:wall,ry,emission:.36,circularWall:true});
+  if(i%8===0)this.add((R-.084)*Math.sin(a),H/2,-(R-.084)*Math.cos(a),.012,H,.012,'#708d9b',{ry,emission:.2});
+ }
+ // Concentric floor lines and broad, soft light reflections.
+ const ft=this.texture('duel-floor',(c,w,h)=>{
+   c.fillStyle='#e9f5f8';c.fillRect(0,0,w,h);
+   const g=c.createRadialGradient(w/2,h/2,w*.035,w/2,h/2,w*.46);g.addColorStop(0,'#d7edf5');g.addColorStop(.27,'#f9ffff');g.addColorStop(.55,'#e2f1f5');g.addColorStop(.85,'#f9ffff');g.addColorStop(1,'#d5e7ee');c.fillStyle=g;c.fillRect(0,0,w,h);
+   for(const r of [.13,.17,.31,.40,.448]){c.beginPath();c.arc(w/2,h/2,w*r,0,2*Math.PI);c.strokeStyle=r===.31?'#96b1be':'#adc1cc';c.lineWidth=2;c.stroke();}
+   for(let i=0;i<12;i++){const a=i*Math.PI/6;c.beginPath();c.moveTo(w/2+Math.cos(a)*w*.315,h/2+Math.sin(a)*w*.315);c.lineTo(w/2+Math.cos(a)*w*.455,h/2+Math.sin(a)*w*.455);c.strokeStyle='#9db9c5';c.lineWidth=1;c.stroke();}
+ },2048,2048);
+ this.add(0,-.035,0,12.2,.07,12.2,'#ffffff',{texture:ft,id:'duelFloor',emission:.33});
+ this.add(0,H+.03,0,12.3,.08,12.3,'#edf7fa',{emission:.32});
+ for(const [r,y,wid,ht,color] of [[5.58,.12,.05,.13,'#e5fbff'],[5.46,H-.12,.18,.04,'#9db6c1'],[5.20,H-.20,.12,.027,'#f5ffff'],[3.90,H-.23,.05,.035,'#c7e2ec'],[2.85,H-.25,.18,.03,'#fbffff'],[1.25,H-.28,.06,.025,'#bcdce6']])this.arcRing(0,0,r,y,wid,ht,color,{segments:80,emission:.75,skip:hole});
+ for(let i=0;i<24;i++){const a=i*2*Math.PI/24;this.add(Math.sin(a)*4.8,H-.27,Math.cos(a)*4.8,.62,.027,.19,'#ffffff',{ry:a,emission:1});}
+ this.arcRing(0,0,1.15,.16,.045,.23,'#adcad6',{segments:64,emission:.35});
+ this.roundTop(0,0,1.14,.283,'#f2fbff','terminal');
+ this.arcRing(0,0,1.19,.055,.06,.02,s.duelActive?'#99f5ff':'#e1faff',{emission:1,segments:64});
+ this.add(0,.75,.14,.43,.95,.42,'#cadfe7',{id:'terminal',collide:true,emission:.23,shine:.22});
+ this.add(0,1.20,.13,1.37,.10,.71,'#617f8c',{id:'terminal'});
+ this.add(0,1.58,.04,1.53,.85,.105,'#314b59',{rx:-.14,id:'terminal',shine:.2});
+ const mt=s.duelActive?this.textTexture('duel-online',['\u300c\u5bfe\u6c7a\u300d\u8d77\u52d5\u30e2\u30b8\u30e5\u30fc\u30eb','SYSTEM ONLINE'],{font:52,bg:'#06181e',fg:'#8eedee',w:1024,h:512}):this.assetTexture('module-image','activation-module.png',{crop:[62,60,678,374],w:1024,h:512});
+ this.add(0,1.58,.103,1.41,.74,.012,'#ffffff',{texture:mt,rx:-.14,id:'terminal',emission:.85});
+ const keyboard=this.textTexture('keyboard',['\u30bf\u30c3\u30c1\u3057\u3066\u64cd\u4f5c'],{font:50,bg:'#132f3b',fg:'#abcfdd',w:512,h:256});
+ this.add(0,1.258,.37,1.02,.24,.025,'#ffffff',{texture:keyboard,rx:-1.0,id:'terminal',emission:.45});
+ this.gate(-2.30,-4.76,'B');this.gate(2.30,-4.76,'A');
+ this.gate(-2.30,-6.15,'B',true);this.gate(2.30,-6.15,'A',true);
+ // Keep the entrance accessible: the meta rule needs a real return journey.
+ this.door(5.56,'duelBack',false,true);
+ const back=this.textTexture('cooperation-return',['\u5354\u529b\u306e\u9593'],{font:65,bg:'#c8dde5',fg:'#365a69',w:512,h:256});this.panel(0,2.77,5.42,1.68,.40,back,'duelBack',Math.PI);
+ if(s.duelActive){
+   const logo=this.assetTexture('holo-title','duel-title.png',{hologram:true,w:1024,h:1024});
+   const obj=this.add(0,2.87,-.15,2.73,2.73,.006,'#ffffff',{texture:logo,id:'duelTitle',alpha:.88,emission:1,hologram:true});this.holoObjects.push(obj);obj.baseY=2.87;
+   const rules=this.textTexture('holo-rules',['\u300c\u5bfe\u6c7a\u300d\u306e\u30eb\u30fc\u30eb','\u3069\u3061\u3089\u304b\u4e00\u65b9\u304c\u52dd\u8005\u3068\u306a\u308b\u3088\u3046\u306a\u4efb\u610f\u306e\u5bfe\u6c7a\u3092\u884c\u3046\u3002','\u304a\u4e92\u3044\u306e\u5408\u610f\u304c\u3042\u308c\u3070\u3069\u3093\u306a\u5185\u5bb9\u3067\u3082\u69cb\u308f\u306a\u3044\u3002','\u5c1a\u3001\u3053\u306e\u90e8\u5c4b\u3067\u884c\u3048\u308b\u5bfe\u6c7a\u306f\u4e00\u5ea6\u306e\u307f\u3060\u3002'],{font:66,w:2048,h:512,bg:'#091a21',fg:'#dcfbff'});
+   const panel=this.add(0,2.29,-.15,3.05,.79,.013,'#ffffff',{texture:rules,id:'duelRule',alpha:.985,emission:1,hologram:true,ruleHolo:true});this.holoObjects.push(panel);panel.baseY=2.40;panel.h=.65;
+   // The logo and rules are offset vertically, not baked into a background.
+   obj.baseY=3.62;obj.y=3.62;obj.w=2.55;obj.h=1.655;obj.matrix=RoomRenderer.model(obj);
+   this.arcRing(0,-.15,.63,.31,.035,.015,'#94f0f8',{emission:1,segments:48});
+   for(let i=0;i<12;i++){
+     const a=i*Math.PI/6;const ray=this.add(Math.sin(a)*.26,1.65,-.15+Math.cos(a)*.26,.007,2.65,.007,'#88eaf3',{alpha:.11,emission:1,passthrough:true});this.holoObjects.push(ray);ray.beam=true;
+   }
+ }
+ this.updateDuel(performance.now());
+};
+P.buildVestibule=function(s){
+ const t=this.texture('vestibule',(c,w,h)=>{const g=c.createLinearGradient(0,0,w,h);g.addColorStop(0,'#f6fcff');g.addColorStop(1,'#dbeaf1');c.fillStyle=g;c.fillRect(0,0,w,h);c.fillStyle='#a7c2ce';c.fillRect(0,h*.15,w,2);},512,512);
+ for(const side of [-1,1]){this.add(side*1.2,1.65,-.45,.15,3.3,4.3,'#ffffff',{texture:t,emission:.4});this.add(side*1.11,.08,-.45,.023,.025,4.2,'#dcfcff',{emission:1});}
+ this.add(0,-.03,-.45,2.4,.07,4.3,'#e5f6fb',{emission:.4,id:'duelFloor'});this.add(0,3.3,-.45,2.4,.10,4.3,'#f3ffff',{emission:.5});
+ this.add(0,1.60,-2.7,2.3,3.2,.10,'#ffffff',{emission:1,passthrough:true});
+ this.gate(0,-2.35,'A',true);
+ this.add(0,1.4,1.63,2.4,2.8,.12,'#2f5769',{id:'vestibuleBack'});
+ const back=this.textTexture('return-duel',['\u5bfe\u6c7a\u306e\u9593'],{font:66,w:512,h:256,bg:'#bcd2df',fg:'#254955'});
+ this.panel(0,2.71,1.54,1.6,.36,back,'vestibuleBack',Math.PI);
+};
+P.build=function(s){
+ if(['duel','finalA'].includes(s.room))return this.buildDuel(s);
+ this.extParts=[];this.holoObjects=[];this.extTargets={};return oldBuild.call(this,s);
+};
+P.updateDuel=function(now){
+ if(!['duel','finalA'].includes(this.room))return '';
+ const stamps=[];
+ for(const group of Object.keys(this.extMotions||{})){
+   const m=this.extMotions[group],p=Math.max(0,Math.min(1,(now-m.at)/1650)),e=p*p*(3-2*p),v=m.from+(m.to-m.from)*e;this.extAngles[group]=v;stamps.push(v.toFixed(4));
+ }
+ for(const o of this.extParts||[]){o.x=o.slideLocal.x+o.gateLeaf*(this.extAngles[o.gateGroup]||0)*.91;o.matrix=RoomRenderer.model(o);}
+ for(const o of this.holoObjects||[]){
+   if(o.beam){o.rgba[3]=.05+.045*(1+Math.sin(now*.002+o.x*9));continue;}
+   o.y=o.baseY+Math.sin(now*.0009)*.028;o.ry=Math.atan2(this.camera.x-o.x,this.camera.z-o.z);o.rgba[3]=o.ruleHolo?.985:.91+Math.sin(now*.0018)*.035;o.matrix=RoomRenderer.model(o);
+ }
+ if(this.s?.duelActive&&this.room==='duel')stamps.push(Math.floor(now/(this.soft?150:40)));
+ stamps.push(this.assetRevision||0);
+ // Keyboard walking reaches real room transitions, with a cooldown to prevent loops.
+ if(this.enabled&&now>(this.navCooldown||0)&&!this.s?.ended){
+   const c=this.camera;let target=null;
+   if(this.room==='duel'&&c.z<-4.73&&Math.abs(c.x-2.3)<.67&&this.s.exitOpen.A)target='enterExitA';
+   if(this.room==='finalA'&&c.z<-2.05&&this.s.lastOpen.A)target='advanceFinal';
+   if(target){this.navCooldown=now+2500;setTimeout(()=>this.onInspect(target),0);}
+ }
+ return stamps.join(',');
+};
+P.updateDoor=function(now){return oldDoor.call(this,now)+'/'+this.updateDuel(now);};
+P.limitDuel=function(nx,nz){
+ if(this.room==='duel'){
+   const canEnter=this.s?.exitOpen.A&&Math.abs(nx-2.3)<.67&&nz<-4.1&&nz>-5.02;
+   if(canEnter)return [nx,nz];
+   const r=Math.hypot(nx,nz),limit=5.42;if(r>limit){nx*=limit/r;nz*=limit/r;}
+   // Physical first gates cannot be walked through, including the B-only exit.
+   if(nz<-4.45&&Math.abs(nx+2.3)<1.0)nz=-4.45;
+   if(nz<-4.45&&Math.abs(nx-2.3)<1.0&&!this.s?.exitOpen.A)nz=-4.45;
+   return [nx,nz];
+ }
+ if(this.room==='finalA')return [Math.max(-.88,Math.min(.88,nx)),Math.max(this.s?.lastOpen.A?-2.28:-1.96,Math.min(1.28,nz))];
+ return [nx,nz];
+};
+P.view=function(which){
+ if(!['duel','finalA'].includes(this.room))return oldView.call(this,which);
+ const c=this.camera;c.x=0;c.z=this.room==='duel'?4.95:.9;
+ const yaw={front:0,left:-Math.PI/2,right:Math.PI/2,back:Math.PI,floor:0}[which]??0;
+ const delta=Math.atan2(Math.sin(yaw-c.yaw),Math.cos(yaw-c.yaw));this.aim={yaw:c.yaw+delta,pitch:which==='floor'?-.84:.035};
+};
+})();
 </script><script>/* A's exploration room and a human-KP console. All game state stays local unless
    the optional, explicitly started LAN server is used. */
 (()=>{'use strict';
@@ -374,11 +641,17 @@ const INFO={cuffs:['手錠','◯◯'],ankles:['足枷','∪∪'],rod:['細長い
 const NAMES={body:'自分の体',offeredRod:'差し出された棒',startDoor:'目の前の扉',cooperationRule:'扉の上の説明書き',exitDoor:'奥の扉',returnDoor:'始まりの部屋への扉',exitRule:'扉の上の説明書き',circles:'3つの丸',hatch:'小さな扉と番号錠',buttons:'離れた2つのボタン',buttonRule:'ボタンの間の文章',box:'部屋の中央の箱',tank:'部屋の隅の水槽',monitor:'壁のモニター',slots:'扉の2つのくぼみ',floor:'床',rug:'じゅうたん',diamond:'じゅうたんの下の模様',cuffs:'手の拘束',ankles:'足の拘束'};
 const RULE='この部屋のみ一切のメタ発言を禁止する。\nメタ発言があった場合、相手は即座に対決に勝利する。\n十分に注意せよ。';
 function japanDate(){return new Intl.DateTimeFormat('sv-SE',{timeZone:'Asia/Tokyo',year:'numeric',month:'2-digit',day:'2-digit'}).format(new Date());}
-function initial(){return {version:1,rev:1,room:'start',started:false,identityKnown:false,rodOfferedAt:0,sessionDate:japanDate(),handsFree:false,feetFree:false,rugLifted:false,hatchOpen:false,bColors:[0,1,2],rodLocation:'B',aHolding:false,bHolding:false,tankLocation:'floor',waterPoured:false,keyLocation:'tube',chestOpen:false,aPieces:[],bPieces:['heart0'],aSlots:[null,null],bSlots:['heart0',null],aSubmitted:false,bSubmitted:false,gateFailed:false,cooperationOpen:false,scopeCompleted:false,aSolution:['cross','diamond'],bSolution:['heart','circle'],items:[],wins:[],seen:[],message:{text:'白い部屋で目が覚めた。目の前に、扉がある。',speaker:'OBSERVATION'},log:[]};}
-function valid(s){if(!s||s.version!==1||!['start','cooperate'].includes(s.room))throw Error('この探索版のセーブデータではありません。');let d=initial();const bools=['identityKnown','started','handsFree','feetFree','rugLifted','hatchOpen','aHolding','bHolding','waterPoured','chestOpen','aSubmitted','bSubmitted','gateFailed','cooperationOpen','scopeCompleted'];bools.forEach(k=>d[k]=!!s[k]);['sessionDate','rodLocation','tankLocation','keyLocation'].forEach(k=>{if(typeof s[k]==='string')d[k]=s[k];});if(!/^\d{4}-\d{2}-\d{2}$/.test(d.sessionDate))d.sessionDate=japanDate();d.identityKnown=d.identityKnown||(Array.isArray(s.seen)&&s.seen.some(x=>typeof x==='string'&&x.endsWith(':body')));d.rodOfferedAt=Number.isFinite(s.rodOfferedAt)?s.rodOfferedAt:0;if(!['B','hatch','A'].includes(d.rodLocation))d.rodLocation='B';d.rev=Number.isFinite(s.rev)?s.rev:1;d.room=s.room;for(const k of ['aPieces','bPieces'])d[k]=Array.isArray(s[k])?s[k].filter(x=>Object.hasOwn(GLYPH,x)).slice(0,8):d[k];for(const k of ['aSlots','bSlots','aSolution','bSolution'])d[k]=[0,1].map(i=>Object.hasOwn(GLYPH,s[k]?.[i])?s[k][i]:null);if(d.aSolution.some(x=>!x))d.aSolution=['cross','diamond'];if(d.bSolution.some(x=>!x))d.bSolution=['heart','circle'];d.bColors=[0,1,2].map((_,i)=>[0,1,2].includes(s.bColors?.[i])?s.bColors[i]:i);d.items=Array.isArray(s.items)?[...new Set(s.items.filter(x=>Object.hasOwn(INFO,x)))]:[];d.seen=Array.isArray(s.seen)?s.seen.filter(x=>typeof x==='string').slice(0,200):[];d.log=Array.isArray(s.log)?s.log.filter(x=>typeof x?.text==='string').slice(-200).map(x=>({text:x.text.slice(0,3000),speaker:String(x.speaker||'OBSERVATION').slice(0,50),at:Number(x.at)||0})):[];d.wins=Array.isArray(s.wins)?s.wins.filter(x=>x?.winner==='A'||x?.winner==='B').slice(-100):[];if(typeof s.message?.text==='string')d.message={text:s.message.text.slice(0,3000),speaker:String(s.message.speaker||'OBSERVATION').slice(0,50)};return d;}
+function initial(){return {version:1,rev:1,room:'start',started:false,identityKnown:false,rodOfferedAt:0,sessionDate:japanDate(),handsFree:false,feetFree:false,rugLifted:false,hatchOpen:false,bColors:[0,1,2],rodLocation:'B',aHolding:false,bHolding:false,tankLocation:'floor',waterPoured:false,keyLocation:'tube',chestOpen:false,aPieces:[],bPieces:['heart0'],aSlots:[null,null],bSlots:['heart0',null],aSubmitted:false,bSubmitted:false,gateFailed:false,cooperationOpen:false,scopeCompleted:false,duelActive:false,duelActivatedAt:0,duelWinner:null,duelResolvedAt:0,exitOpen:{A:false,B:false},lastOpen:{A:false,B:false},lastDoorTextMode:'requested',ended:false,endedAt:0,endingActor:null,aSolution:['cross','diamond'],bSolution:['heart','circle'],items:[],wins:[],seen:[],message:{text:'白い部屋で目が覚めた。目の前に、扉がある。',speaker:'OBSERVATION'},log:[]};}
+function valid(s){if(!s||s.version!==1||!['start','cooperate','duel','finalA'].includes(s.room))throw Error('この探索版のセーブデータではありません。');let d=initial();const bools=['identityKnown','started','handsFree','feetFree','rugLifted','hatchOpen','aHolding','bHolding','waterPoured','chestOpen','aSubmitted','bSubmitted','gateFailed','cooperationOpen','scopeCompleted','duelActive','ended'];bools.forEach(k=>d[k]=!!s[k]);['sessionDate','rodLocation','tankLocation','keyLocation'].forEach(k=>{if(typeof s[k]==='string')d[k]=s[k];});if(!/^\d{4}-\d{2}-\d{2}$/.test(d.sessionDate))d.sessionDate=japanDate();d.identityKnown=d.identityKnown||(Array.isArray(s.seen)&&s.seen.some(x=>typeof x==='string'&&x.endsWith(':body')));d.rodOfferedAt=Number.isFinite(s.rodOfferedAt)?s.rodOfferedAt:0;if(!['B','hatch','A'].includes(d.rodLocation))d.rodLocation='B';d.rev=Number.isFinite(s.rev)?s.rev:1;d.room=s.room;for(const k of ['aPieces','bPieces'])d[k]=Array.isArray(s[k])?s[k].filter(x=>Object.hasOwn(GLYPH,x)).slice(0,8):d[k];for(const k of ['aSlots','bSlots','aSolution','bSolution'])d[k]=[0,1].map(i=>Object.hasOwn(GLYPH,s[k]?.[i])?s[k][i]:null);if(d.aSolution.some(x=>!x))d.aSolution=['cross','diamond'];if(d.bSolution.some(x=>!x))d.bSolution=['heart','circle'];d.bColors=[0,1,2].map((_,i)=>[0,1,2].includes(s.bColors?.[i])?s.bColors[i]:i);d.items=Array.isArray(s.items)?[...new Set(s.items.filter(x=>Object.hasOwn(INFO,x)))]:[];d.seen=Array.isArray(s.seen)?s.seen.filter(x=>typeof x==='string').slice(0,200):[];d.log=Array.isArray(s.log)?s.log.filter(x=>typeof x?.text==='string').slice(-200).map(x=>({text:x.text.slice(0,3000),speaker:String(x.speaker||'OBSERVATION').slice(0,50),at:Number(x.at)||0})):[];d.wins=Array.isArray(s.wins)?s.wins.filter(x=>x?.winner==='A'||x?.winner==='B').slice(-100):[];if(typeof s.message?.text==='string')d.message={text:s.message.text.slice(0,3000),speaker:String(s.message.speaker||'OBSERVATION').slice(0,50)};for(const k of ['duelActivatedAt','duelResolvedAt','endedAt'])d[k]=Number.isFinite(s[k])?s[k]:0;
+for(const k of ['duelWinner','endingActor'])d[k]=['A','B'].includes(s[k])?s[k]:null;
+for(const k of ['exitOpen','lastOpen'])d[k]={A:!!s[k]?.A,B:!!s[k]?.B};
+d.lastDoorTextMode=s.lastDoorTextMode==='opponent'?'opponent':'requested';
+// v1.3 ended at the threshold. Importing it now resumes in the expanded game.
+d.scopeCompleted=false;
+return d;}
 let S=initial(),storageOK=true;try{const raw=!REMOTE&&localStorage.getItem(KEY);if(raw)S=valid(JSON.parse(raw));}catch(e){storageOK=false;}
 if(!IS_KP)S.aHolding=false; // A physical hold never resumes after reopening the player page.
-let U={drawer:null,pin:'',pinMsg:'',activeSlot:0,selected:null,sound:true,lastFocus:null},renderer=null,kpWindow=null,network=false,netReady=false,netSending=Promise.resolve(),appReady=false,channel=null,toastTimer,rodUiTimer;
+let U={drawer:null,pin:'',pinMsg:'',duelPassword:'',duelError:'',activeSlot:0,selected:null,sound:true,lastFocus:null},renderer=null,kpWindow=null,network=false,netReady=false,netSending=Promise.resolve(),appReady=false,channel=null,toastTimer,rodUiTimer;
 try{channel=new BroadcastChannel(CHANNEL);}catch(e){}
 const clientId=Math.random().toString(36).slice(2)+Date.now().toString(36),seenCommands=new Set();
 function sound(kind='click'){if(!U.sound||IS_KP)return;if(kind==='pour'){RoomAudio.pour();return;}try{const ctx=RoomAudio.unlock();if(!ctx)return;sound.ctx=ctx;const osc=ctx.createOscillator(),g=ctx.createGain();osc.connect(g);g.connect(ctx.destination);osc.type='sine';const t=ctx.currentTime;osc.frequency.setValueAtTime(kind==='unlock'?530:kind==='error'?180:320,t);osc.frequency.exponentialRampToValueAtTime(kind==='unlock'?880:120,t+.14);g.gain.setValueAtTime(.034,t);g.gain.exponentialRampToValueAtTime(.0001,t+.19);osc.start(t);osc.stop(t+.2);}catch(e){}}
@@ -392,11 +665,50 @@ function evaluate(s){
  if(s.aSubmitted&&s.bSubmitted&&!s.cooperationOpen&&!s.gateFailed){const normalize=x=>x==='heart0'?'heart':x;const ok=s.aSlots.every((x,i)=>normalize(x)===s.aSolution[i])&&s.bSlots.every((x,i)=>normalize(x)===s.bSolution[i]);if(!ok){s.gateFailed=true;log(s,'短い電子音が鳴った。\n扉は開かない。ピースはもう動かせない。','SOMETHING CHANGED');}else if(s.handsFree&&s.feetFree&&s.chestOpen){s.cooperationOpen=true;log(s,'重い錠が外れる音が響いた。\n対決の間への扉が、ゆっくりと開いた。','SOMETHING CHANGED');}}
 }
 function act(s,type,p={}){
+ if(s.ended&&!['resetDuel','config','duelConfig','kpMessage'].includes(type))return true;
  const requireHands=()=>{if(!s.handsFree){log(s,'両手はまだ拘束されている。この状態ではうまく扱えそうにない。');return false;}return true;};
  switch(type){
  case 'start':s.started=true;log(s,'目の前には扉があるのみ。\n手足は拘束されている。\n足元には、やわらかなじゅうたんが敷かれている。');break;
  case 'inspect':if(typeof p.id==='string'&&p.id.endsWith(':body'))s.identityKnown=true;if(!s.seen.includes(p.id))s.seen.push(p.id);if(p.text&&!s.log.some(x=>x.text===p.text))log(s,p.text);else if(p.text)s.message={text:p.text,speaker:'OBSERVATION'};break;
- case 'room':if(p.room==='cooperate'||p.room==='start'){s.room=p.room;s.aHolding=false;log(s,p.room==='cooperate'?'扉をくぐると、全体的に白い部屋だった。\n奥に扉があり、その右にモニターがある。':'始まりの部屋に戻った。\n足元には、最初に目覚めたときのじゅうたんがある。');}break;
+ case 'room': {
+   if(s.ended)break;
+   const adjacency={start:['cooperate'],cooperate:['start','duel'],duel:['cooperate','finalA'],finalA:['duel']};
+   if(!adjacency[s.room]?.includes(p.room))break;
+   if(p.room==='duel'&&!s.cooperationOpen)break;
+   if(p.room==='finalA'&&!s.exitOpen.A)break;
+   s.room=p.room;s.aHolding=false;s.scopeCompleted=false;
+   const texts={start:'\u59cb\u307e\u308a\u306e\u90e8\u5c4b\u306b\u623b\u3063\u305f\u3002',cooperate:'\u6249\u3092\u304f\u3050\u308b\u3068\u3001\u767d\u3044\u90e8\u5c4b\u3060\u3063\u305f\u3002\n\u5965\u306b\u6249\u304c\u3042\u308a\u3001\u305d\u306e\u53f3\u306b\u30e2\u30cb\u30bf\u30fc\u304c\u3042\u308b\u3002',duel:'\u6249\u306e\u5148\u306f\u3001\u767d\u3044\u5186\u5f62\u306e\u90e8\u5c4b\u3060\u3063\u305f\u3002\n\u4e2d\u592e\u306b\u7aef\u672b\u3002\u5965\u306b\u306f\u300cEXIT\u300d\u3068\u66f8\u304b\u308c\u305f\u4e8c\u3064\u306e\u6249\u304c\u3042\u308b\u3002',finalA:'\u53f3\u306eEXIT\u3092\u304f\u3050\u3063\u305f\u3002\n\u77ed\u3044\u901a\u8def\u306e\u5148\u306b\u3001\u3082\u3046\u4e00\u679a\u306e\u6249\u304c\u3042\u308b\u3002'};
+   log(s,texts[p.room]);break;
+ }
+ case 'activateDuel':
+   if(s.room==='duel'&&!s.ended&&!s.duelActive){
+     if(typeof p.password==='string'&&p.password.trim().toLowerCase()==='confrontation'){
+       s.duelActive=true;s.duelActivatedAt=Date.now();
+       for(const win of s.wins)if(['A','B'].includes(win.winner))s.exitOpen[win.winner]=true;
+       log(s,'\u7aef\u672b\u304c\u9759\u304b\u306b\u8d77\u52d5\u3057\u305f\u3002\n\u4e2d\u592e\u306b\u5149\u306e\u6587\u5b57\u304c\u6d6e\u304b\u3073\u3001\u5bfe\u6c7a\u306e\u30eb\u30fc\u30eb\u304c\u8868\u793a\u3055\u308c\u305f\u3002','SOMETHING CHANGED');
+     }else log(s,'\u8d77\u52d5\u30d1\u30b9\u30ef\u30fc\u30c9\u304c\u9055\u3046\u3002\n\u7aef\u672b\u306f\u3001\u9759\u304b\u306a\u307e\u307e\u3060\u3002');
+   }break;
+ case 'duelVerdict':
+   if(s.duelActive&&!s.duelWinner&&!s.ended&&['A','B'].includes(p.winner)){
+     s.duelWinner=p.winner;s.duelResolvedAt=Date.now();s.exitOpen[p.winner]=true;
+     s.wins.push({winner:p.winner,reason:'\u5bfe\u6c7a\u306e\u9593\u3067\u306e\u5bfe\u6c7a',at:Date.now()});
+     log(s,'\u53c2\u52a0\u8005'+p.winner+'\u306e\u52dd\u5229\u304c\u78ba\u5b9a\u3057\u305f\u3002\n'+(p.winner==='A'?'\u53f3':'\u5de6')+'\u306eEXIT\u304c\u3001\u3086\u3063\u304f\u308a\u3068\u958b\u3044\u3066\u3044\u304f\u3002','KP\u306e\u88c1\u5b9a');
+   }break;
+ case 'doorVerdict':
+   if(['exitOpen','lastOpen'].includes(p.group)&&['A','B'].includes(p.side)&&!s.ended){
+     s[p.group][p.side]=!!p.open;
+     log(s,'\u9060\u304f\u3067\u3001\u6249\u306e\u4f5c\u52d5\u3059\u308b\u97f3\u304c\u3057\u305f\u3002','SOMETHING CHANGED');
+   }break;
+ case 'duelConfig':
+   if(['requested','opponent'].includes(p.mode))s.lastDoorTextMode=p.mode;break;
+ case 'resetDuel':
+   s.duelWinner=null;s.duelResolvedAt=0;s.exitOpen={A:false,B:false};s.lastOpen={A:false,B:false};s.ended=false;s.endedAt=0;s.endingActor=null;
+   s.wins=[];if(s.room==='finalA')s.room='duel';
+   log(s,'\u5bfe\u6c7a\u306e\u52dd\u6557\u3068\u51fa\u53e3\u306e\u72b6\u614b\u3092\u30ea\u30bb\u30c3\u30c8\u3057\u305f\u3002','KP\u306e\u88c1\u5b9a');break;
+ case 'finish':
+   if(!s.ended&&s.room==='finalA'&&s.exitOpen.A&&s.lastOpen.A){s.ended=true;s.endedAt=Date.now();s.endingActor='A';s.aHolding=false;log(s,'\u6249\u306e\u5411\u3053\u3046\u3078\u3001\u4e00\u6b69\u8e0f\u307f\u51fa\u3057\u305f\u3002');}break;
+ case 'finishB':
+   if(!s.ended&&s.exitOpen.B&&s.lastOpen.B){s.ended=true;s.endedAt=Date.now();s.endingActor='B';s.aHolding=false;log(s,'\u53c2\u52a0\u8005B\u304c\u3001\u6700\u5f8c\u306e\u6249\u306e\u5148\u3078\u9032\u3093\u3060\u3002','KP\u306e\u88c1\u5b9a');}break;
  case 'rug':if(s.room==='start'&&requireHands()){s.rugLifted=true;log(s,'じゅうたんをめくった。\n床に、大きなダイヤの模様が描かれている。');}break;
  case 'unlock':if(s.room==='cooperate'&&requireHands()){const answer=s.sessionDate.slice(5,7)+s.sessionDate.slice(8,10);if(String(p.code)===answer){s.hatchOpen=true;log(s,'番号錠が外れ、小さな扉が開いた。\n向こう側にも、空間が続いている。','SOMETHING CHANGED');}else log(s,'番号錠は動かない。番号が違うようだ。');}break;
  case 'aHold':s.aHolding=!!p.value&&p.item==='rod'&&s.room==='cooperate'&&s.handsFree&&s.rodLocation==='A'&&s.items.includes('rod')&&!s.feetFree;break;
@@ -417,8 +729,19 @@ function act(s,type,p={}){
  case 'bSubmit':if(s.bSlots.every(Boolean)&&!s.bSubmitted)s.bSubmitted=true;break;
  case 'returnPiece':if(s.hatchOpen&&!s.bSubmitted&&p.piece!=='heart0'&&s.bPieces.includes(p.piece)){s.bPieces=s.bPieces.filter(x=>x!==p.piece);s.bSlots=s.bSlots.map(x=>x===p.piece?null:x);s.aPieces.push(p.piece);log(s,PNAME[p.piece]+'のピースを、小さな扉から受け取った。','Bから受け取った');}break;
  case 'kpMessage':if(typeof p.text==='string'&&p.text.trim())log(s,p.text.trim().slice(0,3000),p.asB?'Bの声':'KPからの描写');break;
- case 'meta':if(p.actor==='A'||p.actor==='B'){const winner=p.actor==='A'?'B':'A';s.wins.push({winner,reason:'協力の間で'+p.actor+'がメタ発言',at:Date.now()});log(s,'参加者'+winner+'が、対決に勝利した。','KPの裁定');}break;
- case 'scopeEnd':if(s.cooperationOpen){s.scopeCompleted=true;s.aHolding=false;}break;
+ case 'meta':
+   if(!s.ended&&['A','B'].includes(p.actor)&&p.confirmed===true){
+     // KP verifies B's location; A's location is known to the authoritative server.
+     if(p.actor==='A'&&s.room!=='cooperate')break;
+     const winner=p.actor==='A'?'B':'A';
+     s.wins.push({winner,actor:p.actor,reason:'\u5354\u529b\u306e\u9593\u3067'+p.actor+'\u304c\u30e1\u30bf\u767a\u8a00',at:Date.now()});
+     if(s.duelActive)s.exitOpen[winner]=true;
+     // Opening the inner door is a SEPARATE KP ruling, never an automatic
+     // consequence of the first duel win. This preserves the requested gimmick.
+     if(s.duelWinner===p.actor)s.lastOpen[p.actor]=true;
+     log(s,'\u53c2\u52a0\u8005'+winner+'\u304c\u3001\u5bfe\u6c7a\u306b\u52dd\u5229\u3057\u305f\u3002\n\u6249\u306e\u9320\u304c\u5916\u308c\u308b\u97f3\u304c\u97ff\u3044\u305f\u3002','KP\u306e\u88c1\u5b9a');
+   }break;
+ case 'scopeEnd':if(s.cooperationOpen&&s.room==='cooperate'){s.room='duel';s.scopeCompleted=false;s.aHolding=false;}break;
  case 'resume':s.scopeCompleted=false;break;
  case 'config':if(/^\d{4}-\d{2}-\d{2}$/.test(p.date||''))s.sessionDate=p.date;for(const k of ['aSolution','bSolution'])if(Array.isArray(p[k])&&p[k].length===2&&p[k].every(x=>Object.hasOwn(GLYPH,x)&&x!=='heart0'))s[k]=p[k];break;
  case 'retryGate':s.aSubmitted=false;s.bSubmitted=false;s.gateFailed=false;s.cooperationOpen=false;s.scopeCompleted=false;log(s,'KPの裁定により、ピースの配置をやり直せる状態になった。','KPの裁定');break;
@@ -426,9 +749,10 @@ function act(s,type,p={}){
  default:return false;
  }evaluate(s);return true;
 }
+
 function save(){if(REMOTE)return;try{localStorage.setItem(KEY,JSON.stringify(S));}catch(e){storageOK=false;}}
 function broadcast(){if(REMOTE)return;const msg={kind:'state',state:S,sender:clientId};channel?.postMessage(msg);try{if(kpWindow&&!kpWindow.closed)kpWindow.postMessage(msg,'*');}catch(e){}if(network&&!IS_KP){const payload=JSON.stringify(S);netSending=netSending.catch(()=>{}).then(()=>fetch('api/state',{method:'POST',headers:{'Content-Type':'application/json'},body:payload})).catch(()=>{});}}
-function commit(type,p,commandId){if(commandId&&seenCommands.has(commandId))return;if(commandId){seenCommands.add(commandId);if(seenCommands.size>500)seenCommands.delete(seenCommands.values().next().value);}const old={hands:S.handsFree,feet:S.feetFree,gate:S.cooperationOpen,water:S.waterPoured};if(type==='reset'){S=initial();S.rev=Date.now();U.pin='';U.pinMsg='';U.drawer=null;U.selected=null;$('drawer').hidden=true;$('shade').hidden=true;}else if(type==='import'){try{const r=valid(p.data);r.rev=Math.max(S.rev+1,Date.now());r.aHolding=false;S=r;U.selected=null;}catch(e){toast(e.message);return;}}else{if(!act(S,type,p))return;S.rev=Math.max(S.rev+1,Date.now());}save();update();broadcast();if(!old.water&&S.waterPoured)sound('pour');if(!IS_KP&&((!old.hands&&S.handsFree)||(!old.feet&&S.feetFree)||(!old.gate&&S.cooperationOpen)))sound('unlock');}
+function commit(type,p,commandId){if(commandId&&seenCommands.has(commandId))return;if(commandId){seenCommands.add(commandId);if(seenCommands.size>500)seenCommands.delete(seenCommands.values().next().value);}const old={hands:S.handsFree,feet:S.feetFree,gate:S.cooperationOpen,water:S.waterPoured};if(type==='reset'){S=initial();S.rev=Date.now();U.pin='';U.pinMsg='';U.duelPassword='';U.duelError='';U.drawer=null;U.selected=null;$('drawer').hidden=true;$('shade').hidden=true;}else if(type==='import'){try{const r=valid(p.data);r.rev=Math.max(S.rev+1,Date.now());r.aHolding=false;S=r;U.selected=null;}catch(e){toast(e.message);return;}}else{if(!act(S,type,p))return;S.rev=Math.max(S.rev+1,Date.now());}save();update();broadcast();if(!old.water&&S.waterPoured)sound('pour');if(!IS_KP&&((!old.hands&&S.handsFree)||(!old.feet&&S.feetFree)||(!old.gate&&S.cooperationOpen)))sound('unlock');}
 function dispatch(type,p={}){sound();if(REMOTE){if(!remoteLink||!remoteReady){toast('接続を確認しています。');return Promise.resolve(false);}return remoteLink.action(type,p).catch(e=>{toast(e.message);return false;});}if(IS_KP){const msg={kind:'action',type,p,id:clientId+'-'+Math.random().toString(36).slice(2),sender:clientId};if(network){fetch('api/action',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(msg)}).then(r=>{if(!r.ok)toast('A画面との接続を確認してください。');}).catch(()=>toast('サーバーに接続できません。'));}else if(window.opener&&!window.opener.closed)window.opener.postMessage(msg,'*');else if(channel)channel.postMessage(msg);else toast('A画面のメニューからKP画面を開いてください。');}else commit(type,p);}
 function receive(msg,eventSource){if(REMOTE)return;if(!msg||msg.sender===clientId)return;if(IS_KP&&msg.kind==='state'){if(!network){try{S=valid(msg.state);update();}catch(e){}}}else if(!IS_KP&&msg.kind==='action'){if(network)return;commit(msg.type,msg.p,msg.id);}else if(!IS_KP&&msg.kind==='hello'){if(eventSource)eventSource.postMessage({kind:'state',state:S,sender:clientId},'*');broadcast();}}
 channel?.addEventListener('message',e=>receive(e.data));window.addEventListener('message',e=>receive(e.data,e.source));window.addEventListener('storage',e=>{if(!REMOTE&&IS_KP&&!network&&e.key===KEY&&e.newValue){try{S=valid(JSON.parse(e.newValue));update();}catch(e){}}});
@@ -438,22 +762,118 @@ function inventoryHTML(){let out=S.items.map(id=>`<button class="inv-item ${U.se
 function syncRodTimer(){clearTimeout(rodUiTimer);if(IS_KP||S.rodLocation!=='hatch')return;const remaining=ROD_EMERGE_MS-(Date.now()-S.rodOfferedAt);if(remaining>0)rodUiTimer=setTimeout(()=>{if(U.drawer==='hatch')renderInspector();},remaining+35);}
 function hatchArt(){const hole='<div class="hatch-aperture"></div>';if(S.rodLocation!=='hatch')return hole;const elapsed=Math.max(0,Math.min(ROD_EMERGE_MS,Date.now()-S.rodOfferedAt));return '<div class="hatch-transfer">'+hole+`<button class="offered-rod" style="--rod-elapsed:-${elapsed}ms" data-inspect="offeredRod" aria-label="差し出された棒を受け取る" title="差し出された棒を受け取る"><span class="offered-rod-shaft"></span></button></div>`;}
 
-function update(){if(!appReady)return;if(IS_KP){if(REMOTE&&!hasRemoteSnapshot)return;renderKP();if(REMOTE)updateRemoteKP();return;}if(U.selected&&!has(U.selected))U.selected=null;renderer?.build(S);$('roomHeading').innerHTML=(S.room==='start'?'始まりの部屋':'協力の間')+(S.identityKnown?'<span>腕の刻印：A</span>':'<span>EXPLORATION</span>');$('participantBadge').hidden=!S.identityKnown;$('identityLabel').textContent=S.identityKnown?'腕の刻印':'身体の状態';$('handStatus').textContent='手 / '+(S.handsFree?'自由':'拘束');$('handStatus').classList.toggle('free',S.handsFree);$('footStatus').textContent='足 / '+(S.feetFree?'自由':'拘束');$('footStatus').classList.toggle('free',S.feetFree);$('inventory').innerHTML=inventoryHTML();$('invCount').textContent=(S.items.length+S.aPieces.length)+' ITEMS';$('intro').hidden=S.started;$('narration').textContent=S.message.text;$('narrator').textContent=S.message.speaker;$('startBtn').textContent=S.started?'探索を続ける　→':'目を開ける　→';$('selectedItem').textContent=U.selected?'選択中：'+itemName(U.selected):'';$('itemInspectBtn').hidden=!U.selected;syncRodTimer();
- if(S.scopeCompleted){$('ending').hidden=false;$('ending').innerHTML='<div><div class="eyebrow">TO THE NEXT ROOM</div><h2>扉の、その先へ。</h2><p>対決の間への扉が開かれました。<br>この探索版の操作範囲は、ここまでです。<br>「対決の間」以降は、KPの進行で続けてください。</p><button class="secondary" data-action="resume">探索画面に戻る</button></div>';}else $('ending').hidden=true;
- if(U.drawer&&!['menu','log','freeAction','confirmReset','confirmKP'].includes(U.drawer))renderInspector();if(renderer)renderer.enabled=S.started&&!U.drawer&&!S.scopeCompleted&&(!REMOTE||remoteReady);}
+// New rooms. The original exploration and explicit tool-use controls stay unchanged.
+const ROOM_NAMES={start:'\u59cb\u307e\u308a\u306e\u90e8\u5c4b',cooperate:'\u5354\u529b\u306e\u9593',duel:'\u5bfe\u6c7a\u306e\u9593',finalA:'\u6700\u5f8c\u306e\u6249\u306e\u524d'};
+const DUEL_RULE='\u3069\u3061\u3089\u304b\u4e00\u65b9\u304c\u52dd\u8005\u3068\u306a\u308b\u3088\u3046\u306a\u4efb\u610f\u306e\u5bfe\u6c7a\u3092\u884c\u3046\u3002\n\u304a\u4e92\u3044\u306e\u5408\u610f\u304c\u3042\u308c\u3070\u3069\u3093\u306a\u5185\u5bb9\u3067\u3082\u69cb\u308f\u306a\u3044\u3002\n\u5c1a\u3001\u3053\u306e\u90e8\u5c4b\u3067\u884c\u3048\u308b\u5bfe\u6c7a\u306f\u4e00\u5ea6\u306e\u307f\u3060\u3002';
+Object.assign(NAMES,{terminal:'\u4e2d\u592e\u306e\u7aef\u672b',duelTitle:'\u5149\u306e\u6587\u5b57',duelRule:'\u5bfe\u6c7a\u306e\u30eb\u30fc\u30eb',outerA:'\u53f3\u306eEXIT',outerB:'\u5de6\u306eEXIT',outerSignA:'\u53f3\u306e\u6249\u306e\u4e0a\u306e\u8aac\u660e',outerSignB:'\u5de6\u306e\u6249\u306e\u4e0a\u306e\u8aac\u660e',lastA:'\u53f3\u306e\u51fa\u53e3\u306e\u5148\u306e\u6249',lastB:'\u5de6\u306e\u51fa\u53e3\u306e\u5148\u306e\u6249',duelBack:'\u5165\u3063\u3066\u304d\u305f\u6249',vestibuleBack:'\u5bfe\u6c7a\u306e\u9593\u3078\u623b\u308b\u6249',duelFloor:'\u767d\u3044\u5e8a',titleCard:'\u30bf\u30a4\u30c8\u30eb'});
+function outerText(side){return '\u3053\u306e\u6249\u306f\u53c2\u52a0\u8005'+side+'\u304c\u5bfe\u6c7a\u306b\u52dd\u5229\u3059\u308b\u3053\u3068\u3067\u958b\u304b\u308c\u308b\u3001\u53c2\u52a0\u8005'+side+'\u3057\u304b\u901a\u308b\u3053\u3068\u306f\u3067\u304d\u306a\u3044\u3002';}
+function lastText(side){const n=S.lastDoorTextMode==='opponent'?(side==='A'?'B':'A'):side;return '\u3053\u308c\u304c\u6b63\u771f\u6b63\u9298\u300c\u6700\u5f8c\u306e\u6249\u300d\u3060\u3002\n\u3053\u306e\u6249\u306f\u53c2\u52a0\u8005'+n+'\u304c\u5bfe\u6c7a\u306b\u52dd\u5229\u3059\u308b\u3053\u3068\u3067\u958b\u304b\u308c\u308b\u3002';}
+function duelDescription(id){
+ if(/^outer(Sign)?[AB]$/.test(id))return outerText(id.slice(-1));
+ if(/^last[AB]$/.test(id))return '\u6700\u5f8c\u306e\u6249\n'+lastText(id.slice(-1));
+ const d={terminal:S.duelActive?'\u7aef\u672b\u306f\u8d77\u52d5\u3057\u3066\u3044\u308b\u3002':'\u300c\u5bfe\u6c7a\u300d\u8d77\u52d5\u30e2\u30b8\u30e5\u30fc\u30eb\n\u8d77\u52d5\u30d1\u30b9\u30ef\u30fc\u30c9\u306f\u300c\u5bfe\u6c7a\u300d\u306e\u4e0b\uff08\u82f1\u6570\u5b5713\u5b57\uff09',duelTitle:'\u5bfe\u6c7a\nCONFRONTATION',duelRule:DUEL_RULE,duelBack:'\u5165\u3063\u3066\u304d\u305f\u6249\u3060\u3002\u5354\u529b\u306e\u9593\u3078\u623b\u308c\u308b\u3002',vestibuleBack:'\u5148\u307b\u3069\u306e\u5186\u5f62\u306e\u90e8\u5c4b\u3078\u623b\u308c\u308b\u3002',duelFloor:'\u767d\u3044\u5e8a\u306b\u3001\u8f2a\u72b6\u306e\u5149\u304c\u6620\u308a\u8fbc\u3093\u3067\u3044\u308b\u3002',titleCard:'\u5bfe\u6c7a\nCONFRONTATION'};
+ return Object.hasOwn(d,id)?d[id]:null;
+}
+function allowedDuelInspection(id){
+ if(id==='titleCard')return true;
+ if(['terminal','duelRule','duelTitle','outerA','outerB','outerSignA','outerSignB','duelBack'].includes(id)&&S.room!=='duel')return false;
+ if(['duelRule','duelTitle'].includes(id)&&!S.duelActive)return false;
+ if(id==='lastA'&&S.room!=='finalA'&&!(S.room==='duel'&&S.exitOpen.A))return false;
+ if(id==='lastB'&&!(S.room==='duel'&&S.exitOpen.B))return false;
+ if(id==='vestibuleBack'&&S.room!=='finalA')return false;
+ return true;
+}
+function duelInspector(id){
+ let title=NAMES[id],html='',kind='OBSERVATION';
+ if(id==='titleCard')return {title,html:'<img class="source-title" src="duel-title.png" alt="\u5bfe\u6c7a CONFRONTATION">',kind:'TITLE'};
+ if(!['duel','finalA'].includes(S.room))return null;
+ if(id==='places'){
+  const ids=S.room==='duel'?['terminal',...(S.duelActive?['duelTitle','duelRule']:[]),'outerB','outerA',...(S.exitOpen.B?['lastB']:[]),'duelFloor','duelBack']:['lastA','vestibuleBack'];
+  return {title:'\u3069\u3053\u3092\u8abf\u3079\u308b\uff1f',kind:'LOOK AROUND',html:ids.map(i=>`<button class="list-button" data-inspect="${i}">${NAMES[i]}</button>`).join('')};
+ }
+ if(id==='terminal'){
+   title='\u5bfe\u6c7a\u8d77\u52d5\u30e2\u30b8\u30e5\u30fc\u30eb';kind='TERMINAL';
+   if(S.duelActive)html='<div class="terminal-online"><span class="online-dot"></span>SYSTEM ONLINE</div><p>\u7aef\u672b\u306f\u8d77\u52d5\u3057\u3066\u3044\u308b\u3002</p>'+actions('<button class="action" data-inspect="duelRule">\u8868\u793a\u3055\u308c\u305f\u30eb\u30fc\u30eb\u3092\u8aad\u3080</button>');
+   else html='<img class="source-panel" src="activation-module.png" alt="'+esc(duelDescription('terminal'))+'"><form id="duelPasswordForm" autocomplete="off"><label class="terminal-label" for="duelPassword">PASSWORD</label><input id="duelPassword" name="password" class="duel-password" type="text" inputmode="text" autocomplete="off" autocapitalize="off" spellcheck="false" maxlength="13" value="'+esc(U.duelPassword||'')+'" aria-label="\u8d77\u52d5\u30d1\u30b9\u30ef\u30fc\u30c9"><div class="password-meta"><span id="passwordCount">'+(U.duelPassword||'').length+' / 13</span><span>ALPHANUMERIC</span></div><button type="submit" class="action emphasis" id="activateDuelBtn">\u8d77\u52d5\u3059\u308b</button><p id="duelPasswordError" class="message" role="status">'+esc(U.duelError||'')+'</p></form>';
+ }else if(id==='duelRule')html=panel('\u300c\u5bfe\u6c7a\u300d\u306e\u30eb\u30fc\u30eb',DUEL_RULE);
+ else if(id==='duelTitle')html='<div class="holo-art"><img class="source-title" src="duel-title.png" alt="\u5bfe\u6c7a CONFRONTATION"></div><p>\u5149\u306e\u6587\u5b57\u304c\u7a7a\u4e2d\u306b\u6d6e\u304b\u3093\u3067\u3044\u308b\u3002</p>';
+ else if(/^outer(Sign)?[AB]$/.test(id)){
+   const side=id.slice(-1),open=S.exitOpen[side];
+   html=panel('EXIT',outerText(side));
+   if(!id.startsWith('outerSign')){
+     html+='<div class="gate-status '+(open?'open':'')+'">'+(open?'OPEN':'LOCKED')+'</div>';
+     if(open&&side==='A')html+='<p>\u6249\u306e\u5148\u306b\u77ed\u3044\u901a\u8def\u304c\u898b\u3048\u308b\u3002</p>'+actions(actionButton('\u6249\u306e\u5148\u3078\u9032\u3080','room',{room:'finalA'},false,'emphasis'));
+     else if(open)html+='<p>\u6249\u306f\u958b\u3044\u3066\u3044\u308b\u3002\u3057\u304b\u3057\u3001\u3053\u3061\u3089\u304b\u3089\u5148\u3078\u306f\u9032\u3081\u306a\u3044\u3002</p>'+actions('<button class="action" data-inspect="lastB">\u5965\u306e\u6249\u306e\u6587\u5b57\u3092\u8aad\u3080</button>');
+     else html+='<p>\u6249\u306f\u9589\u307e\u3063\u3066\u3044\u308b\u3002</p>';
+   }
+ }else if(/^last[AB]$/.test(id)){
+   const side=id.slice(-1);title='\u6700\u5f8c\u306e\u6249';
+   html='<div class="final-plaque"><h3>\u6700\u5f8c\u306e\u6249</h3><p>'+esc(lastText(side)).replace('\u300c\u6700\u5f8c\u306e\u6249\u300d','<em>\u300c\u6700\u5f8c\u306e\u6249\u300d</em>')+'</p></div>';
+   if(S.lastOpen[side]){html+='<p>\u6249\u306e\u5411\u3053\u3046\u304b\u3089\u3001\u767d\u3044\u5149\u304c\u5dee\u3057\u8fbc\u3093\u3067\u3044\u308b\u3002</p>';if(side==='A'&&S.room==='finalA')html+=actions(actionButton('\u5148\u3078\u9032\u3080','finish',{},false,'emphasis'));}
+   else html+='<p>\u6249\u306f\u9589\u307e\u3063\u3066\u3044\u308b\u3002</p>';
+ }else if(id==='duelBack')html='<p>'+esc(duelDescription(id))+'</p>'+actions(actionButton('\u5354\u529b\u306e\u9593\u3078\u623b\u308b','room',{room:'cooperate'},false,'emphasis'));
+ else if(id==='vestibuleBack')html='<p>'+esc(duelDescription(id))+'</p>'+actions(actionButton('\u5bfe\u6c7a\u306e\u9593\u3078\u623b\u308b','room',{room:'duel'},false,'emphasis'));
+ else if(id==='duelFloor')html='<p>'+esc(duelDescription(id))+'</p>';
+ else return null;
+ return {title,html,kind};
+}
+function paintDuelInspector(d){
+ const active=document.activeElement,id=active?.id;let caret=null;try{caret=[active.selectionStart,active.selectionEnd];}catch{}
+ $('inspectTitle').textContent=d.title||'';$('inspectKind').textContent=d.kind||'OBSERVATION';$('inspectBody').innerHTML=d.html;
+ if(id&&$(id)&&$('drawer').contains($(id))){$(id).focus({preventScroll:true});if(caret&&caret[0]!==null)try{$(id).setSelectionRange(...caret);}catch{}}
+}
+let previousRoom=null,endingShownAt=null;
+function renderEnding(){
+ const end=$('ending');
+ if(!S.ended){end.hidden=true;end.className='end-card';end.innerHTML='';endingShownAt=null;return;}
+ if(endingShownAt===S.endedAt)return;
+ endingShownAt=S.endedAt;U.drawer=null;$('drawer').hidden=true;$('shade').hidden=true;
+ end.innerHTML='<img src="duel-title.png" class="ending-title" alt="\u5bfe\u6c7a CONFRONTATION">';end.className='end-card white-ending';end.hidden=false;
+ const animate=Date.now()-S.endedAt<10000;
+ if(!animate)end.classList.add('settled');
+ requestAnimationFrame(()=>requestAnimationFrame(()=>end.classList.add('visible')));
+}
+function duelKPCard(){
+ const badge=(open)=>'<span class="door-chip '+(open?'is-open':'')+'">'+(open?'OPEN':'LOCKED')+'</span>';
+ const controls=['B','A'].map(side=>`<div class="duel-gate-control"><h3>${side==='B'?'\u5de6':'\u53f3'} / \u53c2\u52a0\u8005${side}</h3><p>EXIT ${badge(S.exitOpen[side])}\u3000\u6700\u5f8c\u306e\u6249 ${badge(S.lastOpen[side])}</p>${actionButton('EXIT\u3092'+(S.exitOpen[side]?'\u9589\u3081\u308b':'\u958b\u304f'),'doorVerdict',{group:'exitOpen',side,open:!S.exitOpen[side]},S.ended)}${actionButton('\u6700\u5f8c\u306e\u6249\u3092'+(S.lastOpen[side]?'\u9589\u3081\u308b':'\u958b\u304f'),'doorVerdict',{group:'lastOpen',side,open:!S.lastOpen[side]},S.ended)}</div>`).join('');
+ const win=S.duelWinner?'<span class="winner-badge">'+S.duelWinner+'</span>':'<span class="tiny">\u672a\u78ba\u5b9a</span>';
+ return `<section class="kp-card kp-wide duel-kp-card"><div class="duel-kp-heading"><div><div class="eyebrow">CONFRONTATION / KEEPER CONTROL</div><h2>\u5bfe\u6c7a\u3068\u3001\u6700\u5f8c\u306e\u6249</h2></div><div class="phase-pill">${S.ended?'\u7d42\u4e86':S.duelActive?'\u30e2\u30b8\u30e5\u30fc\u30eb\u8d77\u52d5\u6e08\u307f':'\u30e2\u30b8\u30e5\u30fc\u30eb\u672a\u8d77\u52d5'}</div></div>
+ <div class="duel-kp-grid"><div><h3>01\u3000\u5bfe\u6c7a\u306e\u52dd\u8005 ${win}</h3><p>\u4e21\u8005\u304c\u5408\u610f\u3057\u305f\u5bfe\u6c7a\u306e\u7d50\u679c\u3092\u78ba\u5b9a\u3057\u307e\u3059\u3002\u81ea\u52d5\u5224\u5b9a\u306f\u3057\u307e\u305b\u3093\u3002</p><div class="kp-row">${actionButton('A\u306e\u52dd\u5229','duelVerdict',{winner:'A'},!S.duelActive||!!S.duelWinner||S.ended,'emphasis')}${actionButton('B\u306e\u52dd\u5229','duelVerdict',{winner:'B'},!S.duelActive||!!S.duelWinner||S.ended,'emphasis')}</div><p class="tiny">\u3053\u306e\u90e8\u5c4b\u3067\u306e\u5bfe\u6c7a\u306f\u4e00\u5ea6\u3060\u3051\u3002\u78ba\u5b9a\u5f8c\u306f\u518d\u78ba\u5b9a\u3067\u304d\u307e\u305b\u3093\u3002\u6700\u521d\u306e\u52dd\u5229\u3067\u306fEXIT\u3060\u3051\u304c\u958b\u304d\u307e\u3059\u3002</p></div>
+ <div><h3>02\u3000\u5354\u529b\u306e\u9593\u3067\u306e\u30e1\u30bf\u767a\u8a00</h3><p>A\u306e\u73fe\u5728\u5730\uff1a${ROOM_NAMES[S.room]}\u3002B\u306e\u5834\u6240\u306fKP\u304c\u78ba\u8a8d\u3057\u3066\u304f\u3060\u3055\u3044\u3002</p><div class="kp-row">${actionButton('A\u304c\u30e1\u30bf\u767a\u8a00 \u2192 B\u52dd\u5229','meta',{actor:'A',confirmed:true},S.room!=='cooperate'||S.ended,'warning')}${actionButton('B\u304c\u30e1\u30bf\u767a\u8a00 \u2192 A\u52dd\u5229','meta',{actor:'B',confirmed:true},S.ended,'warning')}</div><p class="tiny">\u300c\u5bfe\u6c7a\u306e\u9593\u306e\u52dd\u8005\u300d\u304c\u30e1\u30bf\u767a\u8a00\u3057\u305f\u3068KP\u304c\u88c1\u5b9a\u3059\u308b\u3068\u3001\u305d\u306e\u52dd\u8005\u5074\u306e\u6700\u5f8c\u306e\u6249\u304c\u958b\u304d\u307e\u3059\u3002\u958b\u3044\u305f\u6249\u306f\u4fdd\u6301\u3055\u308c\u307e\u3059\u3002</p></div></div>
+ <details class="duel-manual"><summary>\u6249\u3092\u500b\u5225\u306b\u64cd\u4f5c\u3059\u308b\uff0f\u5fa9\u65e7\u30fb\u8868\u793a\u8a2d\u5b9a</summary><div class="duel-kp-grid">${controls}</div><label class="field"><span>\u6700\u5f8c\u306e\u6249\u306e\u6587\u8a00\uff08\u958b\u9589\u306fKP\u88c1\u5b9a\u3068\u306f\u5225\u306b\u5909\u66f4\u3055\u308c\u307e\u305b\u3093\uff09</span><select id="duelTextMode" data-duel-mode><option value="requested" ${S.lastDoorTextMode==='requested'?'selected':''}>\u4eca\u56de\u306e\u6307\u5b9a\u3069\u304a\u308a\uff1a\u5de6\u306fB\u52dd\u5229\uff0f\u53f3\u306fA\u52dd\u5229</option><option value="opponent" ${S.lastDoorTextMode==='opponent'?'selected':''}>\u76f8\u624b\u5074\u306e\u52dd\u5229\u3092\u8868\u8a18\uff1a\u5de6\u306fA\u52dd\u5229\uff0f\u53f3\u306fB\u52dd\u5229</option></select></label><p class="tiny">\u30e1\u30bf\u767a\u8a00\u306b\u3088\u308b\u300c\u76f8\u624b\u306e\u52dd\u5229\u300d\u3092\u6249\u306e\u6587\u7ae0\u306e\u6761\u4ef6\u3068\u3057\u3066\u8aad\u307e\u305b\u308b\u5834\u5408\u306f\u3001\u4e0b\u306e\u9078\u629e\u80a2\u3092\u4f7f\u3063\u3066\u304f\u3060\u3055\u3044\u3002\u521d\u671f\u5024\u306f\u4eca\u56de\u306e\u6307\u5b9a\u6587\u3067\u3059\u3002</p><div class="kp-row">${actionButton('B\u304c\u6700\u5f8c\u306e\u6249\u306e\u5148\u3078\u9032\u3080','finishB',{},!S.exitOpen.B||!S.lastOpen.B||S.ended,'emphasis')}${actionButton('\u5bfe\u6c7a\u306e\u5224\u5b9a\u3060\u3051\u3084\u308a\u76f4\u3059','resetDuel',{},false,'warning')}</div></details></section>`;
+}
+async function activateFromForm(){
+ if(S.duelActive)return;U.duelPassword=$('duelPassword')?.value||'';U.duelError='';
+ if(!/^[A-Za-z0-9]{13}$/.test(U.duelPassword.trim())){U.duelError='\u82f1\u6570\u5b5713\u5b57\u3092\u5165\u529b\u3057\u3066\u304f\u3060\u3055\u3044\u3002';renderInspector();return;}
+ const b=$('activateDuelBtn');if(b)b.disabled=true;
+ const res=dispatch('activateDuel',{password:U.duelPassword});if(REMOTE)await res;
+ if(S.duelActive){U.duelPassword='';U.duelError='';closeDrawer();renderer?.view('front');}
+ else{U.duelError='\u30d1\u30b9\u30ef\u30fc\u30c9\u304c\u9055\u3044\u307e\u3059\u3002';sound('error');renderInspector();}
+}
+document.addEventListener('input',e=>{if(e.target.id==='duelPassword'){U.duelPassword=e.target.value;U.duelError='';if($('passwordCount'))$('passwordCount').textContent=U.duelPassword.length+' / 13';}});
+document.addEventListener('submit',e=>{if(e.target.id==='duelPasswordForm'){e.preventDefault();activateFromForm();}});
+document.addEventListener('change',e=>{if(e.target.hasAttribute('data-duel-mode'))dispatch('duelConfig',{mode:e.target.value});});
+
+function update(){if(!appReady)return;document.body.dataset.room=S.room;document.body.classList.toggle('room-ended',!!S.ended);if(!IS_KP&&previousRoom!==S.room){previousRoom=S.room;U.drawer=null;$('drawer').hidden=true;$('shade').hidden=true;}if(IS_KP){if(REMOTE&&!hasRemoteSnapshot)return;renderKP();if(REMOTE)updateRemoteKP();return;}if(U.selected&&!has(U.selected))U.selected=null;renderer?.build(S);$('roomHeading').innerHTML=(ROOM_NAMES[S.room])+(S.identityKnown?'<span>腕の刻印：A</span>':'<span>EXPLORATION</span>');$('participantBadge').hidden=!S.identityKnown;$('identityLabel').textContent=S.identityKnown?'腕の刻印':'身体の状態';$('handStatus').textContent='手 / '+(S.handsFree?'自由':'拘束');$('handStatus').classList.toggle('free',S.handsFree);$('footStatus').textContent='足 / '+(S.feetFree?'自由':'拘束');$('footStatus').classList.toggle('free',S.feetFree);$('inventory').innerHTML=inventoryHTML();$('invCount').textContent=(S.items.length+S.aPieces.length)+' ITEMS';$('intro').hidden=S.started;$('narration').textContent=S.message.text;$('narrator').textContent=S.message.speaker;$('startBtn').textContent=S.started?'探索を続ける　→':'目を開ける　→';$('selectedItem').textContent=U.selected?'選択中：'+itemName(U.selected):'';$('itemInspectBtn').hidden=!U.selected;syncRodTimer();
+ renderEnding();
+ if(U.drawer&&!['menu','log','freeAction','confirmReset','confirmKP'].includes(U.drawer))renderInspector();if(renderer)renderer.enabled=S.started&&!U.drawer&&!S.ended&&(!REMOTE||remoteReady);}
 function actionButton(label,type,p={},disabled=false,style=''){return `<button class="action ${style}" data-action="${type}" data-p="${esc(JSON.stringify(p))}" ${disabled?'disabled':''}>${label}</button>`;}
 function panel(title,body){return `<div class="black-panel"><strong>${esc(title)}</strong>\n${esc(body)}</div>`;}
 function art(content,cls=''){return `<div class="inspection-art ${cls}">${content}</div>`;}
 const actions=html=>`<div class="action-list">${html}</div>`;
-function describe(id){const d={body:'服を着ている。\n腕をよく見ると、「A」という刻印がある。\n'+(S.handsFree?'両手の拘束は外れている。':'両手は拘束されている。')+'\n'+(S.feetFree?'足の拘束も外れている。':'足にも拘束具がついている。'),startDoor:'目の前に扉がある。手足は拘束されているが、なんとか開くことはできそうだ。',cooperationRule:'協力の間\n'+RULE,exitRule:'全てのミッションを達成した時、対決の間への扉は開かれる。',circles:'壁には、色のついた3つの丸が描かれている。左から、赤、黄、青。',hatch:S.hatchOpen?'小さな扉は開いている。向こう側にも、空間がある。':'壁に拳ほどの大きさの小さな扉があり、4桁の番号錠がかかっている。',buttons:'3メートルほど離れた位置に、四角いボタンが1つずつある。腕を伸ばしても、同時には届きそうにない。',buttonRule:'3つのボタンが同時に押されるとき、足の拘束は解除される。',box:S.chestOpen?'箱は開いている。中にあったピースは、持ちものに入れた。':'部屋の中央に、鍵穴のある箱が置かれている。鍵は閉まっている。',tank:S.waterPoured?'水槽には、もう水が入っていない。':'部屋の隅に、水だけが入った小さな水槽がある。',monitor:'壁のモニターに、ミッションが表示されている。',slots:'奥の扉には、上下に2つのくぼみがある。',floor:S.room==='cooperate'?'床の対角線に、太くて黒い線が描かれている。':S.rugLifted?'じゅうたんの下には、大きなダイヤの模様が描かれている。':'足触りのよいじゅうたんが敷かれている。',rug:S.rugLifted?'じゅうたんはめくれている。その下に、大きなダイヤの模様がある。':'じゅうたんは、やわらかく、足触りがいい。',diamond:'床に、大きなダイヤの模様が描かれている。',cuffs:S.handsFree?'外れた手錠の内側に、「暗証番号は今日の日付」と刻まれている。':'両手は手錠で拘束されている。',ankles:S.feetFree?'外れた足枷には、「か　は　つ　な　」と書かれている。':'足は拘束されている。歩幅は狭いが、少しずつ移動はできそうだ。',exitDoor:S.cooperationOpen?'奥の扉は開いている。その先には、少し広い部屋が見える。':'奥の扉は閉まっていて、動かない。',returnDoor:'最初に目覚めた部屋へ戻る扉だ。'};return d[id]||'';}
-function inspect(id){if(!S.started||IS_KP)return;if(id==='floor'&&S.room==='start')id='rug';if(id==='exitDoor'&&S.chestOpen&&!S.cooperationOpen)id='slots';if(S.aHolding&&id!=='buttons')dispatch('aHold',{value:false});
+function describe(id){const additional=duelDescription(id);if(additional!==null)return additional;const d={body:'服を着ている。\n腕をよく見ると、「A」という刻印がある。\n'+(S.handsFree?'両手の拘束は外れている。':'両手は拘束されている。')+'\n'+(S.feetFree?'足の拘束も外れている。':'足にも拘束具がついている。'),startDoor:'目の前に扉がある。手足は拘束されているが、なんとか開くことはできそうだ。',cooperationRule:'協力の間\n'+RULE,exitRule:'全てのミッションを達成した時、対決の間への扉は開かれる。',circles:'壁には、色のついた3つの丸が描かれている。左から、赤、黄、青。',hatch:S.hatchOpen?'小さな扉は開いている。向こう側にも、空間がある。':'壁に拳ほどの大きさの小さな扉があり、4桁の番号錠がかかっている。',buttons:'3メートルほど離れた位置に、四角いボタンが1つずつある。腕を伸ばしても、同時には届きそうにない。',buttonRule:'3つのボタンが同時に押されるとき、足の拘束は解除される。',box:S.chestOpen?'箱は開いている。中にあったピースは、持ちものに入れた。':'部屋の中央に、鍵穴のある箱が置かれている。鍵は閉まっている。',tank:S.waterPoured?'水槽には、もう水が入っていない。':'部屋の隅に、水だけが入った小さな水槽がある。',monitor:'壁のモニターに、ミッションが表示されている。',slots:'奥の扉には、上下に2つのくぼみがある。',floor:S.room==='cooperate'?'床の対角線に、太くて黒い線が描かれている。':S.rugLifted?'じゅうたんの下には、大きなダイヤの模様が描かれている。':'足触りのよいじゅうたんが敷かれている。',rug:S.rugLifted?'じゅうたんはめくれている。その下に、大きなダイヤの模様がある。':'じゅうたんは、やわらかく、足触りがいい。',diamond:'床に、大きなダイヤの模様が描かれている。',cuffs:S.handsFree?'外れた手錠の内側に、「暗証番号は今日の日付」と刻まれている。':'両手は手錠で拘束されている。',ankles:S.feetFree?'外れた足枷には、「か　は　つ　な　」と書かれている。':'足は拘束されている。歩幅は狭いが、少しずつ移動はできそうだ。',exitDoor:S.cooperationOpen?'奥の扉は開いている。その先には、少し広い部屋が見える。':'奥の扉は閉まっていて、動かない。',returnDoor:'最初に目覚めた部屋へ戻る扉だ。'};return d[id]||'';}
+function inspect(id){if(!S.started||IS_KP||S.ended)return;
+ if(id==='enterExitA'){if(S.room==='duel'&&S.exitOpen.A){closeDrawer();dispatch('room',{room:'finalA'});}return;}
+ if(id==='advanceFinal'){if(S.room==='finalA'&&S.lastOpen.A){closeDrawer();dispatch('finish');}return;}
+ if(!allowedDuelInspection(id))return;
+if(id==='floor'&&S.room==='start')id='rug';if(id==='exitDoor'&&S.chestOpen&&!S.cooperationOpen)id='slots';if(S.aHolding&&id!=='buttons')dispatch('aHold',{value:false});
  if(id==='offeredRod'){if(S.rodLocation!=='hatch'||S.room!=='cooperate')return;if(Date.now()-S.rodOfferedAt<ROD_EMERGE_MS){toast('棒は、まだゆっくりと差し出されている。');return;}if(!S.handsFree){toast('両手が拘束されていて、受け取れない。');return;}closeDrawer();dispatch('takeRod');return;}
  const text=describe(id);if(text)dispatch('inspect',{id:S.room+':'+id,text});if(id==='box'&&U.selected==='key'&&has('key')&&S.handsFree&&!S.chestOpen)dispatch('openBox',{item:'key'});openDrawer(id);if(id==='buttons'&&U.selected==='rod'&&has('rod')&&S.handsFree&&!S.feetFree&&!S.aHolding)dispatch('aHold',{value:true,item:'rod'});
 }
 function openDrawer(id){U.lastFocus=document.activeElement;U.drawer=id;$('intro').style.zIndex=id==='menu'&&!S.started?'8':'';$('shade').hidden=false;$('drawer').hidden=false;renderInspector();if(renderer)renderer.enabled=false;setTimeout(()=>$('closeDrawer').focus(),20);}
-function closeDrawer(){if(S.aHolding&&!IS_KP)dispatch('aHold',{value:false});U.drawer=null;$('drawer').hidden=true;$('shade').hidden=true;$('intro').style.zIndex='';if(renderer)renderer.enabled=S.started&&!S.scopeCompleted;if(U.lastFocus?.isConnected)U.lastFocus.focus();}
+function closeDrawer(){if(S.aHolding&&!IS_KP)dispatch('aHold',{value:false});U.drawer=null;$('drawer').hidden=true;$('shade').hidden=true;$('intro').style.zIndex='';if(renderer)renderer.enabled=S.started&&!S.ended;if(U.lastFocus?.isConnected)U.lastFocus.focus();}
 function slotHTML(){return `<div class="slots">${S.aSlots.map((x,i)=>`<button class="slot ${U.activeSlot===i?'active':''}" data-slot-focus="${i}" aria-label="${i?'下':'上'}のくぼみ" ${S.aSubmitted?'disabled':''}>${x?GLYPH[x]:''}<small>${i?'下':'上'}のくぼみ</small></button>`).join('')}</div><div class="piece-bank">${S.aPieces.map(p=>`<button class="piece" title="${PNAME[p]}" aria-label="${PNAME[p]}をはめる" data-action="aSlot" data-p="${esc(JSON.stringify({slot:U.activeSlot,piece:p}))}" ${S.aSubmitted?'disabled':''}>${GLYPH[p]}</button>`).join('')}</div>`;}
-function renderInspector(){const id=U.drawer;if(!id)return;let title=NAMES[id]||'',html='',kind='OBSERVATION';
+function renderInspector(){const id=U.drawer;if(!id)return;const add=duelInspector(id);if(add){paintDuelInspector(add);return;}let title=NAMES[id]||'',html='',kind='OBSERVATION';
  switch(id){
  case 'body':html=art('<span class="arm-mark">A</span>')+'<p>'+esc(describe(id))+'</p>';break;
  case 'cooperationRule':html=panel('協力の間',RULE);break;
@@ -474,11 +894,11 @@ function renderInspector(){const id=U.drawer;if(!id)return;let title=NAMES[id]||
  case 'monitor':html=panel(mission()===1?'ミッション1':mission()===2?'ミッション2':'最終ミッション',mission()===1?'参加者Aの拘束を解け':mission()===2?'箱の鍵を開けろ':'扉に正しくピースをはめろ\n※チャンスは一度きり');break;
  case 'tank':html=art(tankArt())+'<p>'+esc(describe(id))+'</p>'+actions(S.tankLocation==='floor'?actionButton('水槽を持ち上げる','takeTank',{},!S.handsFree,'emphasis'):actionButton('水槽を元の場所に戻す','putTank'));break;
  case 'box':html=art('<div style="width:127px;height:86px;background:repeating-linear-gradient(0deg,#bca67e,#bca67e 20px,#a99269 21px);border:3px solid #867950;box-shadow:8px 8px 0 #ae9b75;position:relative"><span style="position:absolute;left:51px;top:29px;font-size:24px;color:#39482e">⚿</span></div>')+'<p>'+esc(describe(id))+'</p>';if(!S.chestOpen)html+=actions('<button class="action" data-local="lockedBox">ふたを開けようとする</button>');else html+='<div class="piece-bank">'+['heart','diamond','cross','star','spade','circle'].map(p=>`<span class="piece" style="display:flex;align-items:center;justify-content:center">${GLYPH[p]}</span>`).join('')+'</div>';break;
- case 'exitDoor':html=art('<span style="font-size:100px;color:#53684c">▯</span>')+'<p>'+esc(describe(id))+'</p>'+actions(S.cooperationOpen?actionButton('開いた扉の向こうへ進む','scopeEnd',{},false,'emphasis'):'<button class="action" data-local="lockedDoor">扉を開けようとする</button>');break;
- case 'slots':title='扉の2つのくぼみ';html='<p>扉には、上下に2つのくぼみがある。</p>';if(S.chestOpen)html+=panel('最終ミッション','扉に正しくピースをはめろ\n※チャンスは一度きり')+slotHTML()+(!S.aSubmitted?'<p class="tiny">まず上下どちらかのくぼみを選び、次にピースを選びます。「確定する」までは入れ替えられます。</p>'+actions(actionButton('選んでいるくぼみからピースを外す','aSlot',{slot:U.activeSlot,piece:null},!S.aSlots[U.activeSlot])+`<button class="action warning" data-local="submitPieces" ${!S.aSlots.every(Boolean)?'disabled':''}>この配置で確定する（一度きり）</button>`):'<div class="notice">'+(S.cooperationOpen?'扉の錠が外れた。':S.gateFailed?'扉は開かない。配置は変更できない。':'配置は確定済み。今は扉に変化がない。')+'</div>');else html+=art('<div class="slots"><span class="slot"></span><span class="slot"></span></div>');if(S.cooperationOpen)html+=actions(actionButton('開いた扉の向こうへ進む','scopeEnd',{},false,'emphasis'));break;
+ case 'exitDoor':html=art('<span style="font-size:100px;color:#53684c">▯</span>')+'<p>'+esc(describe(id))+'</p>'+actions(S.cooperationOpen?actionButton('開いた扉の向こうへ進む','room',{room:'duel'},false,'emphasis'):'<button class="action" data-local="lockedDoor">扉を開けようとする</button>');break;
+ case 'slots':title='扉の2つのくぼみ';html='<p>扉には、上下に2つのくぼみがある。</p>';if(S.chestOpen)html+=panel('最終ミッション','扉に正しくピースをはめろ\n※チャンスは一度きり')+slotHTML()+(!S.aSubmitted?'<p class="tiny">まず上下どちらかのくぼみを選び、次にピースを選びます。「確定する」までは入れ替えられます。</p>'+actions(actionButton('選んでいるくぼみからピースを外す','aSlot',{slot:U.activeSlot,piece:null},!S.aSlots[U.activeSlot])+`<button class="action warning" data-local="submitPieces" ${!S.aSlots.every(Boolean)?'disabled':''}>この配置で確定する（一度きり）</button>`):'<div class="notice">'+(S.cooperationOpen?'扉の錠が外れた。':S.gateFailed?'扉は開かない。配置は変更できない。':'配置は確定済み。今は扉に変化がない。')+'</div>');else html+=art('<div class="slots"><span class="slot"></span><span class="slot"></span></div>');if(S.cooperationOpen)html+=actions(actionButton('開いた扉の向こうへ進む','room',{room:'duel'},false,'emphasis'));break;
  case 'places':title='どこを調べる？';kind='LOOK AROUND';html='<p class="tiny">部屋の物を直接クリックする代わりに、ここから調べることもできます。</p>';const ids=S.room==='start'?['body','startDoor','cooperationRule','rug']:['body','monitor','exitDoor','exitRule','slots','circles','hatch',...(S.rodLocation==='hatch'?['offeredRod']:[]),'buttons','box',...(S.tankLocation==='floor'?['tank']:[]),'floor','returnDoor'];html+=ids.map(x=>`<button class="list-button" data-inspect="${x}">${NAMES[x]}</button>`).join('');break;
  case 'log':title='見聞きしたこと';kind='YOUR NOTES';html=S.log.length?S.log.slice().reverse().map(x=>`<div class="log-item"><small>${esc(x.speaker)}</small>${esc(x.text)}</div>`).join(''):'<p>まだ、記録はありません。</p>';break;
- case 'menu':title='操作と設定';kind='EXPLORER';html='<p>ドラッグ：見回す<br>W・A・S・D：移動<br>物をクリック：調べる<br>画面右下のボタン：向きを切り替える<br>持ちものをクリック：道具の選択・解除<br>選択した状態で対象をクリック：道具を使う<br>Esc：調べる画面を閉じる／選択を解除</p>'+actions('<button class="action" data-local="openKP">KPの操作画面を別ウィンドウで開く</button>'+'<button class="action" data-local="export">探索記録を保存する</button>'+'<button class="action" data-local="import">探索記録を読み込む</button>'+'<button class="action warning" data-local="reset">最初からやり直す</button>')+'<p class="tiny" style="margin-top:18px">探索状態は、このブラウザに自動保存されます。'+(!storageOK?'現在はブラウザの自動保存が利用できません。手動保存を利用してください。':'')+'</p><p class="tiny">実装範囲：始まりの部屋／協力の間。<br>別端末でのKP操作には、同梱のLAN用サーバーを利用します。HTML単体では同じPC内で同期します。</p>';break;
+ case 'menu':title='操作と設定';kind='EXPLORER';html='<p>ドラッグ：見回す<br>W・A・S・D：移動<br>物をクリック：調べる<br>画面右下のボタン：向きを切り替える<br>持ちものをクリック：道具の選択・解除<br>選択した状態で対象をクリック：道具を使う<br>Esc：調べる画面を閉じる／選択を解除</p>'+actions('<button class="action" data-inspect="titleCard">&#12479;&#12452;&#12488;&#12523;&#12434;&#35211;&#12427;</button><button class="action" data-local="openKP">KPの操作画面を別ウィンドウで開く</button>'+'<button class="action" data-local="export">探索記録を保存する</button>'+'<button class="action" data-local="import">探索記録を読み込む</button>'+'<button class="action warning" data-local="reset">最初からやり直す</button>')+'<p class="tiny" style="margin-top:18px">探索状態は、このブラウザに自動保存されます。'+(!storageOK?'現在はブラウザの自動保存が利用できません。手動保存を利用してください。':'')+'</p><p class="tiny">始まりの部屋／協力の間／対決の間／最後の扉。<br>別端末でのKP操作には、同梱のLAN用サーバーを利用します。HTML単体では同じPC内で同期します。</p>';break;
  default:if(id?.startsWith('item:')){const item=id.slice(5);if(item.startsWith('piece:')){const p=item.slice(6);title=PNAME[p]+'のピース';html=art(GLYPH[p])+'<p>'+PNAME[p]+'のマークが描かれたピース。</p>'+actions(S.room==='cooperate'?'<button class="action" data-inspect="slots">奥の扉のくぼみを調べる</button>':'')+(S.hatchOpen&&S.room==='cooperate'?actions(actionButton('小さな扉から向こうへ渡す','sendPiece',{piece:p},S.aSubmitted)):'');}else{title=itemName(item)||'持ちもの';html=art(item==='tank'?tankArt():INFO[item]?.[1]||'')+'<p>'+esc({rod:'長さ3メートルほどの細長い棒。軽いので、1人でも扱えそうだ。',key:'木でできた鍵だ。',tank:S.waterPoured?'空になった小さな水槽。':'水の入った小さな水槽。両手で持って運べる。'}[item]||'')+'</p>';if(item==='tank'&&S.room==='cooperate')html+=actions(actionButton('水槽を元の場所に戻す','putTank'));}}break;
  }
  $('inspectTitle').textContent=title;$('inspectKind').textContent=kind;$('inspectBody').innerHTML=html;if(REMOTE&&id==='menu'){for(const el of $('inspectBody').querySelectorAll('[data-local="openKP"],[data-local="import"],[data-local="reset"]'))el.remove();for(const el of $('inspectBody').querySelectorAll('p.tiny'))el.remove();}
@@ -490,22 +910,22 @@ function openKP(){if(REMOTE){toast('キーパー専用の招待URLから開い�
 function localAction(name){switch(name){case 'oneButton':toast('片方は押せるが、もう片方には手が届かない。');break;case 'lockedBox':toast('鍵がかかっていて、ふたは開かない。');break;case 'lockedDoor':toast('扉は、ぴくりとも動かない。');break;case 'submitPieces':if(confirm('この配置で確定しますか？\nチャンスは一度きりです。確定後は変更できません。'))dispatch('aSubmit');break;case 'openKP':openKP();break;case 'export':exportState();break;case 'import':importState();break;case 'reset':if(confirm('この探索記録を消して、最初からやり直しますか？')){closeDrawer();dispatch('reset');}break;}}
 function kpOptions(stock,selected,empty=true){return (empty?'<option value="">空にする</option>':'')+stock.map(p=>`<option value="${p}" ${p===selected?'selected':''}>${GLYPH[p]} ${PNAME[p]}</option>`).join('');}
 function renderKP(){
- const drafts={};document.querySelectorAll('[data-draft]').forEach(el=>drafts[el.id]=el.value);const active=document.activeElement,focusId=active?.id;let caret=null;try{caret=[active.selectionStart,active.selectionEnd];}catch(e){}
- const summary=`<div class="kp-stats"><span class="kp-stat">A：${S.room==='start'?'始まりの部屋':'協力の間'}</span><span class="kp-stat ${S.handsFree?'ok':''}">手 ${S.handsFree?'解除済み':'拘束中'}</span><span class="kp-stat ${S.feetFree?'ok':''}">足 ${S.feetFree?'解除済み':'拘束中'}</span><span class="kp-stat">小窓 ${S.hatchOpen?'開':'閉'}</span><span class="kp-stat">箱 ${S.chestOpen?'開':'閉'}</span><span class="kp-stat">Aのボタン ${S.aHolding?'押している':'離している'}</span></div>`;
+ const openDetails=[...document.querySelectorAll('.duel-manual')].map(x=>x.open);const drafts={};document.querySelectorAll('[data-draft]').forEach(el=>drafts[el.id]=el.value);const active=document.activeElement,focusId=active?.id;let caret=null;try{caret=[active.selectionStart,active.selectionEnd];}catch(e){}
+ const summary=`<div class="kp-stats"><span class="kp-stat">A：${ROOM_NAMES[S.room]}</span><span class="kp-stat ${S.handsFree?'ok':''}">手 ${S.handsFree?'解除済み':'拘束中'}</span><span class="kp-stat ${S.feetFree?'ok':''}">足 ${S.feetFree?'解除済み':'拘束中'}</span><span class="kp-stat">小窓 ${S.hatchOpen?'開':'閉'}</span><span class="kp-stat">箱 ${S.chestOpen?'開':'閉'}</span><span class="kp-stat">Aのボタン ${S.aHolding?'押している':'離している'}</span></div>`;
  const banks=S.bPieces.map(p=>`<span class="piece" title="${PNAME[p]}" style="display:inline-flex;align-items:center;justify-content:center">${GLYPH[p]}</span>`).join('');
  const winText=S.wins.length?S.wins.map(w=>`<div class="kp-stat">${esc(w.winner)}が勝利：${esc(w.reason)}</div>`).join(''):'<p class="tiny">勝利の記録はまだありません。</p>';
  $('kpApp').innerHTML=`<main class="kp-page"><header class="kp-head"><div><div class="eyebrow">一口異世界 / 対決</div><h1>KPの操作室</h1><div class="connection">${REMOTE?'インターネット経由で同期':network?'LAN経由でA画面と同期':window.opener&&!window.opener.closed?'A画面と同じPCで同期':'A画面を同じブラウザで開いてください'}</div></div><div class="kp-tag">KP ONLY / プレイヤーへの共有禁止</div></header>
- <div class="kp-grid"><section class="kp-card kp-wide"><h2>進行状況 <em>PARTICIPANT A</em></h2>${summary}<p>${esc(S.message.text)}</p><p class="tiny">Aの画面に、Bの部屋の情報は自動表示されません。描写・会話はKPから伝えてください。</p></section>
+ <div class="kp-grid">${duelKPCard()}<section class="kp-card kp-wide"><h2>進行状況 <em>PARTICIPANT A</em></h2>${summary}<p>${esc(S.message.text)}</p><p class="tiny">Aの画面に、Bの部屋の情報は自動表示されません。描写・会話はKPから伝えてください。</p></section>
  <section class="kp-card"><h2>01　右の壁：3つのパネル</h2><p>Aの指示に応じてパネルをクリックします。<br>色は「青 → 赤 → 黄 → 青」の順に切り替わります。</p><div class="color-row">${S.bColors.map((c,i)=>`<button class="color-dot" style="background:${COLORS[c]}" data-action="bColor" data-p="${esc(JSON.stringify({index:i}))}" aria-label="Bの${i+1}番目のパネル ${COLOR_NAMES[c]}" ${S.handsFree?'disabled':''}>${COLOR_NAMES[c]}</button>`).join('')}</div><div class="notice">${S.handsFree?'正しい並びが入力され、Aの手の拘束は外れました。':'A側の壁に描かれた並びと一致すると、Aの手の拘束が自動で外れます。'}</div></section>
  <section class="kp-card"><h2>02　細長い棒と、左の壁のボタン</h2><p>部屋の隅に、約3メートルの細長い棒。<br>左の壁には、青くて四角いボタンが1つあります。</p>${actions(actionButton(S.rodLocation==='A'?'棒はAが受け取りました':S.rodLocation==='hatch'?'棒を差し出しています（受け取り待ち）':'小さな扉から、棒を差し出す','giveRod',{},!S.hatchOpen||S.rodLocation!=='B')+actionButton(S.bHolding?'Bのボタンを離す':'Bの青いボタンを押し続ける','bHold',{value:!S.bHolding},false,S.bHolding?'emphasis':''))}<p class="tiny">棒は約3秒かけて小窓から現れます。Aがクリックして回収した後、持ちものの棒を選び、壁のボタンに触れると2つを押した状態になります。Bのボタンも押されると、足の拘束が解除されます。</p></section>
  <section class="kp-card"><h2>03　ミッション2：筒と木の鍵</h2>${S.feetFree?panel('B側のモニター','ミッション2　箱の鍵を開けろ\n　ぎ　つ　の　か'):'<p class="tiny">ミッション2の文字列は、Aの足の拘束が外れた後にBのモニターへ表示されます。</p>'}<p>小さな扉の真下に、細長い筒。<br>筒には「鍵は木製」と書かれています。</p><div class="notice">${S.keyLocation==='A'?'鍵はAへ渡しました。':S.keyLocation==='box'?'Aが鍵を使い、箱を開けました。':S.keyLocation==='B'?'Bは、取り出した木の鍵を持っています。':S.waterPoured?'Aからの水が筒へ入り、木の鍵が浮かび上がりました。':'筒の奥に鍵がありますが、手は届きません。水はまだ入っていません。'}</div>${actions(actionButton('浮かび上がった鍵を取る','takeKey',{},!S.waterPoured||S.keyLocation!=='tube')+actionButton('小さな扉から、鍵をAに渡す','giveKey',{},!S.hatchOpen||S.keyLocation!=='B'))}</section>
  <section class="kp-card"><h2>04　B側の床と、奥の扉</h2><p>Bの協力の間の床：大きなハート。<br>Bの始まりの部屋：じゅうたんの下に、大きな丸。</p><div class="piece-bank">${banks}</div><div class="kp-row">${[0,1].map(i=>`<label class="field"><span>${i?'下':'上'}のくぼみ</span><select data-b-slot="${i}" aria-label="Bの${i?'下':'上'}のくぼみ" ${S.bSubmitted?'disabled':''}>${kpOptions(S.bPieces,S.bSlots[i])}</select></label>`).join('')}</div>${actions(actionButton(S.bSubmitted?'Bの配置は確定済み':'Bの配置を確定する（一度きり）','bSubmit',{},S.bSubmitted||!S.bSlots.every(Boolean),'warning'))}<p class="tiny">上のハートは初期配置です。Aから渡されたピースだけが追加されます。両者が確定すると、配置を判定します。</p>${S.bPieces.filter(p=>p!=='heart0').map(p=>actionButton(PNAME[p]+'のピースをAに返す','returnPiece',{piece:p},S.bSubmitted)).join('')}</section>
  <section class="kp-card"><h2>描写・Bの発言をA画面へ送る</h2><label class="field"><span>文章（音声で会話する場合は不要です）</span><textarea id="kpMessageText" data-draft rows="4" maxlength="3000" placeholder="Aがその場で知りうる情報を入力…"></textarea></label><div class="kp-row"><button class="secondary" data-kp-send="B">Bの声として送る</button><button class="secondary" data-kp-send="KP">KPの描写として送る</button></div><p class="tiny">Aからの自由行動の提案や質問は、通話などで受け付けます。発言内容を勝手に解析・裁定する処理はありません。</p></section>
- <section class="kp-card"><h2>協力の間でのメタ発言：KP裁定</h2>${panel('協力の間',RULE)}<div class="kp-row">${actionButton('Aがメタ発言 → Bの勝利','meta',{actor:'A'},false,'warning')+actionButton('Bがメタ発言 → Aの勝利','meta',{actor:'B'},false,'warning')}</div><p class="tiny">実際の発言と場所を確認してから操作してください。勝利の履歴を記録するだけで、探索や最終脱出を自動終了させません。</p>${winText}</section>
+
  <section class="kp-card"><h2>シナリオ設定</h2><label class="field"><span>セッションの日付（番号錠は月日4桁）</span><input id="cfgDate" data-draft type="date" value="${esc(S.sessionDate)}"></label><p class="tiny">日付は開始時の日本時間で固定されます。午前0時を過ぎても暗証番号は変わりません。ここで変更できます。</p><p class="tiny">ピースの正解は本文からの仮設定です。A＝上バツ・下ダイヤ、B＝上ハート・下丸。原作の意図に合わせて変更してください。</p>${['a','b'].map(a=>`<div class="kp-row">${[0,1].map(i=>`<label class="field"><span>${a.toUpperCase()}の正解 / ${i?'下':'上'}</span><select id="cfg${a}${i}" data-draft>${kpOptions(['heart','diamond','cross','star','spade','circle'],S[a+'Solution'][i],false)}</select></label>`).join('')}</div>`).join('')}<button class="action" data-kp-config>設定を保存する</button></section>
  <section class="kp-card"><h2>進行の補助・復旧</h2><p class="tiny">原作の自由な行動をKPが認めた場合や、動作確認に使います。通常の謎解きでは操作不要です。</p>${actions(['handsFree','feetFree','hatchOpen','cooperationOpen'].map((k,i)=>actionButton(['手の拘束を解除','足の拘束を解除','小さな扉を開く','協力の間の扉を開く'][i],'override',{key:k,value:true},S[k])).join('')+actionButton('最終ミッションだけ、やり直せる状態に戻す','retryGate',{},false,'warning'))}<hr class="divider"><div class="kp-row"><button class="secondary" data-local="export">セーブを書き出す</button><button class="secondary" data-local="import">セーブを読み込む</button></div><div style="margin-top:12px"><button class="action warning" data-local="reset">すべてを初期状態へ戻す</button></div></section>
- <section class="kp-card kp-wide"><h2>Aの探索ログ</h2><div class="kp-log">${S.log.slice(-25).reverse().map(x=>`<div class="log-item"><small>${esc(x.speaker)}</small>${esc(x.text)}</div>`).join('')||'<p>探索開始前です。</p>'}</div></section></div><p class="tiny" style="margin-top:25px">一口異世界「対決」 / 探索室 v1.2 — 始まりの部屋・協力の間。対決の間以降の裁定・進行はKPが担当します。共有する場合は、Aのウィンドウだけを共有してください。</p></main>`;
- Object.entries(drafts).forEach(([id,v])=>{if($(id))$(id).value=v;});if(focusId&&$(focusId)){const el=$(focusId);el.focus({preventScroll:true});try{if(caret&&caret[0]!==null)el.setSelectionRange(...caret);}catch(e){}}
+ <section class="kp-card kp-wide"><h2>Aの探索ログ</h2><div class="kp-log">${S.log.slice(-25).reverse().map(x=>`<div class="log-item"><small>${esc(x.speaker)}</small>${esc(x.text)}</div>`).join('')||'<p>探索開始前です。</p>'}</div></section></div><p class="tiny" style="margin-top:25px">一口異世界「対決」 / 探索室 v1.4 — 始まりの部屋・協力の間。対決の間・最後の扉まで対応。共有する場合は、Aのウィンドウだけを共有してください。</p></main>`;
+ document.querySelectorAll('.duel-manual').forEach((x,i)=>x.open=!!openDetails[i]);Object.entries(drafts).forEach(([id,v])=>{if($(id))$(id).value=v;});if(focusId&&$(focusId)){const el=$(focusId);el.focus({preventScroll:true});try{if(caret&&caret[0]!==null)el.setSelectionRange(...caret);}catch(e){}}
 }
 async function setupNetwork(){
  if(REMOTE){setupRemoteRoom();return;}
@@ -525,6 +945,7 @@ function remoteAccept(state,initialLoad=false){
   }
   if(hasRemoteSnapshot&&!initialLoad){
     if(!before.waterPoured&&S.waterPoured)sound('pour');
+    if((!before.duelActive&&S.duelActive)||(!before.exitOpen.A&&S.exitOpen.A)||(!before.exitOpen.B&&S.exitOpen.B)||(!before.lastOpen.A&&S.lastOpen.A)||(!before.lastOpen.B&&S.lastOpen.B))sound('unlock');
     if((!before.handsFree&&S.handsFree)||(!before.feetFree&&S.feetFree)||(!before.cooperationOpen&&S.cooperationOpen))sound('unlock');
   }
   hasRemoteSnapshot=true;update();
@@ -578,8 +999,9 @@ function setupRemoteRoom(){
       const source=$('world');if(!source.width||!source.height)return;
       capture.width=640;capture.height=Math.round(source.height/source.width*640);
       const c=capture.getContext('2d');c.drawImage(source,0,0,capture.width,capture.height);
+      if(S.ended){c.fillStyle='#fff';c.fillRect(0,0,capture.width,capture.height);const im=$('ending').querySelector('img');if(im?.complete&&im.naturalWidth){const w=Math.min(capture.width*.68,450),h=w*im.naturalHeight/im.naturalWidth;c.drawImage(im,(capture.width-w)/2,(capture.height-h)/2,w,h);}}
       const image=capture.toDataURL('image/jpeg',.48);
-      const title=U.drawer?$('inspectTitle').textContent:'';
+      const title=S.ended?'CONFRONTATION':U.drawer?$('inspectTitle').textContent:ROOM_NAMES[S.room];
       const text=U.drawer?$('inspectBody').innerText:$('narration').textContent;
       const signature=image+title+text;
       if(signature===lastFrame)return;lastFrame=signature;
@@ -591,8 +1013,12 @@ function setupRemoteRoom(){
 // Delegate UI events so dynamically rendered inspectors remain keyboard accessible.
 document.addEventListener('click',e=>{
  const b=e.target.closest('button');if(!b||b.disabled)return;
- if(b.dataset.action){const type=b.dataset.action,p=b.dataset.p?JSON.parse(b.dataset.p):{};if(type==='bSubmit'&&!confirm('Bの配置を確定しますか？\n両者が確定すると、一度きりの判定が行われます。'))return;if(type==='meta'&&!confirm(p.actor+'のメタ発言が、協力の間で行われましたか？'))return;
- if(type==='room'){closeDrawer();$('fade').classList.add('active');setTimeout(()=>{dispatch(type,p);setTimeout(()=>$('fade').classList.remove('active'),90);},190);}else{dispatch(type,p);if(['scopeEnd','putTank'].includes(type))closeDrawer();}return;}
+ if(b.dataset.action){const type=b.dataset.action,p=b.dataset.p?JSON.parse(b.dataset.p):{};if(type==='bSubmit'&&!confirm('Bの配置を確定しますか？\n両者が確定すると、一度きりの判定が行われます。'))return;if(type==='meta'&&!confirm(p.actor+'のメタ発言が、協力の間で行われましたか？'))return;if(type==='meta')p.confirmed=true;
+ if(type==='duelVerdict'&&!confirm('\u52dd\u8005\u3092'+p.winner+'\u3067\u78ba\u5b9a\u3057\u307e\u3059\u304b\uff1f\n\u3053\u306e\u90e8\u5c4b\u3067\u306e\u5bfe\u6c7a\u306f\u4e00\u5ea6\u3060\u3051\u3067\u3059\u3002'))return;
+ if(type==='resetDuel'&&!confirm('\u5bfe\u6c7a\u306e\u52dd\u6557\u3068\u51fa\u53e3\u3092\u30ea\u30bb\u30c3\u30c8\u3057\u307e\u3059\u304b\uff1f\n\u5354\u529b\u306e\u9593\u306e\u9032\u884c\u306f\u4fdd\u6301\u3057\u307e\u3059\u3002'))return;
+ if(type==='finishB'&&!confirm('B\u304c\u6700\u5f8c\u306e\u6249\u306e\u5148\u3078\u9032\u307f\u3001\u7d42\u4e86\u6f14\u51fa\u306b\u79fb\u308a\u307e\u3059\u304b\uff1f'))return;
+
+ if(type==='room'){closeDrawer();$('fade').classList.add('active');setTimeout(()=>{dispatch(type,p);setTimeout(()=>$('fade').classList.remove('active'),90);},190);}else{dispatch(type,p);if(['scopeEnd','putTank','finish'].includes(type))closeDrawer();}return;}
  if(b.dataset.inspect){inspect(b.dataset.inspect);return;}if(b.dataset.local){localAction(b.dataset.local);return;}if(b.dataset.pin){pressPin(b.dataset.pin);return;}if(b.dataset.view){renderer?.view(b.dataset.view);return;}if(b.dataset.item){const it=b.dataset.item;if(it==='cuffs'||it==='ankles'){U.selected=null;inspect(it);update();}else if(it.startsWith('piece:')){U.selected=null;openDrawer('item:'+it);update();}else{const next=U.selected===it?null:it;closeDrawer();U.selected=next;update();}return;}if(b.dataset.slotFocus!==undefined){U.activeSlot=Number(b.dataset.slotFocus);renderInspector();return;}
  if(b.dataset.kpSend){const text=$('kpMessageText').value;if(!text.trim())return;$('kpMessageText').value='';dispatch('kpMessage',{text,asB:b.dataset.kpSend==='B'});return;}
  if(b.hasAttribute('data-kp-config')){dispatch('config',{date:$('cfgDate').value,aSolution:[$('cfga0').value,$('cfga1').value],bSolution:[$('cfgb0').value,$('cfgb1').value]});toast('設定を保存しました。');}
