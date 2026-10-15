@@ -85,10 +85,10 @@ async function main(){
  check('door plaque header uses dark text',html.includes("g.textBaseline='middle';g.fillStyle='#152b34';g.font='52px"));
  check('door body uses red only inside the quotation brackets',html.includes(String.raw`'\u300c','\u6700\u5f8c\u306e\u6249','\u300d'`)&&html.includes("g.fillStyle=i===2?'#be2129':'#152b34'"));
  check('ending whiteout lasts three seconds before title starts',html.includes('ENDING_WHITE_HOLD_MS=3000')&&html.includes('ENDING_WHITEOUT_MS=650')&&html.includes('ENDING_WHITEOUT_MS+ENDING_WHITE_HOLD_MS'));
- check('ending title fades in after the white-screen hold',html.includes('transition:opacity 2s ease,transform 2s ease')&&html.includes('.white-ending.title-visible .ending-title'));
+ check('ending uses 2s keyframe independent of reduced motion',html.includes('animation:ending-title-reveal 2s ease-in-out both')&&html.includes('@keyframes ending-title-reveal')&&html.includes('@media(prefers-reduced-motion:reduce){.white-ending{transition-duration:.01s;transition-delay:0s}}'));
  check('ending preview respects white and title opacity',html.includes('overlayOpacity*titleOpacity'));
  check('KP verdict copy explains diagonal double-opening',html.includes(String.raw`\u53f3EXIT + \u5de6\u306e\u6700\u5f8c\u306e\u6249`)&&html.includes(String.raw`\u5de6EXIT + \u53f3\u306e\u6700\u5f8c\u306e\u6249`));
- check('ending title waits for full whiteout',html.includes("setTimeout(()=>{")&&html.includes("end.classList.add('title-visible')"));
+ check('ending title waits for whiteout and image decoding',html.includes('ENDING_WHITEOUT_MS+ENDING_WHITE_HOLD_MS')&&html.includes('titleImage.decode().catch')&&html.includes("end.classList.add('title-visible')"));
  // Run the actual shipped transport in two isolated JS contexts, against HTTP server.
  const inv2=await call('/api/rooms',{});
  function transport(url){
@@ -104,6 +104,6 @@ async function main(){
  await A.t.preview({image:'data:image/jpeg;base64,AAAA',title:'Confrontation',text:'rule inspection'});await waitFor(()=>K.seen.preview?.title==='Confrontation','preview sync');check('game preview still reaches remote keeper',true);
  clearTimeout(A.t.pollTimer);A.t.ready=false;await A.t.connect();check('real transport reconnect retains progress',A.t.ready&&A.seen.state.duelWinner==='A');
  console.log('\n'+checks.length+' additional checks passed. No public deployment was performed.');
- if(process.env.DUEL_TEST_REPORT)fs.writeFileSync(process.env.DUEL_TEST_REPORT,JSON.stringify({version:'1.8',count:checks.length,checks,publicDeployment:false},null,2));
+ if(process.env.DUEL_TEST_REPORT)fs.writeFileSync(process.env.DUEL_TEST_REPORT,JSON.stringify({version:'1.8.1',count:checks.length,checks,publicDeployment:false},null,2));
 }
 main().catch(e=>{console.error(e.stack);console.error(logs);process.exitCode=1;}).finally(async()=>{for(const t of clients){t.stopped=true;clearTimeout(t.pollTimer);clearTimeout(t.timer);}if(child&&child.exitCode===null){const done=once(child,'exit');child.kill('SIGTERM');await done;}fs.rmSync(save,{recursive:true,force:true});});
