@@ -39,36 +39,46 @@ async function main(){
  await command(play,'duelVerdict',{winner:'A'},403);check('player cannot award victory',true);
  await command(play,'doorVerdict',{group:'lastOpen',side:'A',open:true},403);check('player cannot force final door',true);
  await command(play,'meta',{actor:'A',confirmed:true},403);check('player cannot adjudicate a meta statement',true);
- s=await command(kp,'duelVerdict',{winner:'B'});check('B victory opens only right FIRST gate (A-only route)',s.exitOpen.A&&!s.exitOpen.B&&!s.lastOpen.A&&!s.lastOpen.B&&s.duelWinner==='B');
+ s=await command(kp,'duelVerdict',{winner:'B'});check('B victory opens RIGHT first exit, B-only access',s.exitOpen.A&&!s.exitOpen.B&&!s.lastOpen.A&&!s.lastOpen.B&&s.duelWinner==='B');
  s=await command(kp,'duelVerdict',{winner:'A'});check('a second duel verdict is ignored',s.duelWinner==='B'&&!s.exitOpen.B);
- s=await command(play,'room',{room:'finalA'});check('A can enter right passage after B wins',s.room==='finalA');
- s=await command(play,'finish');check('closed RIGHT second gate prevents ending',!s.ended);
- s=await command(kp,'meta',{actor:'A',confirmed:true});check('nonwinning player cannot unlock second door',!s.lastOpen.A&&!s.lastOpen.B);
- await command(play,'room',{room:'duel'});s=await command(play,'room',{room:'cooperate'});check('player can return to cooperation',s.room==='cooperate');
- s=await command(kp,'meta',{actor:'B'});check('meta verdict requires explicit KP confirmation',!s.lastOpen.A);
- s=await command(kp,'meta',{actor:'B',confirmed:true});check('B meta grants A victory and opens RIGHT second gate',s.lastOpen.A&&s.exitOpen.B&&s.wins.at(-1).winner==='A');
- check('previously opened RIGHT first gate remains open',s.exitOpen.A);
- check('opening inner door does not immediately end game',!s.ended);
- await command(play,'room',{room:'duel'});await command(play,'room',{room:'finalA'});
- s=await command(play,'finish');check('A advancing through RIGHT inner door finishes',s.ended&&s.endingActor==='A'&&s.endedAt>0);
- const complete=valid(s);check('ending survives save validation',complete.ended&&complete.lastOpen.A);
- s=await command(play,'room',{room:'duel'});check('finished player cannot resume exploration',s.ended&&s.room==='finalA');
- s=await command(kp,'resetDuel');check('keeper reset preserves earlier puzzle progress',!s.ended&&!s.duelWinner&&s.cooperationOpen&&s.duelActive&&!s.exitOpen.A&&!s.exitOpen.B);
- s=await command(kp,'duelVerdict',{winner:'A'});check('A victory opens LEFT first gate (B-only route)',s.exitOpen.B&&!s.exitOpen.A&&!s.lastOpen.B);
- s=await command(play,'room',{room:'finalA'});check('A cannot enter right gate after A wins',s.room==='duel');
- s=await command(play,'room',{room:'finalB'});check('A cannot use B-only exit',s.room==='duel');
- s=await command(kp,'meta',{actor:'A',confirmed:true});check('winning A meta outside cooperation is ineffective',!s.lastOpen.B);
- s=await command(play,'room',{room:'cooperate'});check('A can walk back before meta verdict',s.room==='cooperate');
- s=await command(kp,'meta',{actor:'A',confirmed:true});check('winning A meta gives B victory and unlocks LEFT second gate',s.lastOpen.B&&s.exitOpen.A&&s.wins.at(-1).winner==='B');
- s=await command(kp,'finishB');check('KP can advance B through LEFT final door',s.ended&&s.endingActor==='B');
- s=await command(kp,'resetDuel');s=await command(kp,'duelConfig',{mode:'opponent'});check('final inscription cannot be switched away from correct mapping',s.lastDoorTextMode==='requested');
- s=await command(kp,'doorVerdict',{group:'lastOpen',side:'A',open:true});check('independent manual inner gate override',s.lastOpen.A&&!s.lastOpen.B);
- s=await command(kp,'doorVerdict',{group:'lastOpen',side:'A',open:false});check('independent manual gate close',!s.lastOpen.A);
- // Prior version has first-gate and second-gate roles paired incorrectly.
- // Migration switches BOTH historical door arrays to the new crossed puzzle.
+ s=await command(play,'room',{room:'finalA'});check('A cannot enter B-only RIGHT exit after B wins',s.room==='duel');
+ s=await command(play,'finish');check('A cannot skip into ending',!s.ended);
+ s=await command(kp,'meta',{actor:'A',confirmed:true});check('nonwinning A cannot unlock a second door',!s.lastOpen.A&&!s.lastOpen.B);
+ s=await command(kp,'meta',{actor:'B'});check('B meta verdict requires explicit KP confirmation',!s.lastOpen.A);
+ s=await command(kp,'meta',{actor:'B',confirmed:true});check('B meta grants A victory, opens RIGHT final door',s.lastOpen.A&&s.exitOpen.B&&s.wins.at(-1).winner==='A');
+ check('RIGHT first exit remains open after meta',s.exitOpen.A);
+ check('opening final door does not end automatically',!s.ended);
+ s=await command(kp,'finishB');check('KP can advance B through RIGHT double gates',s.ended&&s.endingActor==='B'&&s.endedAt>0);
+ s=await command(kp,'resetDuel');check('reset preserves cooperation progress and clears both exits',!s.ended&&!s.duelWinner&&s.cooperationOpen&&s.duelActive&&!s.exitOpen.A&&!s.exitOpen.B);
+ s=await command(kp,'duelVerdict',{winner:'A'});check('A victory opens LEFT first exit, A-only access',s.exitOpen.B&&!s.exitOpen.A&&!s.lastOpen.B);
+ s=await command(play,'room',{room:'finalA'});check('A can enter LEFT passage after A wins',s.room==='finalA');
+ s=await command(play,'finish');check('closed LEFT second door prevents ending',!s.ended);
+ s=await command(kp,'meta',{actor:'A',confirmed:true});check('A meta outside cooperation room is ineffective',!s.lastOpen.B);
+ await command(play,'room',{room:'duel'});s=await command(play,'room',{room:'cooperate'});check('A may return to cooperation before meta ruling',s.room==='cooperate');
+ s=await command(kp,'meta',{actor:'A',confirmed:true});check('A meta awards B victory and opens LEFT final door',s.lastOpen.B&&s.exitOpen.A&&s.wins.at(-1).winner==='B');
+ check('LEFT first exit stays open after meta',s.exitOpen.B);
+ await command(play,'room',{room:'duel'});s=await command(play,'room',{room:'finalA'});check('A enters LEFT passage after return',s.room==='finalA');
+ s=await command(play,'finish');check('A advancing through LEFT final door finishes',s.ended&&s.endingActor==='A'&&s.endedAt>0);
+ const complete=valid(s);check('ending survives save validation',complete.ended&&complete.lastOpen.B);
+ s=await command(play,'room',{room:'duel'});check('finished A cannot resume exploration',s.ended&&s.room==='finalA');
+ s=await command(kp,'resetDuel');s=await command(kp,'duelConfig',{mode:'opponent'});check('final inscription cannot be switched away from specified mapping',s.lastDoorTextMode==='requested');
+ s=await command(kp,'doorVerdict',{group:'lastOpen',side:'A',open:true});check('independent manual final door override',s.lastOpen.A&&!s.lastOpen.B);
+ s=await command(kp,'doorVerdict',{group:'lastOpen',side:'A',open:false});check('manual final door may be reclosed',!s.lastOpen.A);
+ // v1.4 flags refer to opposite indices; convert them to positions in v1.6.
  const old=initial();delete old.gateSchema;old.duelActive=true;old.duelWinner='A';old.exitOpen={A:true,B:false};old.lastOpen={A:true,B:false};
- const fixed=valid(old);check('v1.4 door flags migrate to crossed first/second gates',fixed.gateSchema===2&&fixed.exitOpen.B&&!fixed.exitOpen.A&&fixed.lastOpen.B&&!fixed.lastOpen.A);
- const fresh=valid(fixed);check('upgraded state stays unchanged on next validation',fresh.exitOpen.B&&!fresh.exitOpen.A&&fresh.lastOpen.B&&!fresh.lastOpen.A);
+ const fixed=valid(old);check('v1.4 flags migrate to v1.6 gate positions',fixed.gateSchema===3&&fixed.exitOpen.B&&!fixed.exitOpen.A&&fixed.lastOpen.B&&!fixed.lastOpen.A);
+ const fresh=valid(fixed);check('upgraded save keeps correct gate positions',fresh.exitOpen.B&&!fresh.exitOpen.A&&fresh.lastOpen.B&&!fresh.lastOpen.A);
+ const v15=initial();v15.gateSchema=2;v15.room='finalA';v15.exitOpen={A:true,B:false};v15.duelWinner='B';
+ const v16=valid(v15);check('v1.5 save in previously accessible right vestibule returns to duel',v16.gateSchema===3&&v16.room==='duel'&&v16.exitOpen.A&&!v16.exitOpen.B);
+ const outerText=html.match(/function outerText\(side\)\{[^\n]+\}/)?.[0];
+ check('game includes inspectable door rule formatter',!!outerText);
+ const [leftFirst,rightFirst]=vm.runInNewContext(outerText+';[outerText("B"),outerText("A")]');
+ check('LEFT first door exact winning/pass participant A',leftFirst.includes('参加者Aが対決に勝利')&&leftFirst.includes('参加者Aしか通ることはできない')&&!leftFirst.includes('参加者Bしか'));
+ check('RIGHT first door exact winning/pass participant B',rightFirst.includes('参加者Bが対決に勝利')&&rightFirst.includes('参加者Bしか通ることはできない')&&!rightFirst.includes('参加者Aしか'));
+ check('3D plaque uses the actual winner as its passage restriction',html.includes("'\\u53c2\\u52a0\\u8005'+winner+'\\u3057\\u304b"));
+ // Return sign's texture and physical mesh must match so the characters remain undistorted.
+ const returnLabel=html.match(/const back=this\.textTexture\('cooperation-return',\[[^\n]+?,\{font:(\d+),[^\n]*?w:(\d+),h:(\d+)\}\);this\.panel\(0,2\.77,5\.42,([\d.]+),([\d.]+),back,'duelBack',Math\.PI\);/);
+ check('duel return sign has normal character aspect ratio',!!returnLabel&&Math.abs((+returnLabel[2]/+returnLabel[3])/(+returnLabel[4]/+returnLabel[5])-1)<.08);
  // Run the actual shipped transport in two isolated JS contexts, against HTTP server.
  const inv2=await call('/api/rooms',{});
  function transport(url){
@@ -84,6 +94,6 @@ async function main(){
  await A.t.preview({image:'data:image/jpeg;base64,AAAA',title:'Confrontation',text:'rule inspection'});await waitFor(()=>K.seen.preview?.title==='Confrontation','preview sync');check('game preview still reaches remote keeper',true);
  clearTimeout(A.t.pollTimer);A.t.ready=false;await A.t.connect();check('real transport reconnect retains progress',A.t.ready&&A.seen.state.duelWinner==='A');
  console.log('\n'+checks.length+' additional checks passed. No public deployment was performed.');
- if(process.env.DUEL_TEST_REPORT)fs.writeFileSync(process.env.DUEL_TEST_REPORT,JSON.stringify({version:'1.5.0',count:checks.length,checks,publicDeployment:false},null,2));
+ if(process.env.DUEL_TEST_REPORT)fs.writeFileSync(process.env.DUEL_TEST_REPORT,JSON.stringify({version:'1.6.1',count:checks.length,checks,publicDeployment:false},null,2));
 }
 main().catch(e=>{console.error(e.stack);console.error(logs);process.exitCode=1;}).finally(async()=>{for(const t of clients){t.stopped=true;clearTimeout(t.pollTimer);clearTimeout(t.timer);}if(child&&child.exitCode===null){const done=once(child,'exit');child.kill('SIGTERM');await done;}fs.rmSync(save,{recursive:true,force:true});});

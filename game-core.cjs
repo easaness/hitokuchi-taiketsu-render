@@ -3,16 +3,18 @@ const GLYPH={heart:'♥',heart0:'♥',diamond:'◆',cross:'×',star:'★',spade:
 const ROD_EMERGE_MS=3000;
 const INFO={cuffs:['手錠','◯◯'],ankles:['足枷','∪∪'],rod:['細長い棒','╱'],tank:['水槽','▱'],key:['木の鍵','⚿']};
 function japanDate(){return new Intl.DateTimeFormat('sv-SE',{timeZone:'Asia/Tokyo',year:'numeric',month:'2-digit',day:'2-digit'}).format(new Date());}
-function initial(){return {version:1,rev:1,room:'start',started:false,identityKnown:false,rodOfferedAt:0,sessionDate:japanDate(),handsFree:false,feetFree:false,rugLifted:false,hatchOpen:false,bColors:[0,1,2],rodLocation:'B',aHolding:false,bHolding:false,tankLocation:'floor',waterPoured:false,keyLocation:'tube',chestOpen:false,aPieces:[],bPieces:['heart0'],aSlots:[null,null],bSlots:['heart0',null],aSubmitted:false,bSubmitted:false,gateFailed:false,cooperationOpen:false,scopeCompleted:false,duelActive:false,duelActivatedAt:0,duelWinner:null,duelResolvedAt:0,exitOpen:{A:false,B:false},lastOpen:{A:false,B:false},lastDoorTextMode:'requested',gateSchema:2,ended:false,endedAt:0,endingActor:null,aSolution:['cross','diamond'],bSolution:['heart','circle'],items:[],wins:[],seen:[],message:{text:'白い部屋で目が覚めた。目の前に、扉がある。',speaker:'OBSERVATION'},log:[]};}
+function initial(){return {version:1,rev:1,room:'start',started:false,identityKnown:false,rodOfferedAt:0,sessionDate:japanDate(),handsFree:false,feetFree:false,rugLifted:false,hatchOpen:false,bColors:[0,1,2],rodLocation:'B',aHolding:false,bHolding:false,tankLocation:'floor',waterPoured:false,keyLocation:'tube',chestOpen:false,aPieces:[],bPieces:['heart0'],aSlots:[null,null],bSlots:['heart0',null],aSubmitted:false,bSubmitted:false,gateFailed:false,cooperationOpen:false,scopeCompleted:false,duelActive:false,duelActivatedAt:0,duelWinner:null,duelResolvedAt:0,exitOpen:{A:false,B:false},lastOpen:{A:false,B:false},lastDoorTextMode:'requested',gateSchema:3,ended:false,endedAt:0,endingActor:null,aSolution:['cross','diamond'],bSolution:['heart','circle'],items:[],wins:[],seen:[],message:{text:'白い部屋で目が覚めた。目の前に、扉がある。',speaker:'OBSERVATION'},log:[]};}
 function valid(s){if(!s||s.version!==1||!['start','cooperate','duel','finalA'].includes(s.room))throw Error('この探索版のセーブデータではありません。');let d=initial();const bools=['identityKnown','started','handsFree','feetFree','rugLifted','hatchOpen','aHolding','bHolding','waterPoured','chestOpen','aSubmitted','bSubmitted','gateFailed','cooperationOpen','scopeCompleted','duelActive','ended'];bools.forEach(k=>d[k]=!!s[k]);['sessionDate','rodLocation','tankLocation','keyLocation'].forEach(k=>{if(typeof s[k]==='string')d[k]=s[k];});if(!/^\d{4}-\d{2}-\d{2}$/.test(d.sessionDate))d.sessionDate=japanDate();d.identityKnown=d.identityKnown||(Array.isArray(s.seen)&&s.seen.some(x=>typeof x==='string'&&x.endsWith(':body')));d.rodOfferedAt=Number.isFinite(s.rodOfferedAt)?s.rodOfferedAt:0;if(!['B','hatch','A'].includes(d.rodLocation))d.rodLocation='B';d.rev=Number.isFinite(s.rev)?s.rev:1;d.room=s.room;for(const k of ['aPieces','bPieces'])d[k]=Array.isArray(s[k])?s[k].filter(x=>Object.hasOwn(GLYPH,x)).slice(0,8):d[k];for(const k of ['aSlots','bSlots','aSolution','bSolution'])d[k]=[0,1].map(i=>Object.hasOwn(GLYPH,s[k]?.[i])?s[k][i]:null);if(d.aSolution.some(x=>!x))d.aSolution=['cross','diamond'];if(d.bSolution.some(x=>!x))d.bSolution=['heart','circle'];d.bColors=[0,1,2].map((_,i)=>[0,1,2].includes(s.bColors?.[i])?s.bColors[i]:i);d.items=Array.isArray(s.items)?[...new Set(s.items.filter(x=>Object.hasOwn(INFO,x)))]:[];d.seen=Array.isArray(s.seen)?s.seen.filter(x=>typeof x==='string').slice(0,200):[];d.log=Array.isArray(s.log)?s.log.filter(x=>typeof x?.text==='string').slice(-200).map(x=>({text:x.text.slice(0,3000),speaker:String(x.speaker||'OBSERVATION').slice(0,50),at:Number(x.at)||0})):[];d.wins=Array.isArray(s.wins)?s.wins.filter(x=>x?.winner==='A'||x?.winner==='B').slice(-100):[];if(typeof s.message?.text==='string')d.message={text:s.message.text.slice(0,3000),speaker:String(s.message.speaker||'OBSERVATION').slice(0,50)};for(const k of ['duelActivatedAt','duelResolvedAt','endedAt'])d[k]=Number.isFinite(s[k])?s[k]:0;
 for(const k of ['duelWinner','endingActor'])d[k]=['A','B'].includes(s[k])?s[k]:null;
 for(const k of ['exitOpen','lastOpen'])d[k]={A:!!s[k]?.A,B:!!s[k]?.B};
-// v1.4.0 used the same-role outer gate for a winner; migrate previous saves to crossed conditions.
-if(s.gateSchema!==2){
+// The older v1.4 save used reversed gate indices. v1.5 had correct open conditions,
+// but allowed A through the wrong side. In both cases, move A back to the round room
+// when importing an unfinished save from the previous vestibule location.
+if(s.gateSchema!==2&&s.gateSchema!==3){
  for(const k of ['exitOpen','lastOpen'])d[k]={A:!!s[k]?.B,B:!!s[k]?.A};
- if(d.room==='finalA'&&!d.exitOpen.A&&!d.ended)d.room='duel';
 }
-d.lastDoorTextMode='requested';d.gateSchema=2;
+if(d.room==='finalA'&&!d.ended&&(s.gateSchema!==3||!d.exitOpen.B))d.room='duel';
+d.lastDoorTextMode='requested';d.gateSchema=3;
 // v1.3 ended at the threshold. Importing it now resumes in the expanded game.
 d.scopeCompleted=false;
 return d;}
@@ -34,9 +36,9 @@ function act(s,type,p={}){
    const adjacency={start:['cooperate'],cooperate:['start','duel'],duel:['cooperate','finalA'],finalA:['duel']};
    if(!adjacency[s.room]?.includes(p.room))break;
    if(p.room==='duel'&&!s.cooperationOpen)break;
-   if(p.room==='finalA'&&!s.exitOpen.A)break;
+   if(p.room==='finalA'&&!s.exitOpen.B)break;
    s.room=p.room;s.aHolding=false;s.scopeCompleted=false;
-   const texts={start:'\u59cb\u307e\u308a\u306e\u90e8\u5c4b\u306b\u623b\u3063\u305f\u3002',cooperate:'\u6249\u3092\u304f\u3050\u308b\u3068\u3001\u767d\u3044\u90e8\u5c4b\u3060\u3063\u305f\u3002\n\u5965\u306b\u6249\u304c\u3042\u308a\u3001\u305d\u306e\u53f3\u306b\u30e2\u30cb\u30bf\u30fc\u304c\u3042\u308b\u3002',duel:'\u6249\u306e\u5148\u306f\u3001\u767d\u3044\u5186\u5f62\u306e\u90e8\u5c4b\u3060\u3063\u305f\u3002\n\u4e2d\u592e\u306b\u7aef\u672b\u3002\u5965\u306b\u306f\u300cEXIT\u300d\u3068\u66f8\u304b\u308c\u305f\u4e8c\u3064\u306e\u6249\u304c\u3042\u308b\u3002',finalA:'\u53f3\u306eEXIT\u3092\u304f\u3050\u3063\u305f\u3002\n\u77ed\u3044\u901a\u8def\u306e\u5148\u306b\u3001\u3082\u3046\u4e00\u679a\u306e\u6249\u304c\u3042\u308b\u3002'};
+   const texts={start:'\u59cb\u307e\u308a\u306e\u90e8\u5c4b\u306b\u623b\u3063\u305f\u3002',cooperate:'\u6249\u3092\u304f\u3050\u308b\u3068\u3001\u767d\u3044\u90e8\u5c4b\u3060\u3063\u305f\u3002\n\u5965\u306b\u6249\u304c\u3042\u308a\u3001\u305d\u306e\u53f3\u306b\u30e2\u30cb\u30bf\u30fc\u304c\u3042\u308b\u3002',duel:'\u6249\u306e\u5148\u306f\u3001\u767d\u3044\u5186\u5f62\u306e\u90e8\u5c4b\u3060\u3063\u305f\u3002\n\u4e2d\u592e\u306b\u7aef\u672b\u3002\u5965\u306b\u306f\u300cEXIT\u300d\u3068\u66f8\u304b\u308c\u305f\u4e8c\u3064\u306e\u6249\u304c\u3042\u308b\u3002',finalA:'\u5de6\u306eEXIT\u3092\u304f\u3050\u3063\u305f\u3002\n\u77ed\u3044\u901a\u8def\u306e\u5148\u306b\u3001\u3082\u3046\u4e00\u679a\u306e\u6249\u304c\u3042\u308b\u3002'};
    log(s,texts[p.room]);break;
  }
  case 'activateDuel':
@@ -65,9 +67,9 @@ function act(s,type,p={}){
    s.wins=[];if(s.room==='finalA')s.room='duel';
    log(s,'\u5bfe\u6c7a\u306e\u52dd\u6557\u3068\u51fa\u53e3\u306e\u72b6\u614b\u3092\u30ea\u30bb\u30c3\u30c8\u3057\u305f\u3002','KP\u306e\u88c1\u5b9a');break;
  case 'finish':
-   if(!s.ended&&s.room==='finalA'&&s.exitOpen.A&&s.lastOpen.A){s.ended=true;s.endedAt=Date.now();s.endingActor='A';s.aHolding=false;log(s,'\u6249\u306e\u5411\u3053\u3046\u3078\u3001\u4e00\u6b69\u8e0f\u307f\u51fa\u3057\u305f\u3002');}break;
+   if(!s.ended&&s.room==='finalA'&&s.exitOpen.B&&s.lastOpen.B){s.ended=true;s.endedAt=Date.now();s.endingActor='A';s.aHolding=false;log(s,'\u6249\u306e\u5411\u3053\u3046\u3078\u3001\u4e00\u6b69\u8e0f\u307f\u51fa\u3057\u305f\u3002');}break;
  case 'finishB':
-   if(!s.ended&&s.exitOpen.B&&s.lastOpen.B){s.ended=true;s.endedAt=Date.now();s.endingActor='B';s.aHolding=false;log(s,'\u53c2\u52a0\u8005B\u304c\u3001\u6700\u5f8c\u306e\u6249\u306e\u5148\u3078\u9032\u3093\u3060\u3002','KP\u306e\u88c1\u5b9a');}break;
+   if(!s.ended&&s.exitOpen.A&&s.lastOpen.A){s.ended=true;s.endedAt=Date.now();s.endingActor='B';s.aHolding=false;log(s,'\u53c2\u52a0\u8005B\u304c\u3001\u6700\u5f8c\u306e\u6249\u306e\u5148\u3078\u9032\u3093\u3060\u3002','KP\u306e\u88c1\u5b9a');}break;
  case 'rug':if(s.room==='start'&&requireHands()){s.rugLifted=true;log(s,'じゅうたんをめくった。\n床に、大きなダイヤの模様が描かれている。');}break;
  case 'unlock':if(s.room==='cooperate'&&requireHands()){const answer=s.sessionDate.slice(5,7)+s.sessionDate.slice(8,10);if(String(p.code)===answer){s.hatchOpen=true;log(s,'番号錠が外れ、小さな扉が開いた。\n向こう側にも、空間が続いている。','SOMETHING CHANGED');}else log(s,'番号錠は動かない。番号が違うようだ。');}break;
  case 'aHold':s.aHolding=!!p.value&&p.item==='rod'&&s.room==='cooperate'&&s.handsFree&&s.rodLocation==='A'&&s.items.includes('rod')&&!s.feetFree;break;
